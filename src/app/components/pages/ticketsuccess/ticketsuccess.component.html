@@ -1,0 +1,221 @@
+
+
+
+<section class="un-my-account">
+
+    <div class="body">
+        <div class="img-coin-eth">
+            <picture>
+                <source srcset="assets/assetsryal/images/other/eth.webp" type="image/webp">
+                <img src="assets/assetsryal/images/other/eth.png" alt="">
+            </picture>
+        </div>
+        <div class="my-balance-text" style="text-align: initial;" id="print-section">
+           <div class="row">     
+	    	<div class="col-md-12" [hidden]="_butler.deviceType!='Escritorio'" style="padding-left:30%;padding-right:30%;">
+	        
+	        <h5 >  Estilista:   
+	     <span style="font-weight: 100;">
+	         
+	         {{_butler.ticket.stylist}} 
+	     </span>
+	        </h5>
+	       
+	        <h5 > Cliente: 
+	     <span style="font-weight: 100;">
+	     {{_butler.ticket.customer}} 
+	     </span>
+	         
+	        </h5>
+	        <!-- <p [hidden]="empty">Total: {{total}}</p> -->
+	        <h5>
+	            
+	        Detalle:
+	        </h5>
+	         <div class="content-list-sellers">
+	            <ul class="nav flex-column">
+
+	                <li class="nav-item" *ngFor="let service of _butler.ticket.ticketServices, let i = index "  style="height:3rem;">
+	                    <div class="nav-link item-user-seller">
+	                        <a class="item-user-img"  style="  text-decoration: none !important;">
+	                            <div class="text-dark">
+	                                <h5> 
+	                                    (1)
+	                                    {{service.name}}
+	                                    <span class="color-text rounded-pill bg-snow btn-xs-size " >
+	                               
+	                             {{service.ammount | number :'1.0'}}</span>
+	                                </h5>
+	                                <p >
+	                             </p>
+	                            </div>
+
+	                        </a>
+	               
+	                    </div>
+	                </li>
+	            </ul>
+	        </div>
+
+	        <p></p>
+	        <p></p>
+	        <p></p>
+	        <div style="justify-content: end; display: flex;">
+	            <div style="width:30%;">
+	                <h5>
+	                    
+	            Total: 
+	                </h5>
+	        </div>
+	            <div style="width:20%; text-align: end;"> 
+	                <span style="font-weight: 100;">
+	             {{_butler.ticket.total | number :'1.0'}}
+	                </span>
+	            </div>
+	        </div>
+	         <div  style="justify-content: end; display: flex;">
+	         <div style="width:30%;">
+	                <h5>
+
+	                Cobro:
+	                </h5>
+	        </div>
+	        <div style="width:20%;text-align: end;"> 
+	            <span style="font-weight: 100;">
+	         {{_butler.ticket.cobro | number :'1.0'}}
+	            </span>
+	        </div>
+	        </div>
+	         <div  style="justify-content: end; display: flex;" >
+	         <div style="width:30%;">
+	                <h5>
+
+	                Cambio:
+	                </h5>
+	        </div>
+	        <div style="width:20%;text-align: end;"> 
+	            <span style="font-weight: 100;">
+	         {{_butler.ticket.cambio | number :'1.0'}}
+	            </span>
+	        </div>
+	        </div>
+	    
+
+		    </div>  
+		    <div class="col-md-12" [hidden]="_butler.deviceType=='Escritorio'" >
+		        
+		        <h5 >  Estilista:   
+		     <span style="font-weight: 100;">
+		         
+		         {{_butler.ticket.stylist}} 
+		     </span>
+		        </h5>
+		       
+		        <h5 > Cliente: 
+		     <span style="font-weight: 100;">
+		     {{_butler.ticket.customer}} 
+		     </span>
+		         
+		        </h5>
+		        <!-- <p [hidden]="empty">Total: {{total}}</p> -->
+		        <h5>
+		            
+		        Detalle:
+		        </h5>
+		         <div class="content-list-sellers">
+		            <ul class="nav flex-column">
+
+		                <li class="nav-item" *ngFor="let service of _butler.ticket.ticketServices, let i = index "  style="height:3rem;">
+		                    <div class="nav-link item-user-seller">
+		                        <a class="item-user-img"  style="  text-decoration: none !important;">
+		                            <div class="text-dark">
+		                                <h5> 
+		                                    (1)
+		                                    {{service.name}}
+		                                    <span class="color-text rounded-pill bg-snow btn-xs-size " >
+		                               
+		                             {{service.ammount | number :'1.0'}}</span>
+		                                </h5>
+		                                <p >
+		                             </p>
+		                            </div>
+
+		                        </a>
+		               
+		                    </div>
+		                </li>
+		            </ul>
+		        </div>
+
+		        <p></p>
+		        <p></p>
+		        <p></p>
+		        <div style="justify-content: end; display: flex;">
+		            <div style="width:30%;">
+		                <h5>
+		                    
+		            Total: 
+		                </h5>
+		        </div>
+		            <div style="width:20%; text-align: end;"> 
+		                <span style="font-weight: 100;">
+		             {{_butler.ticket.total | number :'1.0'}}
+		                </span>
+		            </div>
+		        </div>
+		         <div  style="justify-content: end; display: flex;">
+		         <div style="width:30%;">
+		                <h5>
+
+		                Cobro:
+		                </h5>
+		        </div>
+		        <div style="width:20%;text-align: end;"> 
+		            <span style="font-weight: 100;">
+		         {{_butler.ticket.cobro | number :'1.0'}}
+		            </span>
+		        </div>
+		        </div>
+		         <div  style="justify-content: end; display: flex;" >
+		         <div style="width:30%;">
+		                <h5>
+
+		                Cambio:
+		                </h5>
+		        </div>
+		        <div style="width:20%;text-align: end;"> 
+		            <span style="font-weight: 100;">
+		         {{_butler.ticket.cambio | number :'1.0'}}
+		            </span>
+		        </div>
+		        </div>
+		    
+
+		    </div>
+			</div>  
+        </div>
+        <div class="un-bottom-navigation ">
+        	
+          <button 
+             [routerLink]="['/tickets']"
+          
+                     
+                     class="btn btn-md-arrow border border-solid w-100 " style=" justify-content: center;">Cerrar
+                    <div class="ico">
+                        <i class="ri-close-line"></i>
+                    </div>
+                    </button>
+          <button 
+           [useExistingCss]="true"
+  
+                 ngxPrint
+                      printTitle="Ticket #{{_butler.ticket.npedido}}" printSectionId="print-section"
+                     class="btn btn-md-arrow bg-primary w-100 " style="color:white;"  style="margin-top: 1%;color:white; font-weight:900; justify-content: center;">Imprimir
+                    <div class="ico">
+                        <i class="ri-printer-fill"></i>
+                    </div>
+                    </button>
+        </div>
+    </div>
+
+</section>

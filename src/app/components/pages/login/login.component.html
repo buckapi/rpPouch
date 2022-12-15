@@ -1,0 +1,65 @@
+   <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+
+           <div class="space-sticky"></div>
+         
+            <section class="account-section padding-20">
+                  <div class="img-coin-eth" [hidden]="_butler.deviceType=='Escritorio'">
+                        <picture>
+                     
+                            <img src="assets/assetsryal/images/logo_07.png" alt="" style="max-width: 100%;padding: 10%;align-content: center;">
+                        </picture>
+                    </div>
+                  <div class="img-coin-eth" [hidden]="_butler.deviceType!='Escritorio'">
+                        <picture>
+                        
+                            <img src="assets/assetsryal/images/logo_07c.png" alt="" style="max-width: 100%;padding-bottom: 3%;">
+                        </picture>
+                    </div>
+                <div class="display-title">
+                    <h1>Inicio de session!</h1>
+                    <p>Ingrese su correo y su contrasena para continuar</p>
+                </div>
+  
+                <div class="content__form margin-t-24">
+
+                        <div class="form-group icon-left">
+                            <label>Email </label>
+                            <div class="input_group">
+                                <input type="email" formControlName="email" class="form-control" placeholder='e. g. "example@mail.com"'
+                                    required>
+                                <div class="icon">
+                                    <i class="ri-mail-open-line"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                          <div class="form-group icon-left">
+                            <label>Password</label>
+                            <div class="input_group">
+                                <input  formControlName="password" type="password" class="form-control" id="exampleInputPassword1" placeholder='e. g. "John$99*04"' required>
+                            
+                                <div class="icon">
+                                    <i class="ri-lock-password-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </section>
+   
+            <footer class="footer-account">
+                <div class="env-pb">
+                    <div class="display-actions">
+                           <button type="submit"  class="btn btn-sm-arrow bg-primary" style="color:white;">Entrar
+                                <div class="ico">
+                                <i class="ri-login-box-line"></i>
+                                </div>
+                            </button>
+
+                    </div>
+                    <div class="dividar"></div>
+                    <div class="support">
+                        <p>Ryal POS V 1.0 by <a href="https://www.buckapi.us" target="_blanck">buckapi.us</a></p>
+                    </div>
+                </div>
+            </footer>
+             </form>

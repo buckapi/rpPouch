@@ -1,0 +1,427 @@
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-5 p-md-0">
+                <div class="welcome-text" >
+                    <h4>Nuevo ticket de venta </h4> 
+                    <h3 >
+                        <span class="text-danger">
+                            
+                        # {{currentSerial}}
+                        </span>
+                    </h3>
+                    <span></span>
+                </div>                       
+            </div>
+            <div class="col-sm-7 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                  
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header border-0 pb-0">
+                    <h4 class="card-title"  [hidden]="!show">Descripcón del servicio</h4>
+                </div>
+               <div class="card-body">
+                    <div class="row">                     
+                        <div class="col-xl-7"  [hidden]="!show">
+                            <div class="form-validation">
+                                <form class="needs-validation" novalidate >
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                        <div class="mb-3 row">     
+                                            <div class="col-lg-12"[hidden]="optionSelected">
+                                                <button type="button" class="btn btn-outline-primary" (click)="setOption(1)">PAYJOY</button>
+                                                <button type="button" class="btn btn-outline-primary" (click)="setOption(2)">FOXPAY</button>
+                                                <button type="button" class="btn btn-outline-primary" (click)="setOption(3)">CC FACIL</button>
+                                                <button type="button" class="btn btn-outline-primary" (click)="setOption(4)">ACCESORIOSS</button>
+                                                <button type="button" class="btn btn-outline-primary" (click)="setOption(5)">REPARACION</button>
+                                            </div>   
+                                            <label class="col-lg-3 col-form-label" for="validationCustom01"[hidden]="!optionSelected"> Servicio
+                                                <span class="text-danger"></span>
+                                            </label>
+                                            <div class="col-lg-9"[hidden]="!optionSelected">
+                                            <h4 class="card-title" (click)="resetOption()" style="cursor:pointer;" class="text-info"> {{optionSelectedText}}</h4>           
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    </div> 
+                                    <div class="row" [hidden]="option!=5">
+                                        <div class="col-xl-12">
+                                            <div class="mb-3 row">
+                                                <label class="col-lg-3 col-form-label" for="validationCustom01"> Técnico
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-lg-9" [hidden]="technicalSelected">
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" *ngFor="let technical of technicals;let i = index" (click)="setTechnical(i+1)">{{technical.name}}</button>
+                                                
+                                                </div>
+                                                <div class="col-lg-9" [hidden]="!technicalSelected">
+                                                     <h4 class="card-title" (click)="resetTechnical()" style="cursor:pointer;" class="text-info"> {{technicalSelectedText}}</h4>
+                                                
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div> 
+                                    <div class="row" [hidden]="option!=1 && option!=2 && option!=3  ">
+                                         <div class="col-xl-12">
+                                            <div class="mb-3 row">
+                                                <label class="col-lg-3 col-form-label" for="validationCustom01"> Tipo
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-lg-9" [hidden]="typeSelected">
+                                                    <button type="button" class="btn btn-outline-primary"  (click)="setType(1)" >Enganche</button>
+                                                     <button type="button" class="btn btn-outline-primary" (click)="setType(2)" >Parcialidad</button>
+                                                </div>
+                                                <div class="col-lg-9" [hidden]="!typeSelected">
+                                                     <h4 class="card-title" (click)="resetType()" style="cursor:pointer;" class="text-info"> {{typeSelectedText}}</h4>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div> 
+                                    <div class="row" [hidden]="option!=5  ">
+                                        <div class="col-xl-12">
+                                            <div class="mb-3 row">
+                                                <label class="col-lg-3 col-form-label" for="validationCustom01"> Tipo
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-lg-9"  [hidden]="repairSelected">
+                                                    <button type="button" class="btn btn-outline-primary"  (click)="setRepair(1)">Hardware</button>
+                                                     <button type="button" class="btn btn-outline-primary" (click)="setRepair(2)" >Software</button>
+                                                
+                                                </div> 
+                                                <div class="col-lg-9"  [hidden]="!repairSelected">
+                                                 
+                                                  <h4 class="card-title" (click)="resetRepair()" style="cursor:pointer;" class="text-info"> {{repairSelectedText}}</h4>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div> 
+                                </form>
+
+                                <div class="register-form" [hidden]="option!=1">
+                                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="tag" >TAG <span class="text-danger">*</span>
+                                                   
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control"  upperCase  type="text"
+                                                formControlName="tag"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submitted && f['tag'].errors }">
+                                                <div *ngIf="submitted && f['tag'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['tag'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="imei" >IMEI <span class="text-danger">*</span>
+                                               
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control"   upperCase type="text"
+                                                formControlName="imei"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submitted && f['imei'].errors }">
+                                                <div *ngIf="submitted && f['imei'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['imei'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="folio" >FOLIO <span class="text-danger">*</span>
+                                               
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control"    type="text"
+                                                formControlName="folio"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submitted && f['folio'].errors }">
+                                                <div *ngIf="submitted && f['folio'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['folio'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="monto" >MONTO <span class="text-danger">*</span>
+                                               
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control" upperCase   type="number"
+                                                formControlName="monto"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submitted && f['monto'].errors }">
+                                                <div *ngIf="submitted && f['monto'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['monto'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+
+
+                                       
+
+
+                                        <div class="mb-12 row">
+                                            
+                                            <div class="col-lg-4 ms-auto">
+                                                <button  class="btn btn-rounded btn-light" (click)="noShow()"[hidden]="ticketSize<1">Cancelar</button>
+                                            </div>
+                                             <div class="col-lg-6 ms-auto">
+                                                <button type="submit" class="btn btn-rounded btn-info">Aceptar</button>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+                                <div class="register-form" [hidden]="option!=2 && option!=3">
+                                    <form [formGroup]="payjoy" (ngSubmit)="onSubmit2()">
+                                        
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="imeiPayjoy" >IMEI <span class="text-danger">*</span>
+                                               
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control"   upperCase  type="text"
+                                                formControlName="imeiPayjoy"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submittedPayjoy && g['imeiPayjoy'].errors }">
+                                                <div *ngIf="submittedPayjoy && g['imeiPayjoy'].errors" class="invalid-feedback">
+                                                <div *ngIf="g['imeiPayjoy'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="referencia" >Referencia <span class="text-danger">*</span>
+                                                   
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control"  upperCase  type="text"
+                                                formControlName="referencia"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submittedPayjoy && g['referencia'].errors }">
+                                                <div *ngIf="submittedPayjoy && g['referencia'].errors" class="invalid-feedback">
+                                                <div *ngIf="g['referencia'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="folioPayjoy" >FOLIO <span class="text-danger">*</span>
+                                               
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control"  upperCase  type="text"
+                                                formControlName="folioPayjoy"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submittedPayjoy && g['folioPayjoy'].errors }">
+                                                <div *ngIf="submittedPayjoy && g['folioPayjoy'].errors" class="invalid-feedback">
+                                                <div *ngIf="g['folioPayjoy'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="montoPayjoy" >MONTO <span class="text-danger">*</span>
+                                               
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control" upperCase   type="number"
+                                                formControlName="montoPayjoy"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submittedPayjoy && g['montoPayjoy'].errors }">
+                                                <div *ngIf="submittedPayjoy && g['montoPayjoy'].errors" class="invalid-feedback">
+                                                <div *ngIf="g['montoPayjoy'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mb-12 row">
+                                            
+                                            <div class="col-lg-4 ms-auto">
+                                                <button  class="btn btn-rounded btn-light" (click)="noShow()"[hidden]="ticketSize<1">Cancelar</button>
+                                            </div>
+                                             <div class="col-lg-6 ms-auto">
+                                                <button type="submit" class="btn btn-rounded btn-info">Aceptar</button>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+                                <div class="register-form" [hidden]="option!=4 && option!=5">
+                                    <form [formGroup]="acce" (ngSubmit)="onSubmit3()">
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="concepto" >Concepto <span class="text-danger">*</span>        
+                                            </label>
+                                            <div class="col-lg-7">
+                                                <textarea  rows="5"class="form-control"  upperCase  type="text"
+                                                formControlName="concepto"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submittedAcce && h['concepto'].errors }"></textarea>
+                                                <div *ngIf="submittedAcce && h['concepto'].errors" class="invalid-feedback">
+                                                <div *ngIf="h['concepto'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="folioAcce" >FOLIO <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control"  upperCase  type="text"
+                                                formControlName="folioAcce"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submittedAcce && h['folioAcce'].errors }">
+                                                <div *ngIf="submittedAcce && h['folioAcce'].errors" class="invalid-feedback">
+                                                <div *ngIf="h['folioAcce'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row" >
+                                            <label class="col-lg-3 col-form-label" for="montoAcce" >MONTO <span class="text-danger">*</span>
+                                               
+                                            </label>
+                                            <div class="col-lg-3">
+                                                <input  class="form-control"  upperCase  type="number"
+                                                formControlName="montoAcce"
+                                                class="form-control"
+                                                [ngClass]="{ 'is-invalid': submittedAcce && h['montoAcce'].errors }">
+                                                <div *ngIf="submittedAcce && h['montoAcce'].errors" class="invalid-feedback">
+                                                <div *ngIf="h['montoAcce'].errors['required']">Campo requerido</div>
+                                              </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mb-12 row">
+                                            
+                                            <div class="col-lg-4 ms-auto">
+                                                <button  class="btn btn-rounded btn-light" (click)="noShow()"[hidden]="ticketSize<1">Cancelar</button>
+                                            </div>
+                                             <div class="col-lg-6 ms-auto">
+                                                <button type="submit" class="btn btn-rounded btn-info">Aceptar</button>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+                            </div>                               
+                        </div>
+                        <div class="col-xl-5 " [hidden]="ticketSize<1">
+                           <div class="">
+                                <div class="card-header border-0 pb-0">
+                                    <h4 class="card-title">Detalle de ticket</h4>
+                                     <button type="button" class="btn btn-info btn-xs"  (click)="showRutine()">Agregar servicio
+                                        <span class="btn-icon-end"><i class="fa fa-plus"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div id="DZ_W_TimeLine1" class="widget-timeline dz-scroll style-1  " style="height: 100%;">
+                                        <ul class="timeline">
+                                            <li *ngFor="let item of _butler.ticket;let i = index">
+                                            <div class="timeline-badge info"></div>
+
+                                                <a class="timeline-panel text-muted"   [hidden]="item.servicio!='REPARACION'">
+                                                    <span>{{item.servicio}}</span>
+                                                    <h6 class="mb-0">{{item.tipo}} <strong>Concepto: </strong> {{item.concepto}} <strong>Técnico:</strong> {{item.tecnico}}<strong>  Folio: </strong> {{item.folio}}  <strong class="text-primary">Monto: {{item.monto}}</strong>.</h6>
+                                                </a>
+                                              
+                                                 <a class="timeline-panel text-muted"   [hidden]="item.servicio!='PAYJOY'">
+                                                    <span>{{item.servicio}}</span>
+                                                    <h6 class="mb-0">Tipo: {{item.tipo}} TAG: {{item.tag}} . Folio: {{item.folio}} <strong class="text-info">IMEI 1: 
+                                                        {{item.imei}}</strong><strong class="text-primary"> Monto: {{item.monto}}</strong></h6>
+                                                </a>
+
+                                                <a class="timeline-panel text-muted"   [hidden]="item.servicio!='FOXPAY'">
+                                                   <span>{{item.servicio}}</span>
+                                                    <h6 class="mb-0">Tipo: {{item.tipo}} Referencia: {{item.referencia}}  Folio: {{item.folio}} 
+                                                        <strong class="text-info">IMEI 1: 
+                                                        {{item.imei}}</strong><strong class="text-primary"> Monto: {{item.monto}}</strong>
+                                                    </h6>
+                                                </a>
+                                              
+                                                <a class="timeline-panel text-muted"   [hidden]="item.servicio!='CC FACIL'">
+                                                   <span >{{item.servicio}}</span>
+                                                    <h6 class="mb-0">Tipo: {{item.tipo}} Referencia: {{item.referencia}}  Folio: {{item.folio}} 
+                                                        <strong class="text-info">IMEI 1: 
+                                                        {{item.imei}}</strong><strong class="text-primary"> Monto: {{item.monto}}</strong>
+                                                    </h6>
+                                                </a>
+                                                <a class="timeline-panel text-muted"   [hidden]="item.servicio!='ACCESORIOS'">
+                                                   <span >{{item.servicio}}</span>
+                                                    <h6 class="mb-0">Concepto: {{item.concepto}}  Folio: {{item.folio}} 
+                                                      <strong class="text-primary"> Monto: {{item.monto}}</strong>
+                                                    </h6>
+                                                </a>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                   
+                                </div>
+                            </div>
+                        </div>                                
+                        <div class="col-xl-5 " [hidden]="ticketSize<1 || show">
+                             <div class="card-header border-0 pb-0">
+                                    <h4 class="card-title">Metodo de pago <span (click)="resetMethod()" style="cursor:pointer;"  class="text-info" [hidden]="!methodSelected">{{methodSelectedText}}</span></h4>
+                            </div>
+                                 
+                                           
+                            <div class="card-body" [hidden]="methodSelected">
+                                <button type="button" class="btn btn-outline-primary" (click)="setMethod(1)">Efectivo</button>
+                                <button type="button" class="btn btn-outline-primary" (click)="setMethod(2)">Transferencia</button>
+                                <button type="button" class="btn btn-outline-primary" (click)="setMethod(3)">Pago con tarjeta</button>
+                              
+                            </div> 
+                            <div class="card-body">
+                                <div [hidden]="methodSelectedText!='Efectivo ✔' || !methodSelected">
+                                    
+                                    <h4>Total</h4>
+                                        <h1>
+                                            <span (click)="setEqual()" style="cursor:pointer;">{{total |  number :'1.2-2'}}</span>
+                                        </h1>
+                                    <h4>Cobro</h4>
+                                    <div class="col-lg-4">
+                                        <input type="number" class="form-control"  [(ngModel)]="cobro"
+                                        style="height: 5.5rem;width: 13rem;font-size: 2.5rem;" 
+                                        >
+                                    </div>
+                                    <h4>Cambio: </h4>
+                                        <h1>
+                                            <span [hidden]="cobro-total<0">{{cobro-total |  number :'1.2-2'}}</span>
+                                        </h1>
+                                </div>
+                                <!-- <div class="register-form" [hidden]="methodSelectedText!='Tarjeta ✔' || !methodSelected"> -->
+                                    <!-- <form [formGroup]="tarjeta" (ngSubmit)="onSubmit4()"> -->
+                                      
+                                        <div class="mb-3 row"  [hidden]="methodSelectedText!='Tarjeta ✔' || !methodSelected">
+                                            <label class="col-lg-3 col-form-label" for="folioTarjeta" >FOLIO <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-4">
+                                                <input  class="form-control"    type="number"
+                                                [(ngModel)]="folioTarjeta">
+                                            
+                                              </div>
+                                            
+                                        </div>
+                                    <!-- </form> -->
+                                <!-- </div> -->
+                            </div>
+                            <div class="card-body">
+                                <button type="button" class="btn btn-rounded btn-info"  [disabled]=" !methodSelected || (cobro-total<0 && folioTarjeta<1 && methodSelectedText!='Transferencia ✔')"  (click)="sendTicket()">
+                                    <span class="btn-icon-start text-info"><i class="fa fa-check"></i>
+                                    </span>Procesar 
+                                </button>
+                            </div>
+                        </div>
+                    </div>                            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+       

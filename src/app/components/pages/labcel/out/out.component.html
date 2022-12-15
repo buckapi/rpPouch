@@ -1,0 +1,84 @@
+<div class="content-body">
+	<div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-4 p-md-0">
+               	<div class="col-xl-12 col-xxl-12">
+					<div class="">
+						<div class="card-header pb-0 d-block d-sm-flex flex-wrap border-0 align-items-center">
+		                     <h4>Salidas</h4>
+							<div class="input-group detault-daterange me-3  mb-3" >
+							</div>
+						</div>
+						<input type="text"type="text"
+                          ngxDaterangepickerMd
+                           [locale]="{displayFormat: 'DD/MM/YYYY',firstDay: 1,applyLabel: 'aplicar', customRangeLabel: 'personalizado',weekLabel: 'W', clearLabel: 'limpiar', format: 'DD/MM/YYYY'}"
+                          [(ngModel)]="selected"
+                          [showCustomRangeLabel]="true"
+                          [alwaysShowCalendars]="true"
+                          [ranges]="ranges"
+                          [linkedCalendars]="true"
+                          [isInvalidDate] = "isInvalidDate"
+                          [showClearButton]="true"
+                          placeholder="Seleccionar periodo..."  class="form-control input-daterange-timepicker" style="border: 0px; cursor: pointer;"  />
+					</div>
+				</div>
+            </div>
+            <div class="col-sm-8 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                 <button type="button" class="btn btn-rounded btn-info"    [routerLink]="['../outregister']">
+                    <span class="btn-icon-start text-info"><i class="fa fa-plus"></i>
+                    </span>Nueva salida 
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm mb-0 table-responsive student-tbl">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                       
+                                        
+                                        <th class=" ps-5" style="min-width: 200px;">Descripcion
+                                        </th>
+                                        <th>Status</th>
+                                        <th>Monto</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customers">
+                                    <tr class="btn-reveal-trigger" *ngFor='let transaction of transactions$ | async, let i = index' [hidden]="transaction.transactionType=='ingress'" >
+                             
+                                        <td class="py-3">
+                                            <a >
+                                                <div class="media d-flex align-items-center">
+                                          
+                                                    <div class="media-body">
+                                                        <h5 class="mb-0 fs--1">{{transaction.createdAt | date:'dd/MM/yyyy h:mm a'}}</h5>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </td>
+                                      
+                                        <td class="py-2 ps-5">{{transaction.description}}</td>
+                                        <td class="py-2"> <a >{{transaction.status}}</a></td>
+                                        <td class="py-2">{{transaction.amount}}</td>
+                                        <td class="py-2 text-end">
+                                            <div class="dropdown"><button class="btn btn-primary tp-btn-light sharp" type="button" data-bs-toggle="dropdown"><span class="fs--1"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg></span></button>
+                                                <div class="dropdown-menu dropdown-menu-end border py-0">
+                                                    <div class="py-2"><a class="dropdown-item text-danger" style="cursor: pointer;">Anular</a></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>

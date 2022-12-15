@@ -1,0 +1,111 @@
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-5 p-md-0">
+                <div class="welcome-text" >
+                    <h4>Cortes diarios</h4>
+                    <span></span>
+                </div>                       
+            </div>
+            <div class="col-sm-7 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                  
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header border-0 pb-0">
+                    <!-- <h4 class="card-title"  [hidden]="!show"></h4> -->
+                </div>
+               <div class="card-body">
+                    <div class="row" [hidden]="size>0">
+                        <h3 >Nada que mostar aún</h3>
+                    </div>
+                    <div class="row" [hidden]="size==0">   
+						 <div class="col-xl-3 ">
+                           
+                            <div class="table-responsive" >
+                                <table class="table table-sm mb-0 table-responsive student-tbl">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody id="customers">
+                                        <tr class="btn-reveal-trigger" *ngFor='let cierre of cierres$ | async, let i = index'  >
+                                 
+                                            <td class="py-3">
+                                                <a >
+                                                    <div class="media d-flex align-items-center">
+                                              
+                                                        <div class="media-body">
+                                                            <h5 class="mb-0 fs--1" (click)="setDay(cierre.from,cierre.to)" style="cursor:pointer;">{{cierre.createdAt| date:'dd/MM/yyyy'}} ({{cierre.from}} to {{cierre.to}})</h5>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                          
+                                        </tr>
+                                    </tbody>
+                                </table>
+                             </div>
+                         </div>
+                          <div class="col-xl-9 ">
+
+                            <div class="table-responsive"[hidden]="!show">
+                            <table class="table table-sm mb-0 table-striped student-tbl">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class=" ps-5" style="min-width: 200px;">Descripcion
+                                        </th>                                       
+                                        <th>Status</th>
+                                        <th>Tipo</th>
+                                        <th>Monto</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customers">
+                                    <tr class="btn-reveal-trigger" *ngFor='let transaction of transactions$ '  [hidden]="transaction.serialT<min || transaction.serialT>max ">
+                                        <td class="py-3">
+                                            <a >
+                                                <div class="media d-flex align-items-center">
+                                                    <div class="avatar avatar-xl me-2">
+                                                        <div class="">
+                                                            <img class="rounded-circle img-fluid"
+                                                                src="assets/assetsdash/images/avatar/5.png" width="15" alt=""  [hidden]="transaction.transactionType=='egress'"/>
+                                                                <img class="rounded-circle img-fluid"
+                                                                src="assets/assetsdash/images/avatar/1.png" width="15" alt="" [hidden]="transaction.transactionType=='ingress'"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="mb-0 fs--1">{{transaction.name}}</h5>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </td>
+                                          <td class="py-2 ps-5">{{transaction.description}} <span [hidden]="transaction.transactionType=='egress'"># {{transaction.ref}}</span></td>
+                                       
+                                        <td class="py-2"> <a [hidden]="transaction.status!='completed'">Completada</a> </td>
+                                       <td class="py-2">
+                                            <a [hidden]="transaction.transactionType=='egress'" class="text-success">Ingreso</a> <a [hidden]="transaction.transactionType=='ingress'" class="text-danger">Egreso</a>
+                                        </td>
+                                        <td class="py-2">{{transaction.amount}}</td>
+                                        <td class="py-2 text-end">
+                                            <div class="dropdown"><button class="btn btn-primary tp-btn-light sharp" type="button" data-bs-toggle="dropdown"><span class="fs--1"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg></span></button>
+                                                <div class="dropdown-menu dropdown-menu-end border py-0">
+                                                    <div class="py-2"><a class="dropdown-item"  >Ver detalle</a><a class="dropdown-item text-danger" >Anular</a></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                          </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

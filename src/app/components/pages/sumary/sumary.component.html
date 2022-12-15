@@ -1,0 +1,78 @@
+<div class="space-sticky"></div>
+<section class="un-my-account">
+    <div class="head">
+        <div class="my-personal-account">
+            <div class="user">
+                <picture>
+                    <source srcset="assets/assetsryal/images/avatar/11.webp" type="image/webp">
+                    <img src="assets/assetsryal/images/avatar/11.jpg" alt="">
+                </picture>
+                <div class="txt-user">
+                    <h1>Ryal POS</h1>
+                    <p>Beauty Salon Administrator V 1.0</p>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    <div class="body">
+        <div class="img-coin-eth">
+            <picture>
+                <source srcset="assets/assetsryal/images/other/eth.webp" type="image/webp">
+                <img src="assets/assetsryal/images/other/eth.png" alt="">
+            </picture>
+        </div>
+        <div class="my-balance-text">
+            <h2>Balance del dia</h2>
+            <p>389,650 Pesos</p>
+
+            <button type="button"
+                class="btn btn-md-size effect-click border-primary rounded-pill text-primary"
+                data-bs-toggle="modal" data-bs-target="#mdllAddETH">
+                Cierres de caja
+            </button>
+        </div>
+    </div>
+</section>
+<section class="un-navMenu-default without-visit">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link visited" >
+                <div class="item-content-link">
+                    <div class="icon bg-green-1 color-green">
+                        <i class="ri-bookmark-3-line"></i>
+                    </div>
+                    <h3 class="link-title">Tickets</h3>
+                </div>
+                <div class="other-cc">
+               
+                    <div class="icon-arrow">
+                        <i class="ri-arrow-drop-right-line"></i>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [routerLink]="['../estilistas']">
+                <div class="item-content-link">
+                    <div class="icon bg-orange-1 color-orange">
+                        <i class="ri-user-3-line"></i>
+                    </div>
+                    <h3 class="link-title">Estilistas</h3>
+                </div>
+                 <div class="other-cc">
+                    <span class="badge-text"> ({{_butler.especialistasSize}})</span>
+                    <div class="icon-arrow">
+                        <i class="ri-arrow-drop-right-line"></i>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+</section>
+<section class="copyright-mark">
+    <div class="content">
+        <img class="logo-gray" src="assets/assetsryal/images/logo_07.png" alt="image">
+        <p>Copyright © Ryal POS 2022</p>
+    </div>
+</section>

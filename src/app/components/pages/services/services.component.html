@@ -1,0 +1,50 @@
+
+            <div class="space-sticky"></div>
+       
+            <section class="margin-t-20 unList-bestSeller">
+                <!-- un-title-default -->
+                <div class="un-title-default">
+                    <div class="text">
+                        <h2>Servicios</h2>
+                        <p>A continuacion un listado de servicios con su respectivo precio de referencia</p>
+                    </div>
+                    <div class="un-block-right">
+                        <a class="icon-back" aria-label="iconBtn" [hidden]="!_butler.list || _butler.deviceType!='Escritorio'"  >
+                            <i class="ri-layout-grid-fill" style="font-size:1rem;" ></i>
+                        </a>
+                        <a class="icon-back" aria-label="iconBtn" [hidden]="!_butler.grid" >
+                            <i class="ri-list-check"  style="font-size:1rem;"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+
+                <div class="content-list-sellers">
+                    <ul class="nav flex-column">
+                        <li class="nav-item" *ngFor="let service of services$ | async"  [hidden]="service.status!='active'">
+                            <div class="nav-link item-user-seller">
+                                <a class="item-user-img"  >
+                            
+                                    <div class="txt-user">
+                                        <h5> 
+                                        </h5>
+                                        <p>{{service.name}}
+<i class="ri-coins-fill text-ligth" style="font-size: 1.3rem; margin-right: 10%; font-weight: initial;"> </i>
+                                     {{service.basePrice}}
+                            
+                                     </p>
+
+                                    </div>
+                                </a>
+                                  <div class="other-option" style="margin-right:2%; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#mdllUploadItem" (click)="delete(service)">
+                                    <div class="color-text rounded-pill bg-snow btn-xs-size " >
+     <i class="ri-delete-bin-fill text-danger" style="font-size: 1.3rem; margin-right: 10%; font-weight: initial;"> </i>
+                                     Borrar</div>
+                                </div>
+                            </div>
+                        </li>
+                       
+                    </ul>
+                </div>
+            </section>

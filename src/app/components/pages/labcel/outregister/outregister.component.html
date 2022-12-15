@@ -1,0 +1,77 @@
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-5 p-md-0">
+                <div class="welcome-text" >
+                    <h4>Registro de salida</h4>
+                    <span></span>
+                </div>                       
+            </div>
+            <div class="col-sm-7 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                  
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header border-0 pb-0">
+                    <!-- <h4 class="card-title"  [hidden]="!show"></h4> -->
+                </div>
+               <div class="card-body">
+                    <div class="row">   
+						<form [formGroup]="salidaForm" (ngSubmit)="sendTicket()">
+						    <div class="mb-3 row" >
+						        <label class="col-lg-3 col-form-label" for="concepto" >Concepto <span class="text-danger">*</span>        
+						        </label>
+						        <div class="col-lg-7">
+						            <textarea  rows="5"class="form-control"  upperCase  type="text"
+						            formControlName="concepto"
+						            class="form-control"
+						            [ngClass]="{ 'is-invalid': submittedAcce && h['concepto'].errors }"></textarea>
+						            <div *ngIf="submittedAcce && h['concepto'].errors" class="invalid-feedback">
+						            <div *ngIf="h['concepto'].errors['required']">Campo requerido</div>
+						          </div>
+						        </div>
+						    </div>
+						    <div class="mb-3 row" >
+						        <label class="col-lg-3 col-form-label" for="folioAcce" >Categoria <span class="text-danger">*</span>
+						        </label>
+						        <div class="col-lg-3">
+						        	<select id="district" class="form-control wide"[(ngModel)]="category" (ngModelChange)="setOption()" [ngModelOptions]="{standalone: true}">
+                                        <option *ngFor="let category of _butler.userActive.categories, let i = index " [ngValue]="i"> <span 	style="cursor:pointer;">{{category}}</span></option>
+                                    </select>
+						        </div>
+						    </div>
+						    <div class="mb-3 row" >
+						        <label class="col-lg-3 col-form-label" for="montoAcce" >MONTO <span class="text-danger">*</span>
+						           
+						        </label>
+						        <div class="col-lg-3">
+						            <input  class="form-control"  upperCase  type="number"
+						            formControlName="montoAcce"
+						            class="form-control"
+						            [ngClass]="{ 'is-invalid': submittedAcce && h['montoAcce'].errors }">
+						            <div *ngIf="submittedAcce && h['montoAcce'].errors" class="invalid-feedback">
+						            <div *ngIf="h['montoAcce'].errors['required']">Campo requerido</div>
+						          </div>
+						        </div>
+						    </div>
+
+
+						    <div class="mb-12 row">
+						        
+						        <div class="col-lg-4 ms-auto">
+						            <button  class="btn btn-rounded btn-light"  [routerLink]="['../labcelout']">Cancelar</button>
+						        </div>
+						         <div class="col-lg-6 ms-auto">
+						            <button type="submit" class="btn btn-rounded btn-info" [hidden]="!showB">Aceptar</button>
+						        </div>
+						    </div>
+
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

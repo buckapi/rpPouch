@@ -1,0 +1,19 @@
+.swiper {
+  height: 300px;
+  width: 400px;
+}
+.whatsappMobile{
+
+  position:fixed;
+  width:35px;
+  height:35px;
+  bottom: 80%;
+    right: 10px;
+  background-color:#25d366;
+  color:#fff;
+  border-radius:50%;
+  text-align:center;
+  font-size:35px;
+  z-index:100;
+
+}

@@ -1,0 +1,202 @@
+<div class="content-body">
+	<div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-8 p-md-0">
+               	<div class="col-xl-12 col-xxl-12">
+					<div class="">                            
+						<div class="card-header pb-0 d-block d-sm-flex flex-wrap border-0 align-items-center">
+			                 <h4>Tickets</h4>
+                             <div class="card-action coin-tabs mb-3">
+                                <ul class="nav nav-tabs" role="tablist" [hidden]="!_butler.admin">
+                                    <li class="nav-item"  *ngFor="let branch of branchs;let i = index">
+                                        <a class="nav-link   bg-info" data-bs-toggle="tab"  role="tab" aria-selected="true" (click)="setFilter(branch.idBranch)" style="cursor:pointer;">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 0C5.3726 0 0 5.3726 0 12C0 18.6274 5.3726 24 12 24C18.6274 24 24 18.6274 24 12C23.9927 5.37574 18.6243 0.00732425 12 0V0ZM7.04462 11.1428H10.4732C10.9466 11.1428 11.3304 11.5265 11.3304 12C11.3304 12.4735 10.9466 12.8572 10.4732 12.8572H7.04462C6.57116 12.8572 6.18742 12.4735 6.18742 12C6.18742 11.5265 6.57142 11.1428 7.04462 11.1428ZM17.7624 9.92331L16.7315 15.0812C16.4887 16.2784 15.4374 17.1401 14.2158 17.1429H7.04462C6.57116 17.1429 6.18742 16.7592 6.18742 16.2857C6.18742 15.8123 6.57142 15.4285 7.04462 15.4285H14.2158C14.621 15.4275 14.9697 15.1418 15.0503 14.7448L16.0814 9.58692C16.173 9.12654 15.8743 8.67924 15.4141 8.58768C15.3595 8.57696 15.304 8.57147 15.2486 8.57147H8.75902C8.28556 8.57147 7.90182 8.18773 7.90182 7.71427C7.90182 7.24081 8.28556 6.85707 8.75902 6.85707H15.2486C16.6648 6.85759 17.8123 8.00567 17.8121 9.42186C17.8121 9.59006 17.7953 9.75799 17.7624 9.92331V9.92331Z" fill="#3693FF"/>
+                                            </svg>
+                                              {{branch.name}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+							 <div class="input-group detault-daterange me-3  mb-3" >
+							 </div>
+						</div>
+						<input type="text"type="text"
+                              ngxDaterangepickerMd
+                               [locale]="{displayFormat: 'DD/MM/YYYY',firstDay: 1,applyLabel: 'aplicar', customRangeLabel: 'personalizado',weekLabel: 'W', clearLabel: 'limpiar', format: 'DD/MM/YYYY'}"
+                              [(ngModel)]="selected"
+                              [showCustomRangeLabel]="true"
+                              [alwaysShowCalendars]="true"
+                              [ranges]="ranges"
+                              [linkedCalendars]="true"
+                              [isInvalidDate] = "isInvalidDate"
+                              [showClearButton]="true"
+                              placeholder="Seleccionar periodo..."  class="form-control input-daterange-timepicker" style="border: 0px; cursor: pointer;" />
+						</div>
+					</div>
+            
+                </div>
+            <div class="col-sm-4 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+               
+                <button type="button" class="btn btn-rounded btn-info"    [routerLink]="['../labceladdtransaction']">
+                    <span class="btn-icon-start text-info"><i class="fa fa-plus"></i>
+                    </span>Agregar ticket 
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table shadow-hover short-two card-table border-no">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th class=" ps-5" style="min-width: 200px;">Descripcion
+                                        </th>                                       
+                                        <th>Status</th>
+                                        <th>Tipo</th>
+                                        <th>Monto</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customers">
+                                    <tr class="btn-reveal-trigger" *ngFor='let transaction of transactions$  ' [hidden]="filtering && transaction.idBranch!=filter || transaction.transactionType=='egress'" >
+                                        <td  data-bs-toggle="modal" data-bs-target="#basicModal" class="py-3" (click)="view(transaction)" style="cursor: pointer;">
+                                            <a >
+                                                <div class="media d-flex align-items-center">
+                                                    <div class="avatar avatar-xl me-2">
+                                                        <div class="">
+                                                            <img class="rounded-circle img-fluid"
+                                                                src="assets/assetsdash/images/avatar/5.png" width="15" alt=""  [hidden]="transaction.transactionType=='egress'"/>
+                                                                <img class="rounded-circle img-fluid"
+                                                                src="assets/assetsdash/images/avatar/1.png" width="15" alt="" [hidden]="transaction.transactionType=='ingress'"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="mb-0 fs--1">{{transaction.createdAt | date:'dd/MM/yyyy h:mm a'}}</h5>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </td>
+                                          <td (click)="view(transaction)" style="cursor: pointer;" class="py-2 ps-5" data-bs-toggle="modal" data-bs-target="#basicModal">{{transaction.description}} 
+                                            <span [hidden]="transaction.transactionType=='egress'">
+                                                # {{transaction.ref}}</span>
+                                                <span [hidden]="transaction.transactionType=='ingress'">ref. {{transaction.ref}}</span>
+                                            </td>
+                                       
+                                        <td  data-bs-toggle="modal" data-bs-target="#basicModal" class="py-2"  (click)="view(transaction)"  style="cursor: pointer;"> <a [hidden]="transaction.status!='completed'" >Completada</a> </td>
+                                       <td  data-bs-toggle="modal" data-bs-target="#basicModal" class="py-2" (click)="view(transaction)" style="cursor: pointer;" >
+                                            <a [hidden]="transaction.transactionType=='egress'" class="text-success">Ingreso</a> 
+                                            <a [hidden]="transaction.transactionType=='ingress'" class="text-danger">Egreso</a>
+                                        </td>
+                                        <td  data-bs-toggle="modal" data-bs-target="#basicModal" (click)="view(transaction)" style="cursor: pointer;" class="py-2">{{transaction.amount}}</td>
+                                        <td class="py-2 text-end">
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary tp-btn-light sharp" type="button" data-bs-toggle="dropdown">
+                                                    <span class="fs--1">
+                                                        <i class="ti-close"></i>
+                                              </span></button>
+                                                <div class="dropdown-menu dropdown-menu-end border py-0">
+                                                    <div class="py-2">
+                                                        
+                                                        <a class="dropdown-item text-danger" >Anular 
+                                                            <span style="cursor: pointer;" [hidden]="transaction.transactionType!='ingress'">Entrada</span>
+                                                            <span style="cursor: pointer;" [hidden]="transaction.transactionType!='egress'">Salida</span>?
+                                                        </a></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+<div class="modal fade" id="basicModal">
+    <div class="modal-dialog" role="document"  [hidden]="transactionSelected.transactionType=='egress'">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{transactionSelected.description}} #{{transactionSelected.ref}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body"> 
+                <div id="DZ_W_TimeLine1" class="widget-timeline dz-scroll style-1  " style="height: 100%;">
+                    <ul class="timeline">
+                        <li *ngFor="let item of transactionSelected.items;let i = index">
+                        <div class="timeline-badge info"></div>
+
+                            <a class="timeline-panel text-muted"   [hidden]="item.servicio!='REPARACION'">
+                                <span>{{item.servicio}}</span>
+                                <h6 class="mb-0">{{item.tipo}} <strong>Concepto: </strong> {{item.concepto}} <strong>Técnico:</strong> {{item.tecnico}}<strong>  Folio: </strong> {{item.folio}}  <strong class="text-primary">Monto: {{item.monto}}</strong>.</h6>
+                            </a>
+                        
+                            <a class="timeline-panel text-muted"   [hidden]="item.servicio!='PAYJOY'">
+                                <span>{{item.servicio}}</span>
+                                <h6 class="mb-0">Tipo: {{item.tipo}} TAG: {{item.tag}} . Folio: {{item.folio}} <strong class="text-info">IMEI 1: 
+                                    {{item.imei}}</strong><strong class="text-primary"> Monto: {{item.monto}}</strong></h6>
+                            </a>
+
+                            <a class="timeline-panel text-muted"   [hidden]="item.servicio!='FOXPAY'">
+                            <span>{{item.servicio}}</span>
+                                <h6 class="mb-0">Tipo: {{item.tipo}} Referencia: {{item.referencia}}  Folio: {{item.folio}} 
+                                    <strong class="text-info">IMEI 1: 
+                                    {{item.imei}}</strong><strong class="text-primary"> Monto: {{item.monto}}</strong>
+                                </h6>
+                            </a>
+                        
+                            <a class="timeline-panel text-muted"   [hidden]="item.servicio!='CC FACIL'">
+                            <span >{{item.servicio}}</span>
+                                <h6 class="mb-0">Tipo: {{item.tipo}} Referencia: {{item.referencia}}  Folio: {{item.folio}} 
+                                    <strong class="text-info">IMEI 1: 
+                                    {{item.imei}}</strong><strong class="text-primary"> Monto: {{item.monto}}</strong>
+                                </h6>
+                            </a>
+                            <a class="timeline-panel text-muted"   [hidden]="item.servicio!='ACCESORIOS'">
+                            <span >{{item.servicio}}</span>
+                                <h6 class="mb-0">Concepto: {{item.concepto}}  Folio: {{item.folio}} 
+                                <strong class="text-primary"> Monto: {{item.monto}}</strong>
+                                </h6>
+                            </a>
+
+                        </li>
+                    </ul>
+                </div>
+                <h4>Metodo de pago: </h4> {{transactionSelected.method}} 
+                              <h4><span [hidden]="transactionSelected.method!='Transferencia'">Folio: </span>  </h4><span [hidden]="transactionSelected.method!='Transferencia'">{{transactionSelected.folioTarjeta}}  </span>
+
+                <h4> Monto: </h4> {{transactionSelected.amount}}
+                <h4><span [hidden]="transactionSelected.method!='Efectivo'">Cobro: </span>  </h4><span [hidden]="transactionSelected.method!='Efectivo'">{{transactionSelected.cobro}}  </span>
+              
+                <h4><span [hidden]="transactionSelected.method!='Efectivo'">Cambio: </span>  </h4><span [hidden]="transactionSelected.method!='Efectivo'">{{transactionSelected.cambio}}  </span>
+
+            </div> 
+        </div>
+    </div>
+
+    <div class="modal-dialog" role="document"  [hidden]="transactionSelected.transactionType!='egress'">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Salida #{{transactionSelected.ref}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body"> 
+                <h4>Categoria: </h4> {{transactionSelected.categoria}} 
+                <h4> Motivo: </h4> {{transactionSelected.description}} 
+                <h4> Monto: </h4> {{transactionSelected.amount}}
+            </div>
+        </div>           
+    </div>
+
+
+</div>
+    

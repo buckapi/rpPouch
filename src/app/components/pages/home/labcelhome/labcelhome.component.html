@@ -1,0 +1,280 @@
+
+    <div class="content-body">
+        <div class="container-fluid" [hidden]="_butler.admin">
+            <div class="row page-titles mx-0">
+                <div class="col-sm-5 p-md-0">
+                   <div class="welcome-text" [hidden]="_butler.userActive.sex=='m'">
+                       <h4>Hola {{_butler.userActive.name}}, bienvenida de vuelta!</h4>
+                       <span></span>
+                   </div>
+                   <div class="welcome-text" [hidden]="_butler.userActive.sex=='f'">
+                       <h4>Hola {{_butler.userActive.name}}, bienvenido de vuelta!</h4>
+                       <span></span>
+                   </div>
+               </div>
+               <div class="col-sm-7 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                   <app-clock class="mreloj"></app-clock>
+               </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-8">
+                    <div class="card">
+                        <div class="card-header pb-2 d-block d-sm-flex flex-wrap border-0">
+                            <div class="mb-3">
+                                <h4 class="fs-20 text-black">Actividad reciente </h4>
+                                <!-- <p class="mb-0 fs-13">Sucursales:</p> -->
+                            </div>
+                    
+                        </div>
+                        <div class="card-body tab-content p-0">
+                            <div class="tab-pane active show fade" id="a1" role="tabpanel">
+                                <div class="table-responsive">
+                                   <table class="table shadow-hover short-one card-table border-no">
+                                        <tbody>
+                                            <tr *ngFor='let transaction of transactions$, let i = index'  [hidden]=" i>4">
+                                                <td>
+                                                    <span class="activity-icon" [hidden]="transaction.transactionType=='ingress'">
+                                                        <svg width="15" height="27" viewBox="0 0 15 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5.9375 6.232L5.9375 24.875C5.9375 25.6689 6.58107 26.3125 7.375 26.3125C8.16892 26.3125 8.8125 25.6689 8.8125 24.875L8.8125 6.23202L11.2311 8.66232L11.2311 8.66234C11.7911 9.22504 12.7013 9.2272 13.264 8.66718C13.8269 8.10702 13.8288 7.19681 13.2689 6.63421L12.9145 6.98691L13.2689 6.63421L8.3939 1.73558L8.38872 1.73037L8.38704 1.72878C7.82626 1.17281 6.92186 1.17469 6.36301 1.72877L6.36136 1.73033L6.35609 1.73563L1.48109 6.63426L1.48108 6.63426C0.921124 7.19695 0.9232 8.10709 1.48597 8.6672C2.04868 9.22725 2.95884 9.22509 3.51889 8.66239L3.51891 8.66236L5.9375 6.232Z" fill="#363062" stroke="#363062"/>
+                                                        </svg>
+                                                       
+                                                    </span>
+                                                    <span class="activity-icon" [hidden]="transaction.transactionType=='egress'">
+                                                       <svg width="15" height="27" viewBox="0 0 15 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M8.81299 21.393L8.81299 2.74998C8.81299 1.95606 8.16942 1.31248 7.37549 1.31248C6.58157 1.31248 5.93799 1.95606 5.93799 2.74998L5.93799 21.393L3.5194 18.9627L3.51938 18.9627C2.95934 18.4 2.0492 18.3978 1.48649 18.9578C0.923597 19.518 0.921712 20.4282 1.48158 20.9908L1.83599 20.6381L1.48158 20.9908L6.35659 25.8894L6.36177 25.8946L6.36345 25.8962C6.92422 26.4522 7.82863 26.4503 8.38748 25.8962L8.38912 25.8947L8.3944 25.8894L13.2694 20.9907L13.2694 20.9907C13.8294 20.428 13.8273 19.5179 13.2645 18.9578C12.7018 18.3977 11.7917 18.3999 11.2316 18.9626L11.2316 18.9626L8.81299 21.393Z" fill="#61C277" stroke="#61C277"/>
+                                                        </svg>
+                                                       
+                                                    </span>
+                                                </td>
+                                              
+                                                <td>
+                                                    <span class="font-w600 text-black">{{transaction.description}} #{{transaction.ref}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-black">{{transaction.createdAt | date:'dd/MM/yyyy'}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="font-w600 text-black">{{transaction.amount}}</span>
+                                                </td>
+                                                <td><a class="btn-link text-light float-end" href="javascript:void(0);">{{transaction.status}}</a></td>
+                                            </tr>
+                                
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-sm-6">
+                    <div class="card overflow-hidden">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="profile-photo" *ngIf="_butler.userActive.email!=undefined">
+                                    <img src="{{_butler.userActive.images[0]}}" width="100" class="img-fluid rounded-circle" alt="">
+                                </div>
+                                <h3 class="mt-4 mb-1">{{_butler.userActive.name}}</h3>
+                                <p class="text-muted">{{_butler.userActive.branch}}</p>
+                                <!-- <a class="btn btn-outline-primary btn-rounded mt-3 px-5" href="javascript:void()">{{_butler.userActive.email}}</a> -->
+                            </div>
+                  
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="container-fluid" [hidden]="!_butler.admin">
+            <div class="row page-titles mx-0">
+                <div class="col-sm-5 p-md-0">
+                    <div class="welcome-text" [hidden]="_butler.userActive.sex=='m'">
+                        <h4>Hola {{_butler.userActive.name}}, bienvenida de vuelta!</h4>
+                        <span></span>
+                    </div>
+                    <div class="welcome-text" [hidden]="_butler.userActive.sex=='f'">
+                        <h4>Hola {{_butler.userActive.name}}, bienvenido de vuelta!</h4>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="col-sm-7 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                 <app-clock class="mreloj"></app-clock>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-xxl-4">
+                    <div class="card">
+                        <div class="card-header pb-0 border-0">
+                            <h5 class="mb-0 text-black fs-20">{{_butler.userActive.email}}</h5>
+                          
+                            <div class="dropdown ms-auto">
+                                <div class="btn-link" data-bs-toggle="dropdown">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="12" cy="5" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="19" r="2"></circle></g></svg>
+                                </div>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" >Ajustes</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+
+                            
+
+                            <div class="text-center" *ngIf="_butler.userActive.email!=undefined">
+                                  <img src="{{_butler.userActive.images[0]}}" width="100" class="img-fluid rounded-circle" alt="">
+                                <h4 class="fs-26 mt-sm-3 mt-2 mb-sm-3 mb-0 font-w600 text-black">{{_butler.userActive.name}}</h4>   
+                                <p class="mb-0 text-black ">{{_butler.userActive.branch}}</p>
+                     
+                            </div>
+                          
+                            <!-- <google-chart #chart  
+                               [title]="title"  
+                               [type]="type"  
+                               [data]="data"  
+                               [columnNames]="columnNames"  
+                               [options]="options"  
+                               [width]="width"  
+                               [height]="height">  
+                            </google-chart>   -->
+                        <!--  <div class="chart-wrapper">
+                            <canvas baseChart 
+                            [data]="pieChartData" 
+                            [labels]="pieChartLabels" 
+                            [chartType]="pieChartType"
+                            [options]="pieChartOptions"
+                            [plugins]="pieChartPlugins"
+                            [legend]="pieChartLegend">
+                          </canvas>
+                        </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-xxl-8">
+                    <div class="card">
+                        <div class="card-header border-0 pb-0">
+                            <h5 class="mb-0 text-black fs-20">Sucursales</h5>
+                            <div class="dropdown ms-auto">
+                                <div class="btn-link" data-bs-toggle="dropdown">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="12" cy="5" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="19" r="2"></circle></g></svg>
+                                </div>
+                            <!-- <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" >Edit</a>
+                                    <a class="dropdown-item" >Delete</a>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                               
+                                <div class="col-lg-6"  *ngFor="let branch of branchs;let i = index">
+                                    <div class="card border coin-holding-card border-info">
+                                        <div class="card-body bg-info rounded">
+                                            <div class="d-flex align-items-center">
+                                                <i class="ti-location-pin" style="
+                                                    color: white;
+                                                    font-size: 4rem;
+                                                "></i>
+                                                <div>
+                                                    <h4 class="font-w500 text-white title mb-0">{{branch.name}}</h4>
+                                                    <span class="text-white fs-14 op7">{{branch.email}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-wrap mt-4 align-items-center">  
+                                                <div class="d-flex align-items-center me-auto pr-3 mb-2">
+                                                    
+                                                <svg class="me-3" width="42" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="3.42856" height="25.1428" rx="1.71428" transform="matrix(-1 0 0 1 24 0)" fill="white"/>
+                                                    <rect width="3.42856" height="18.2856" rx="1.71428" transform="matrix(-1 0 0 1 17.1431 6.85712)" fill="white"/>
+                                                    <rect width="3.42856" height="7.99997" rx="1.71428" transform="matrix(-1 0 0 1 10.2861 17.1428)" fill="white"/>
+                                                    <rect width="3.86812" height="15.4725" rx="1.93406" transform="matrix(-1 0 0 1 3.86816 9.67029)" fill="white"/>
+                                                </svg>
+                                                    <h4 class="font-w500 text-white amount mb-0">{{ingresos[i]-egresos[i]}}</h4>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M0.707108 6.06712C0.0771426 6.69709 0.523309 7.77423 1.41421 7.77423L12.3601 7.77423C13.251 7.77423 13.6972 6.69709 13.0672 6.06712L7.59426 0.594186C7.20373 0.203662 6.57057 0.203662 6.18005 0.594186L0.707108 6.06712Z" fill="#61C277"/>
+                                                    </svg>
+                                                    <span class="text-white fs-14">Balance del dia</span>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-between border-0">
+                                            <div class="footer-info font-w600">
+                                                <span class="text-success pr-2">ING </span>
+                                                <span class="text-black">{{ingresos[i]}}</span>
+                                            </div>
+                                            <div class="footer-info font-w600">
+                                                <span class="text-danger pr-2">EGR </span>
+                                                <span class="text-black">{{egresos[i]}}</span>
+                                            </div>
+                                            <a [routerLink]="['../labcelhistory']"   class="underline text-info font-w500 footer-info">Mas detalles</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-header pb-2 d-block d-sm-flex flex-wrap border-0">
+                            <div class="mb-3">
+                                <h4 class="fs-20 text-black">Actividad reciente</h4>
+                                <p class="mb-0 fs-13">Sucursales:</p>
+                            </div>
+                            <div class="card-action card-tabs mb-3">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item " *ngFor="let branch of branchs;let i = index" >
+                                        <a class="nav-link active bg-info" data-bs-toggle="tab" href="/my-wallets.html#a{{i+1}}" role="tab">
+                                           {{branch.name}}
+                                        </a>
+                                    </li>
+                                  
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body tab-content p-0">
+                            <div class="tab-pane active show fade" id="a1" role="tabpanel">
+                                <div class="table-responsive">
+                                    <table class="table table-sm mb-0 table-responsive student-tbl">
+                                        <tbody>
+                                            <tr *ngFor='let transaction of transactions$ | async,let i = index'  [hidden]=" i>4">
+                                                <td>
+                                                    <span class="activity-icon">
+                                                        <svg width="15" height="27" viewBox="0 0 15 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5.9375 6.232L5.9375 24.875C5.9375 25.6689 6.58107 26.3125 7.375 26.3125C8.16892 26.3125 8.8125 25.6689 8.8125 24.875L8.8125 6.23202L11.2311 8.66232L11.2311 8.66234C11.7911 9.22504 12.7013 9.2272 13.264 8.66718C13.8269 8.10702 13.8288 7.19681 13.2689 6.63421L12.9145 6.98691L13.2689 6.63421L8.3939 1.73558L8.38872 1.73037L8.38704 1.72878C7.82626 1.17281 6.92186 1.17469 6.36301 1.72877L6.36136 1.73033L6.35609 1.73563L1.48109 6.63426L1.48108 6.63426C0.921124 7.19695 0.9232 8.10709 1.48597 8.6672C2.04868 9.22725 2.95884 9.22509 3.51889 8.66239L3.51891 8.66236L5.9375 6.232Z" fill="#363062" stroke="#363062"/>
+                                                        </svg>
+                                                       
+                                                    </span>
+                                                </td>
+                                              
+                                                <td>
+                                                    <span class="font-w600 text-black">{{transaction.status}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-black">{{transaction.createdAt}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="font-w600 text-black">{{transaction.amount}}</span>
+                                                </td>
+                                                <td><a class="btn-link text-light float-end" href="javascript:void(0);">{{transaction.status}}</a></td>
+                                            </tr>
+                                      
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>
+          
+            </div>
+        </div>
+    </div>

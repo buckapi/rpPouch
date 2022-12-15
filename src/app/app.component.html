@@ -1,0 +1,866 @@
+
+ <div id="wrapper">
+    <div id="content">
+    <app-header  ></app-header>
+    <router-outlet></router-outlet>
+        <div class="space-sticky"></div>          
+    </div>
+        <footer class="un-bottom-navigation filter-blur" [hidden]="router.url.includes('/login') || router.url.includes('/member') || router.url.includes('/ticketsuccess') ">
+            <div class="em_body_navigation border-0 -active-links">
+                <div class="item_link" >
+                    <a [routerLink]="['estilistas']"class="btn btn_navLink" aria-label="btnNavigation">
+                        <div class="icon_current" >
+                            <i class="ri-file-user-line " [ngStyle]="{'color': router.url.includes('/estilistas')  ? 'blue' : 'black'}"></i>
+                        </div>
+                        <div class="icon_active">
+                            <i class="ri-file-user-fill" [ngStyle]="{'color': router.url.includes('/estilistas') ? 'blue' : 'black'}"></i>
+                        </div>
+                    </a>
+                </div>
+              <div class="item_link">
+                    <button type="button" name="uploadItem" aria-label="uploadItem" disabled [hidden]="router.url.includes('estilistas') || router.url.includes('specialties')|| router.url.includes('services')"
+                        class="btn btn_navLink without_active" data-bs-toggle="modal" data-bs-target="#mdllUploadItem" 
+                        aria-label="btnNavigation">
+                        <div class="btn btnCircle_default">
+                            <i class="ri-add-line"></i>
+                        </div>
+                    </button>
+                    <button (click)="openModal(1)" type="button" name="uploadItem" aria-label="uploadItem"  [hidden]="!router.url.includes('estilistas') ||router.url.includes('specialties')"
+                        class="btn btn_navLink without_active" data-bs-toggle="modal" data-bs-target="#mdllUploadItem"
+                        aria-label="btnNavigation">
+                        <div class="btn btnCircle_default">
+                            <i class="ri-add-line"></i>
+                        </div>
+                    </button>
+                    <button (click)="openModal(3)" type="button" name="uploadItem" aria-label="uploadItem"  [hidden]="!router.url.includes('specialties')"
+                        class="btn btn_navLink without_active" data-bs-toggle="modal" data-bs-target="#mdllUploadItem"
+                        aria-label="btnNavigation">
+                        <div class="btn btnCircle_default">
+                            <i class="ri-add-line"></i>
+                        </div>
+                    </button>  
+                     <button (click)="openModal(4)" type="button" name="uploadItem" aria-label="uploadItem"  [hidden]="!router.url.includes('services')"
+                        class="btn btn_navLink without_active" data-bs-toggle="modal" data-bs-target="#mdllUploadItem"
+                        aria-label="btnNavigation">
+                        <div class="btn btnCircle_default">
+                            <i class="ri-add-line"></i>
+                        </div>
+                    </button>
+                </div>
+                <div class="item_link"  >
+                    <a [routerLink]="['/tickets']"class="btn btn_navLink" aria-label="btnNavigation">
+                        <div class="icon_current" >
+                            <i class="ri-todo-line " [ngStyle]="{'color': router.url.includes('/tickets') ? 'blue' : 'black'}"></i>
+                        </div>
+                        <div class="icon_active">
+                            <i class="ri-todo-fill" [ngStyle]="{'color': router.url.includes('/tickets')  ? 'blue' : 'black'}"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="modal transition-bottom screenFull defaultModal mdlladd__rate fade" id="mdllUploadItem" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" >
+            <div class="modal-content" >
+                <div class="modal-header" >
+                    <h1 class="title-modal" [hidden]="_butler.modalOption!=1">Agregar estilista</h1>
+                    <h1 class="title-modal" [hidden]="_butler.modalOption!=2">Nuevo ticket</h1>
+                    <h1 class="title-modal" [hidden]="_butler.modalOption!=3">Nueva especialidad</h1>
+                    <h1 class="title-modal" [hidden]="_butler.modalOption!=4">Nuevo servicio</h1>
+                    <button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ri-close-fill"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="stylist" (ngSubmit)="sendStylist()">
+                        <div class="content-upload-item text-center" [hidden]="_butler.modalOption!=1">
+                            <p>
+                             <span></span>
+                            </p>
+                            <div class="grid_buttonUpload">
+                                <div class="row">     
+                                    <div class="col-md-6">
+                                
+                                  <!--   <source srcset="assets/assetsryal/images/work.webp" type="image/webp"> -->
+                                    <img class="big-image" src="assets/assetsryal/work.png" alt="" style="border-radius:50%;width:50%;">
+                      
+                                         <!--  <ngx-awesome-uploader class="fondo" #uploader [adapter]="adapter" [enableCropper]="true"     [captions]="captions">
+                                    </ngx-awesome-uploader > -->
+                                    </div>
+                                    <div class="col-md-6" style="padding-top: 3%;">
+                                        <div class="form-group">
+                                             <label>Nombre</label>
+                                            <input  class="form-control"  upperCase  type="text"
+                                            placeholder="Nombre del estilista" 
+                                            formControlName="name"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': submittedSpecialty && g['name'].errors }" 
+                                            
+                                            >
+                                        </div>
+                                        <div *ngIf="submittedSpecialty && g['name'].errors" class="invalid-feedback">
+                                            <div *ngIf="g['name'].errors['required']">Campo requerido</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Especialidad</label>
+                                            <select   #branchs class="form-control  " id="branch"  (change)="setBranch(branchs.value)" >
+                                                <option   [hidden]="branchsSelected"  >
+                                                    <span >
+                                                    Seleccione...  
+                                                    </span>
+                                                </option>
+                                                <option   *ngFor="let branch of _butler.branchs;let i = index"value="{{branch.name}}" [hidden]="branch.status!='active'">{{branch.name}}  </option>
+                                            </select>
+                                        </div>
+                                        <p></p>
+                                        <p></p>
+                                          <button disabled [hidden]="sendStylistFlag" type="submit"  class="btn btn-md-arrow bg-primary w-100" style="color:white;" data-bs-dismiss="modal" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Aceptar
+                                            <div class="ico">
+                                                <i class="ri-arrow-drop-right-line"></i>
+                                            </div>
+                                          </button>
+                                          <button [hidden]="!sendStylistFlag" type="submit"  class="btn btn-md-arrow bg-primary w-100" style="color:white;" data-bs-dismiss="modal" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Aceptar
+                                            <div class="ico">
+                                              <i class="ri-check-line"></i>
+                                            </div>
+                                          </button>
+                                    </div>
+                                </div>                  
+                            </div>
+                        </div> 
+                    </form>
+
+                    <form [formGroup]="specialty" (ngSubmit)="sendSpecialty()">
+                        <div class="content-upload-item text-center" [hidden]="_butler.modalOption!=3">
+                            <div class="grid_buttonUpload">
+                                <div class="row"> 
+                                    <div class="col-md-12">               
+                                        <p>
+                                            Nombre de la especialidad
+                                        </p>
+                                        <div class="form-group">
+                                            <input  class="form-control"  upperCase  type="text"
+                                            formControlName="name"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': submittedSpecialty && f['name'].errors }" 
+                                            style="margin-top:10%;" 
+                                            >
+                                        </div>
+                                        <div *ngIf="submittedSpecialty && f['name'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['name'].errors['required']">Campo requerido</div>
+                                        </div>
+                                        <p></p>
+                                        <button type="submit"  class="btn btn-md-arrow bg-primary w-100" style="color:white;" data-bs-dismiss="modal" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Aceptar
+
+                                            <div class="ico">
+                                                <i class="ri-check-line"></i>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </form>
+                    <form [formGroup]="service" (ngSubmit)="sendService()">
+                        <div class="content-upload-item text-center" [hidden]="_butler.modalOption!=4">
+                            <div class="grid_buttonUpload">
+                                <div class="row"> 
+                                    <div class="col-md-12">               
+                                        <p>
+                                            Nombre del servicio
+                                        </p>
+                                        <div class="form-group">
+                                            <input  class="form-control"  upperCase  type="text"
+                                            formControlName="name"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': submittedService && h['name'].errors }" 
+                                            style="margin-top:10%;" 
+                                            >
+                                        </div>
+                                        <div *ngIf="submittedService && h['name'].errors" class="invalid-feedback">
+                                            <div *ngIf="h['name'].errors['required']">Campo requerido</div>
+                                        </div>
+                                        <p></p>
+                                         <p>
+                                        </p>
+                                        <div class="form-group">
+                                            <input  class="form-control"  upperCase  type="number"
+                                            formControlName="basePrice"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': submittedService && h['basePrice'].errors }" 
+                                            style="margin-top:10%;" 
+                                            >
+                                        </div>
+                                        <div *ngIf="submittedService && h['basePrice'].errors" class="invalid-feedback">
+                                            <div *ngIf="h['basePrice'].errors['required']">Campo requerido</div>
+                                        </div>
+                                        <p></p>
+                                        
+                                        <button type="submit"  class="btn btn-md-arrow bg-primary w-100" style="color:white;" data-bs-dismiss="modal" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Aceptar
+
+                                            <div class="ico">
+                                               <i class="ri-check-line"></i>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                   
+                        <div class="content-upload-item text-center" [hidden]="_butler.modalOption!=5">
+                            <div class="grid_buttonUpload">
+                                <div class="row"> 
+                                    <div class="col-md-12">               
+                                        <p>
+                                            Seguro desea borrar la especialidad: 
+                                            <strong>
+                                                
+                                            {{_butler.specialtyToDelete.name}} 
+                                            </strong>
+                                            ?
+                                        </p>
+                                     
+                                      
+                                        <button type="submit" (click)="deleteSpecialty()" class="btn btn-md-arrow bg-danger w-100" style="color:white;" data-bs-dismiss="modal" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Borrar
+
+                                            <div class="ico">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="content-upload-item text-center" [hidden]="_butler.modalOption!=6">
+                            <div class="grid_buttonUpload">
+                                <div class="row"> 
+                                    <div class="col-md-12">               
+                                        <p>
+                                            Seguro desea borrar el servicio: 
+                                            <strong>
+                                                
+                                            {{_butler.serviceToDelete.name}} 
+                                            </strong>
+                                            ?
+                                        </p>
+                                        <button type="submit" (click)="deleteService()" class="btn btn-md-arrow bg-danger w-100" style="color:white;" data-bs-dismiss="modal" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Borrar
+                                            <div class="ico">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="content-upload-item text-center" [hidden]="_butler.modalOption!=7">
+                            <div class="grid_buttonUpload">
+                                <div class="row"> 
+                                    <div class="col-md-12">               
+                                        <p>
+                                            Seguro desea borrar el estilista: 
+                                            <strong>
+                                                
+                                            {{_butler.stylistToDelete.name}} 
+                                            </strong>
+                                            ?
+                                        </p>
+                                        <button type="submit" (click)="deleteStylist()" class="btn btn-md-arrow bg-danger w-100" style="color:white;" data-bs-dismiss="modal" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Borrar
+                                            <div class="ico">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                </div>
+                <div class="modal-footer border-0">
+                    <div class="env-pb"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal transition-bottom screenFull defaultModal mdlladd__rate fade" id="mdllAddETH" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="title-modal">Ventas y cierre de caja</h1>
+                    <button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ri-close-fill"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="content-upload-item">
+         
+                        <div class="un-navMenu-default margin-t-30 p-0">
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-3">
+                                    <a class="nav-link effect-click" href="javascript: void(0)">
+                                        <div class="item-content-link">
+                                            <div class="icon color-text w-auto">
+                                                <i class="ri-exchange-box-line"></i>
+                                            </div>
+                                            <h3 class="link-title">Listado de cierres</h3>
+                                        </div>
+                                        <div class="other-cc">
+                                            <span class="badge-text"></span>
+                                            <div class="icon-arrow">
+                                                <i class="ri-arrow-drop-right-line"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-0">
+                                    <a class="nav-link effect-click" href="javascript: void(0)">
+                                        <div class="item-content-link">
+                                            <div class="icon color-text w-auto">
+                                                <i class="ri-bank-card-line"></i>
+                                            </div>
+                                            <h3 class="link-title">Procesar cierre de ventas del dia</h3>
+                                        </div>
+                                        <div class="other-cc">
+                                            <span class="badge-text"></span>
+                                            <div class="icon-arrow">
+                                                <i class="ri-arrow-drop-right-line"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer border-0">
+                    <div class="env-pb"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal sidebarMenu -left fade" id="mdllSidebar-connected" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header d-block pb-1">
+                    <div class="un-user-profile">
+                        <div class="image_user">
+                            <picture>
+                                <source srcset="assets/assetsryal/images/avatar/11.webp" type="image/webp">
+                                <img src="assets/assetsryal/images/avatar/11.jpg" alt="image">
+                            </picture>
+                        </div>
+                        <div class="text-user">
+                            <h3>Ryal POS</h3>
+                            <p>Salon Administrator</p>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ri-close-fill"></i>
+                    </button>
+
+                    <div class="cover-balance">
+                        <div class="un-balance">
+                            <div class="content-balance">
+                                <div class="head-balance">
+                                    <h4>Balance del dia</h4>
+                                    <a class="btn link-addBalance" data-bs-toggle="modal" data-bs-dismiss="modal"
+                                        data-bs-target="#mdllAddETH">
+                                        <i class="ri-eye-fill"></i>
+                                    </a>
+                                </div>
+                                <p class="no-balance">$ 389,650 </p>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm-size bg-white text-dark rounded-pill"
+                            data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#mdllUploadItem">
+                            Cerrar
+                        </button>
+                    </div>
+
+
+                </div>
+                <div class="modal-body">
+                    <ul class="nav flex-column -active-links">
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLink]="['/sumary']" data-bs-dismiss="modal">
+                                <div class="icon_current">
+                                         <i class="ri-home-3-line"></i>
+
+                                </div>
+                                <div class="icon_active">
+                                    <i class="ri-home-3-fill"></i>
+                                </div>
+                                <span class="title_link">Inicio</span>
+                            </a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLink]="['estilistas'] " data-bs-dismiss="modal">
+                                <div class="icon_current">
+                                         <i class="ri-file-user-line"></i>
+
+                                </div>
+                                <div class="icon_active">
+                                    <i class="ri-file-user-fill"></i>
+                                </div>
+                                <span class="title_link">Estilistas</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" >
+                                <div class="icon_current">
+                                    <i class="ri-pie-chart-line"></i>
+                                </div>
+                                <div class="icon_active">
+                                    <i class="ri-pie-chart-fill"></i>
+                                </div>
+                                <span class="title_link">Reportes</span>
+                            </a>
+                        </li>
+
+                        <label class="title__label"></label>
+                          <li class="nav-item">
+                            <a  class="nav-link" [routerLink]="['settings']" data-bs-dismiss="modal">
+                                <div class="icon_current">
+                                    <i class="ri-equalizer-line"></i>
+                                </div>
+                                <div class="icon_active">
+                                    <i class="ri-equalizer-fill"></i>
+                                </div>
+                                <span class="title_link">Ajustes</span>
+                            </a>
+                        </li>
+                             <li class="nav-item">
+                            <a [routerLink]="['/login']" class="nav-link" data-bs-dismiss="modal">
+                                <div class="icon_current">
+                                    <i class="ri-logout-box-r-line"></i>
+                                </div>
+                                <div class="icon_active">
+                                    <i class="ri-logout-box-r-fill"></i>
+                                </div>
+                                <span class="title_link">Salir</span>
+                            </a>
+                        </li>
+                    </ul>                    
+                </div>
+
+                <div class="modal-footer">
+                    <div class="em_darkMode_menu">
+                        <label class="text" for="switchDark">
+                            <h3>Modo Oscuro</h3>
+                        </label>
+                        <label class="switch_toggle toggle_lg theme-switch" for="switchDark">
+                            <input type="checkbox" class="switchDarkMode theme-switch" id="switchDark"
+                                aria-describedby="switchDark">
+                            <span class="handle"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal sidebarMenu -left --fullScreen modal-filter fade" id="mdllFilter" tabindex="-1"
+        aria-labelledby="sidebarMenuLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="title-modal">+ ticket {{_butler.stylistName}}</h1>
+                    <button type="button" class="btn btn-clear" (click)="back(1)"[hidden]="step==1">Atras</button>
+                    <button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ri-close-fill"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="grid_buttonUpload" [hidden]="step!=1">
+                        <div class="row">     
+                           
+                            <div class="col-md-6"  [hidden]="!adding">
+                                <form [formGroup]="addServiceForm" (ngSubmit)="addServ()">   
+                                    <div class="form-group">
+                                    <label>Agregar Servicio</label>
+                                    <select   #cards class="form-control  " id="card"  (change)="addService(cards.value)" >
+                                        <option   [hidden]="cardsSelected"  >
+                                            <span >
+                                            Seleccione...  
+                                            </span>
+                                        </option>
+                                        <option   *ngFor="let card of _butler.cards;let i = index"value="{{i}}" [hidden]="card.status!='active'">{{card.name}}  </option>
+                                    </select>
+                                    </div>
+                                    <div [hidden]="!onAdd">
+                                        
+                                    {{this._butler.serviceToAdd.name}} Precio sugerido: 
+            <span (click)="setPriceS()" style="cursor:pointer;color: blue;">
+                
+                                                {{this._butler.serviceToAdd.basePrice}} 
+            </span>
+                                    </div>
+                         
+                                    <p></p>
+                                    <input type="number" class="form-control"  [ngModelOptions]="{standalone: true}"  [(ngModel)]="ammount"
+                                        style="height: 5rem;width: 10rem;font-size: 2.3rem;" 
+                                        >
+                        
+                                    <p></p>
+                                     <p>
+                                       
+                                    </p>
+                                    <p></p>
+                                    <p></p>
+                                    <button disabled [hidden]="addTicketFlag" type="submit"  class="btn btn-md-arrow bg-success w-100" style="color:white;" data-bs-dismiss="modal" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Agregar
+                                    <div class="ico">
+                                        <i class="ri-add-line"></i>
+                                    </div>
+                                    </button>
+                                    <button [hidden]="!addTicketFlag || !onAdd || ammount==0" type="submit"  class="btn btn-md-arrow bg-success w-100" style="color:white;" style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Agregar
+                                    <div class="ico">
+                                      <i class="ri-arrow-drop-right-line"></i>
+                                    </div>
+                                    </button>
+                                </form>
+                            </div>
+                             <div class="col-md-6" [hidden]="empty">
+                                <p  [hidden]="empty">
+                                    
+                                Servicios agregados al ticket:
+                                </p>
+                                <p [hidden]="empty">Total: {{total}}</p>
+                                 <div class="content-list-sellers">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item" *ngFor="let service of ticketServices, let i = index " >
+                                            <div class="nav-link item-user-seller">
+                                                <a class="item-user-img"  style="  text-decoration: none !important;">
+                                                    <div class="txt-user">
+                                                        <h5> 
+                                                        </h5>
+                                                        <p >{{service.name}}
+                                                     </p>
+                                                    </div>
+                                                </a>
+                                                <div class="other-option" style="margin-right:2%; cursor: pointer;" (click)="remove(i)">
+                                                    <div class="color-text rounded-pill bg-snow btn-xs-size " >
+                                                        <i class="ri-delete-bin-fill text-danger" style="font-size: 1.3rem; margin-right: 10%; font-weight: initial;"> </i>
+                                                     {{service.ammount | number :'1.0'}}</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>                  
+                    </div>
+                    <div class="grid_buttonUpload" [hidden]="step!=2" style="padding-left: 25%;padding-right: 25%;">
+                        <div class="row">     
+                           
+                            <div class="col-md-12"  [hidden]="!adding">
+                                <form [formGroup]="addServiceForm" (ngSubmit)="addServ()">   
+                                    <div class="form-group">
+                                    <label>Metodo de pago <span style="color:red;" [hidden]="methodSelected">*</span><i  [hidden]="!methodSelected"class="ri-check-line " style="color:green;"></i></label>
+                                    <select   #methodSelect class="form-control  " id="methodSelect"  (change)="setMethod(methodSelect.value)" >
+                                        <option   [hidden]="methodSelected"  >
+                                            <span >
+                                            Seleccione...  
+                                            </span>
+                                        </option>
+                                        <option   *ngFor="let method of methods;let i = index"value="{{i}}" >{{method.name}}  </option>
+                                    </select>
+                                    </div>
+                                    <div [hidden]="!onAdd">
+                                        
+                                    {{this._butler.serviceToAdd.name}} Precio sugerido: {{this._butler.serviceToAdd.basePrice}} 
+                                    </div>
+                               <p (click)="setEqual()" style="cursor:pointer;" [hidden]="empty">Total a pagar: <span style="color:blue;">{{total  |  number :'1.0'}}</span></p>
+                           <div class="col-lg-4">
+                            <h4>Pago: </h4>
+                                        <input type="number" class="form-control"  [ngModelOptions]="{standalone: true}"  [(ngModel)]="pay"
+                                        style="height: 5rem;width: 10rem;font-size: 2.3rem;" 
+                                        >
+                                    </div>
+                                     
+                                 
+                                     <p>
+                                       
+                                    </p>
+                                    <p></p>
+                                    <p></p>
+                             
+                                    <h4 [hidden]="pay-total<0">Cambio: </h4>
+                                        <h1>
+                                            <span [hidden]="pay-total<0">{{pay-total |  number :'1.0'}}</span>
+                                        </h1>
+                                        <h4>Cliente: </h4>
+                                      <input type="text" class="form-control" placeholder="Nombre dle cliente" [ngModelOptions]="{standalone: true}"  [(ngModel)]="customer"
+                                        
+                                        >
+                                </form>
+                            </div>
+                   
+                        </div>                  
+                    </div>
+
+
+                </div>
+                <div class="modal-footer justify-content-center border-0 pt-2">
+    
+                    <button  [hidden]="!sendTicketFlag || empty || ticketListSize===0 || step!=1"
+
+                        (click)="next(2)"
+                     class="btn btn-md-arrow bg-primary w-100" style="color:white;"  style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Siguiente
+                    <div class="ico">
+                        <i class="ri-arrow-right-s-line"></i>
+                    </div>
+                    </button>
+                    <button disabled="" [hidden]="!sendTicketFlag || empty || ticketListSize===0 || step!=2  || pay-total>-1"
+
+                        (click)="next(3)"
+                     class="btn btn-md-arrow bg-primary w-100" style="color:white;"  style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Aceptar
+                    <div class="ico">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    </button>  
+                    <button  [hidden]="!sendTicketFlag || empty || ticketListSize===0 || step!=2 || !methodSelected || pay-total<0"
+data-bs-dismiss="modal"
+                        (click)="next(3)"
+                     class="btn btn-md-arrow bg-primary w-100" style="color:white;"  style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Aceptar
+                    <div class="ico">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="modal sidebarMenu -left --fullScreen modal-filter fade" id="mdllTicket" tabindex="-1"
+        aria-labelledby="sidebarMenuLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="title-modal" style="color:red;">Ticket # {{_butler.ticket.npedido}}</h1>
+                 
+                    <button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ri-close-fill"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="grid_buttonUpload" >
+                        <div class="row">     
+                           
+                        
+                             <div class="col-md-12" >
+                                
+                                <h2 >  Estilista:   
+                             <span style="font-weight: 100;" class="color-blue">
+                                 
+                                 {{_butler.ticket.stylist}} 
+                             </span>
+                                </h2>
+                               
+                                <h2 > Cliente: 
+                             <span style="font-weight: 100;" class="color-blue">
+                             {{_butler.ticket.customer}} 
+                             </span>
+                                 
+                                </h2>
+                                <h2>
+                                    
+                                Detalle:
+                                </h2>
+                                 <div class="content-list-sellers">
+                                    <ul class="nav flex-column">
+                                         <li class="nav-item"   style="height:3rem;">
+                                            <div class="nav-link item-user-seller">
+                                                <a class="item-user-img"  style="  text-decoration: none !important;">
+                                                    <div class="text-dark">
+                                                        <h5> 
+                                                             DESCRIPCION
+                                                        </h5>
+                                                        <p >
+                                                     </p>
+                                                    </div>
+                                                </a>
+                                                <div class="other-option text-dark" style="margin-right:2%; " >
+                                                  MONTO
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item" *ngFor="let service of _butler.ticket.ticketServices, let i = index "  style="height:3rem;">
+                                            <div class="nav-link item-user-seller">
+                                                <a class="item-user-img"  style="  text-decoration: none !important;">
+                                                    <div class="text-dark">
+                                                        <h5> 
+                                                            (1)
+                                                            {{service.name}}
+                                                        </h5>
+                                                        <p >
+                                                     </p>
+                                                    </div>
+                                                </a>
+                                                <div class="other-option" style="margin-right:2%; " >
+                                                    <div class="color-text rounded-pill bg-snow btn-xs-size " >
+                                                       
+                                                     {{service.ammount | number :'1.0'}}</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <p></p>
+                                <p></p>
+                                <p></p>
+                                <div style="justify-content: end; display: flex;">
+                                    <div style="width:30%;">
+                                        <h5>
+                                            
+                                    Total: 
+                                        </h5>
+                                </div>
+                                    <div style="width:20%; text-align: end;"> 
+                                        <span style="font-weight: 100;"class="color-blue">
+                                     {{_butler.ticket.total | number :'1.0'}}
+                                        </span>
+                                    </div>
+                                </div>
+                                 <div  style="justify-content: end; display: flex;">
+                                 <div style="width:30%;">
+                                        <h5>
+
+                                        Cobro:
+                                        </h5>
+                                </div>
+                                <div style="width:20%;text-align: end;"> 
+                                    <span style="font-weight: 100;"class="color-blue">
+                                 {{_butler.ticket.cobro | number :'1.0'}}
+                                    </span>
+                                </div>
+                                </div>
+                                 <div  style="justify-content: end; display: flex;" >
+                                 <div style="width:30%;">
+                                        <h5>
+
+                                        Cambio:
+                                        </h5>
+                                </div>
+                                <div style="width:20%;text-align: end;"> 
+                                    <span style="font-weight: 100;"class="color-blue">
+                                 {{_butler.ticket.cambio | number :'1.0'}}
+                                    </span>
+                                </div>
+                                </div>
+                                <p>
+     <button 
+             [routerLink]="['/ticketsuccess']"
+                     data-bs-dismiss="modal"
+          [hidden]="_butler.deviceType!='Escritorio'"
+                     
+                     class="btn btn-md-arrow border border-solid border-snow bg-black color-snow  w-100"   style="color:white; margin-top:10%; font-weight:900; justify-content: center;">Vista de impresion
+                    <div class="ico">
+                        <i class="ri-printer-line color-snow w-100"></i>
+                    </div>
+                    </button>
+                                </p>
+
+                            </div>
+                        </div>                  
+                    </div>
+                    <div class="grid_buttonUpload" [hidden]="step!=2" style="padding-left: 25%;padding-right: 25%;">
+                        <div class="row">     
+                           
+                            <div class="col-md-12"  [hidden]="!adding">
+                                <form [formGroup]="addServiceForm" (ngSubmit)="addServ()">   
+                                    <div class="form-group">
+                                    <label>Metodo de pago <span style="color:red;" [hidden]="methodSelected">*</span><i  [hidden]="!methodSelected"class="ri-check-line " style="color:green;"></i></label>
+                                    <select   #methodSelect class="form-control  " id="methodSelect"  (change)="setMethod(methodSelect.value)" >
+                                        <option   [hidden]="methodSelected"  >
+                                            <span >
+                                            Seleccione...  
+                                            </span>
+                                        </option>
+                                        <option   *ngFor="let method of methods;let i = index"value="{{i}}" >{{method.name}}  </option>
+                                    </select>
+                                    </div>
+                                    <div [hidden]="!onAdd">
+                                        
+                                    {{this._butler.serviceToAdd.name}} Precio sugerido: {{this._butler.serviceToAdd.basePrice}} 
+                                    </div>
+                               <p (click)="setEqual()" style="cursor:pointer;" [hidden]="empty">Total a pagar: <span style="color:blue;">{{total  |  number :'1.0'}}</span></p>
+                           <div class="col-lg-4">
+                            <h4>Pago: </h4>
+                                        <input type="number" class="form-control"  [ngModelOptions]="{standalone: true}"  [(ngModel)]="pay"
+                                        style="height: 5rem;width: 10rem;font-size: 2.3rem;" 
+                                        >
+                                    </div>
+                                     
+                                 
+                                     <p>
+                                       
+                                    </p>
+                                    <p></p>
+                                    <p></p>
+                             
+                                    <h4 [hidden]="pay-total<0">Cambio: </h4>
+                                        <h1>
+                                            <span [hidden]="pay-total<0">{{pay-total |  number :'1.0'}}</span>
+                                        </h1>
+                                        <h4>Cliente: </h4>
+                                      <input type="text" class="form-control" placeholder="Nombre dle cliente" [ngModelOptions]="{standalone: true}"  [(ngModel)]="customer"
+                                        
+                                        >
+                                </form>
+                            </div>
+                   
+                        </div>                  
+                    </div>
+
+
+                </div>
+                <div class="modal-footer justify-content-center border-0 pt-2">
+    
+                    <button  [hidden]="!sendTicketFlag || empty || ticketListSize===0 || step!=1"
+
+                        (click)="next(2)"
+                     class="btn btn-md-arrow bg-primary w-100" style="color:white;"  style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Siguiente
+                    <div class="ico">
+                        <i class="ri-arrow-right-s-line"></i>
+                    </div>
+                    </button>
+                    <button disabled="" [hidden]="!sendTicketFlag || empty || ticketListSize===0 || step!=2  || pay-total>-1"
+
+                        (click)="next(3)"
+                     class="btn btn-md-arrow bg-primary w-100" style="color:white;"  style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Aceptar
+                    <div class="ico">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    </button>  
+                    <button  [hidden]="!sendTicketFlag || empty || ticketListSize===0 || step!=2 || !methodSelected || pay-total<0" 
+                     data-bs-target="#mdllTicket" 
+                     data-bs-dismiss="modal"
+                     (click)="next(3)"
+                     
+                     class="btn btn-md-arrow bg-primary w-100" style="color:white;"  style="margin-top:10%;color:white; font-weight:900; justify-content: center;">Aceptar
+                    <div class="ico">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="d-flex justify-content-center">
+        <div class="toast status-connection" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    </div>

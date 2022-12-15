@@ -1,0 +1,200 @@
+    
+<div class="checkout__page--area section--padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-6">
+                <div class="main checkout__mian">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="checkout__content--step section__contact--information">
+                            <div class="section__header checkout__section--header d-flex align-items-center justify-content-between mb-25">
+                                 <!-- <a class="previous__link--content" [routerLink]="['../cart']">< Volver al carro</a> -->
+                                <h2 class="section__header--title h3">Información de contacto</h2>
+                                <p class="layout__flex--item">
+                                    ya tienes una cuenta?
+                                    <a class="layout__flex--item__link" [routerLink]="['../login']" >Inicia session</a>  
+                                </p>
+                            </div>
+                            <div class="customer__information">
+                                <div class="checkout__email--phone mb-12">
+                                    <label>
+                                       <input  class="checkout__input--field border-radius-5"  upperCase  type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+                                        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['email'].errors['required']">Campo requerido
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="checkout__email--phone mb-12">
+                                    <label>
+                                        <input type="password" class="checkout__input--field border-radius-5" id="password" formControlName="password" placeholder="*******"  [(ngModel)]="user.password" 
+                                            [ngClass]="{ 'is-invalid': submitted && f['password'].errors}" required>
+                                        <div *ngIf="submitted && f['password'].errors"class="invalid-feedback">
+                                            <div ngClass="f['password'].errors.required">
+                                            La contraseña es requerida.
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <div class="checkout__checkbox">
+                                    <input class="checkout__checkbox--input" id="check1" type="checkbox">
+                                    <span class="checkout__checkbox--checkmark"></span>
+                                    <label class="checkout__checkbox--label" for="check1">Acepto los términos y condiciones</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout__content--step section__shipping--address">
+                            <div class="section__header mb-25">
+                                <h2 class="section__header--title h3">Detalles de cuenta</h2>
+                            </div>
+                            <div class="section__shipping--address__content">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 mb-20">
+                                        <div class="checkout__input--list ">
+                                            <label class="checkout__input--label mb-5" for="input1">Nombres <span class="checkout__input--label__star">*</span></label>
+                                            <input class="checkout__input--field border-radius-5" placeholder="Nombres " id="input1"  type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 mb-20">
+                                        <div class="checkout__input--list">
+                                            <label class="checkout__input--label mb-5" for="input2">Apellidos <span class="checkout__input--label__star">*</span></label>
+                                            <input class="checkout__input--field border-radius-5" placeholder="Apellidos" id="input2"  type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-20">
+                                        <div class="checkout__input--list">
+                                            <label class="checkout__input--label mb-5" for="input3">Cédula de ciudadanía <span class="checkout__input--label__star">*</span></label>
+                                            <input class="checkout__input--field border-radius-5" placeholder="Cédula de ciudadanía" id="input3" type="text">
+                                        </div>
+                                    </div>
+                                 
+                                     <div class="col-lg-6 mb-20">
+                                        <div   class=" checkout__input--lis" >
+                                            <label class="checkout__input--label mb-5" for="country">Provincia <span class="checkout__input--label__star">*</span></label>
+                                               
+                                            <div class="checkout__input--select select">
+                                                <select   #loations class="form-control checkout__input--select__field border-radius-5 list " id="province"  (change)="setProv(loations.value)" >
+
+                                                    <option   [hidden]="provSelected"  >
+                                                    <span >
+                                                    Seleccione...  
+                                                    </span>
+
+                                                </option>
+                                                    <option   *ngFor="let location of locations;let i = index"value="{{i}}">{{location.prov}}  </option>
+                                                  
+                                                </select>
+                                            </div>   
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-6 mb-20">
+                                        <div   class="form-group"  [hidden]="!provSelected">
+                                             <label class="checkout__input--label mb-5" for="country">Ciudad <span class="checkout__input--label__star">*</span></label>
+                                             <div class="checkout__input--select select" >
+                                                <select (change)="setCity(citiesH.value)" class="form-control checkout__input--select__field border-radius-5 list" id="city"   *ngIf="locations[indexProvincia]!=undefined"     #citiesH >
+                                                     <option   [hidden]="cityObjSelected"  >
+                                                    <span >
+                                                    Seleccione...  
+                                                    </span>
+                                                    </option >
+                                                    <option   *ngFor="let city of locations[indexProvincia].cities ;let i = index"  value="{{i}}">{{city.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-12 mb-20">
+                                        <div class="checkout__input--list">
+                                            <input class="checkout__input--field border-radius-5" placeholder="Apartamento, suite, etc."  type="text">
+                                        </div>
+                                    </div>
+                                    <div class="checkout__checkbox">
+                                        <input class="checkout__checkbox--input" id="check1" type="checkbox">
+                                        <span class="checkout__checkbox--checkmark"></span>
+                                        <label class="checkout__checkbox--label" for="check1">Retirar en oficina transportadora</label>
+                                    </div>
+                                    <div class="checkout__checkbox">
+                                        <input class="checkout__checkbox--input" id="check1" type="checkbox">
+                                        <span class="checkout__checkbox--checkmark"></span>
+                                        <label class="checkout__checkbox--label" for="check1">Enviar a domicilio</label>
+                                    </div>
+                                </div>
+                            </div>
+ 
+                        </div>
+                        <div class="order-notes mb-20">
+                            <label class="checkout__input--label mb-5" for="order">Notas </label>
+                           <textarea class="checkout__notes--textarea__field border-radius-5" id="order" placeholder="Notes sobre su orden, por ejemplo detalles o puntos de referencia para el envio" spellcheck="false"></textarea>
+                        </div>
+                        <div class="checkout__content--step__footer d-flex align-items-center">
+                        
+                           
+                        </div>
+                     <!--    <button class="payment__history--link primary__btn" type="submit">Continuar</button> -->
+                        <button _ngcontent-pfm-c79="" type="submit" class="checkout__now--btn primary__btn">Continuar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-6" [hidden]="!submitted">
+                <aside class="checkout__sidebar sidebar border-radius-10">
+                    <h2 class="checkout__order--summary__title text-center mb-15">Resúmen de orden</h2>
+                    <div class="cart__table checkout__product--table">
+                        <table class="cart__table--inner">
+                            <tbody class="cart__table--body">
+                                <tr class="cart__table--body__items" *ngFor="let product of _butler.car; let index = index ">
+                                    <td class="cart__table--body__list">
+                                        <div class="product__image two  d-flex align-items-center">
+                                            <div class="product__thumbnail border-radius-5">
+                                                <a class="display-block" ><img class="display-block border-radius-5" src="{{product.images[0]}}" alt="cart-product"></a>
+                                                <span class="product__thumbnail--quantity">1</span>
+                                            </div>
+                                            <div class="product__description">
+                                                <h4 class="product__description--name"><a >{{product.name}}</a></h4>
+                                                <span class="product__description--variant">{{product.quantity}} x {{product.price}}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__table--body__list">
+                                        <span class="cart__price">$ {{product.price* product.quantity | number :'1.2-2'}}</span>
+                                    </td>
+                                </tr>
+                              
+                            </tbody>
+                        </table> 
+                    </div>
+                    <div class="checkout__total">
+                        <table class="checkout__total--table">
+                            <tbody class="checkout__total--body">
+                                <tr class="checkout__total--items">
+                                    <td class="checkout__total--title text-left">Subtotal </td>
+                                    <td class="checkout__total--amount text-right">${{_butler.subTotal}}</td>
+                                </tr>
+                                <tr class="checkout__total--items">
+                                    <td class="checkout__total--title text-left">Envio</td>
+                                    <td class="checkout__total--calculated__text text-right">${{fee}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="checkout__total--footer">
+                                <tr class="checkout__total--footer__items">
+                                    <td class="checkout__total--footer__title checkout__total--footer__list text-left">Total </td>
+                                    <td class="checkout__total--footer__amount checkout__total--footer__list text-right">${{_butler.subTotal+fee}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="payment__history mb-30">
+                        <h3 class="payment__history--title mb-20">Métodos de pago</h3>
+                        <ul class="payment__history--inner d-flex">
+                            <li class="payment__history--list"><button class="payment__history--link primary__btn" type="submit">Transferencia</button></li>
+                            <li class="payment__history--list"><button class="payment__history--link primary__btn" type="submit">BinancePAY</button></li>
+                            <li class="payment__history--list"><button class="payment__history--link primary__btn" type="submit">Payphone</button></li>
+                     
+                        </ul>
+                    </div>
+                    <button class="checkout__now--btn primary__btn" type="submit">Pagar ahora</button>
+                </aside>
+            </div>
+            
+        </div>
+    </div>
+</div>

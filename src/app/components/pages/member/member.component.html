@@ -1,0 +1,119 @@
+             <div class="space-sticky"></div>
+ <section class="un-creator-ptofile">
+                <!-- head -->
+                <div class="head">
+                    <div class="cover-image">
+                        <picture>
+                            <source srcset="assets/assetsryal/images/other/20.webp" type="image/webp">
+                            <img src="assets/assetsryal/images/other/20.jpg" alt="cover image">
+                        </picture>
+                    </div>
+                    <div class="text-user-creator">
+                        <div class="d-flex align-items-center">
+                            <div class="user-img">
+                                <picture>
+                                    <source srcset="{{_butler.preview.images[0]}}" type="image/webp">
+                                    <img src="{{_butler.preview.images[0]}}" alt="creator image">
+                                </picture>
+                                <i class="ri-checkbox-circle-fill"></i>
+                            </div>
+                            <div class="text">
+                                <h3>{{_butler.preview.name}}</h3>
+                                <p>{{_butler.preview.ategoria}}</p>
+                            </div>
+                        </div>
+                        <button type="button" (click)="delete()" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#mdllUploadItem" class="btn btn-copy-address mt-3">
+                            
+                                <i class="ri-delete-bin-fill text-danger"></i>
+                         
+                        </button>
+                    </div>
+                </div>
+                <!-- body -->
+                <div class="body">
+                    <div class="item-followers">
+                        <!-- <div class="users-text">
+                            <p>Followed by 2,5K</p>
+                            <div class="img-user">
+                                <picture>
+                                    <source srcset="assets/assetsryal/images/avatar/18.webp" type="image/webp">
+                                    <img src="assets/assetsryal/images/avatar/18.jpg" alt="image">
+                                </picture>
+                                <picture>
+                                    <source srcset="assets/assetsryal/images/avatar/1.webp" type="image/webp">
+                                    <img src="assets/assetsryal/images/avatar/1.jpg" alt="user">
+                                </picture>
+                                <picture>
+                                    <source srcset="assets/assetsryal/images/avatar/12.webp" type="image/webp">
+                                    <img src="assets/assetsryal/images/avatar/12.png" alt="image">
+                                </picture>
+                                <picture>
+                                    <source srcset="assets/assetsryal/images/avatar/13.webp" type="image/webp">
+                                    <img src="assets/assetsryal/images/avatar/13.jpg" alt="image">
+                                </picture>
+                                <picture>
+                                    <source srcset="assets/assetsryal/images/avatar/4.webp" type="image/webp">
+                                    <img src="assets/assetsryal/images/avatar/4.jpg" alt="image">
+                                </picture>
+                                <picture>
+                                    <source srcset="assets/assetsryal/images/avatar/14.webp" type="image/webp">
+                                    <img src="assets/assetsryal/images/avatar/14.jpg" alt="image">
+                                </picture>
+
+                                <a href="page-followers.html" class="link">+1K</a>
+                            </div>
+                        </div> -->
+                        <a 
+                            class="btn btn-md-size text-white btn-edit-profile rounded-pill">
+                            {{_butler.preview.categoria}}
+                        </a>
+                    </div>
+                    <div class="statistics">
+                        <div class="text-grid">
+                            <h4>5 </h4>
+                            <p>Hoy</p>
+                        </div>
+                        <div class="text-grid">
+                            <h4>23</h4>
+                            <p>Semana</p>
+                        </div>
+                        <div class="text-grid">
+                            <h4>54</h4>
+                            <p>Mes</p>
+                        </div>
+
+                    </div>
+                    <div class="description">
+                        <p>
+                            A coninuacion un listado de cada ticket de servicio
+                            <a class="read-more" data-bs-toggle="modal" data-bs-target="#mdllBioDetails"></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="tab-creatore-profile">
+                    <ul class="nav nav-pills nav-pilled-tab w-100" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-Items-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-Items" type="button" role="tab" aria-controls="pills-Items"
+                                aria-selected="true">Servicios prestados</button>
+                        </li>
+                        <!-- <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-Selling-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-Selling" type="button" role="tab" aria-controls="pills-Selling"
+                                aria-selected="false">Selling</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-Created-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-Created" type="button" role="tab" aria-controls="pills-Created"
+                                aria-selected="false">Created</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-Liked-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-Liked" type="button" role="tab" aria-controls="pills-Liked"
+                                aria-selected="false">Liked</button>
+                        </li> -->
+                    </ul>
+
+
+                </div>
+            </section>
