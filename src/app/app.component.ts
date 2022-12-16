@@ -20,12 +20,26 @@ import { DataService } from '@app/services/data.service';
 import { DataApiService } from '@app/services/data-api.service'; 
 import * as $ from 'jquery';
 import { ChangeDetectorRef } from '@angular/core';
+import { StylistService } from "@services/stylist.service";
+//import { FriendService } from "@services/friend.service";
+import { PouchDBService } from "@services/pouchdb.service";
+import { IStylist } from "@app/services/stylist.service";
+interface IAddForm {
+  name: string;
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
+   public addForm: IAddForm;
+  public stylists: IStylist[];
+  public user: any;
+
+  private stylistService: StylistService;
+  private pouchdbService: PouchDBService;
+   pouchdb: any;
   ticket:any={
     npedido:''
   }
@@ -91,6 +105,9 @@ branchs$:any;
     ammount=0;
     total=0;
     step=1;
+
+
+
     public    setPriceS(){
       // this.methodSelected=true;
       this.ammount=this._butler.serviceToAdd.basePrice;
@@ -245,8 +262,18 @@ branchs$:any;
     public _butler:Butler,
     public router:Router,
     private elementRef: ElementRef,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+       stylistService: StylistService,
+      pouchdbService: PouchDBService
   ){
+     this.stylistService = stylistService;
+      this.pouchdbService = pouchdbService;
+  
+      this.addForm = {
+        name: ""
+      };
+      this.stylists = [];
+      this.user = null;
     document.getElementById('modal1');
      this.script.load(     
       )
@@ -254,11 +281,30 @@ branchs$:any;
       })
       .catch(error => console.log(error));
   }
+  public login( userIdentifier: string ) : void {
+  this.pouchdbService.configureForUser( userIdentifier );
+  this.user = userIdentifier;
+  this.loadStylists();
+
+}
   public goAdding(){
     this.adding=true;
   }
   public delete(service:any){
   }
+  private loadStylists() : void {
+  this.stylistService
+    .getStylists()
+    .then(
+      ( stylists: IStylist[] ) : void => {
+        this.stylists = this.stylistService.sortStylistsCollection( stylists );
+      },
+      ( error: Error ) : void => {
+        console.log( "Error", error );
+      }
+    )
+  ;
+}
 
   public setBranch(name:any){
     console.log('dato: '+name);
@@ -335,12 +381,31 @@ branchs$:any;
     this.itemStylisty.images=this.images;
     this.itemStylisty.status="active";
     this.itemStylisty.categoria=this.branchSelected;
-       this.dataApiService.saveStylist(this.itemStylisty)
-   .subscribe((res:any) => {
+   //     this.dataApiService.saveStylist(this.itemStylisty)
+   // .subscribe((res:any) => {
+
+   //     this.toastSvc.success("Estilista agregado con exito!" );
+   //     this.router.navigate(['/sumary']);
+   //   });    
+
+ this.stylistService
+    .addStylist( this.itemStylisty )
+    .then(
+      ( id: string ) : void => {
+       // console.log( "New stylist added:", id );
+        //this.loadStylists();
+       // this.addForm.name = "";
 
        this.toastSvc.success("Estilista agregado con exito!" );
        this.router.navigate(['/sumary']);
-     });    
+      },
+      ( error: Error ) : void => {
+        console.log( "Error:", error );
+      }
+    )
+  ;
+
+
 }
 
    epicFunction() {
@@ -472,6 +537,7 @@ public loadBranchs(){
     });  
 }
   ngAfterViewInit(): void {
+    this.login('RyalPOS');
     this.stylist = this.formBuilder.group(
       {
         name: ['', Validators.required],

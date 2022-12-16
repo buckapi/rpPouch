@@ -26,7 +26,9 @@ import { FilePickerModule } from  'ngx-awesome-uploader';
 import { ClockModule } from './components/pages/home/clock/clock.module';
 //import { ClockComponent } from './components/pages/home/clock/clock.component';
 import { FormsModule, ReactiveFormsModule  } from "@angular/forms";
-
+import { StylistService } from "@services/stylist.service";
+import { FriendService } from "@services/friend.service";
+import { PouchDBService } from "@services/pouchdb.service";
 @NgModule({ 
   declarations: [
     AppComponent,
@@ -61,8 +63,12 @@ import { FormsModule, ReactiveFormsModule  } from "@angular/forms";
       preventDuplicates: true,
     })
   ],
+
   providers: [
-    Butler
+    Butler,
+    StylistService,
+    FriendService,
+    PouchDBService
   ],
   bootstrap: [AppComponent]
 })

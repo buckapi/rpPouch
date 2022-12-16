@@ -12,18 +12,15 @@ import { SwiperOptions } from 'swiper';
 import { DealInterface } from '@app/interfaces/deal';
 import { ChangeDetectorRef } from '@angular/core';
 import { CapitalizeFirstPipe } from '@pipes/capitalizefirst.pipe';
-import { FriendService } from "@app/services/friend.service";
-import { IFriend } from "@app/services/friend.service";
+import { StylistService } from "@app/services/stylist.service";
+import { IStylist } from "@app/services/stylist.service";
 import { PouchDBService } from "@app/services/pouchdb.service";
 
 interface IAddForm {
   name: string;
 }
-
-    //import * as $ from 'jquery';
    declare var $: any;
 @Component({
-
   moduleId: module.id,
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -31,10 +28,9 @@ interface IAddForm {
 })
 export class ShopComponent implements AfterViewInit {
   public addForm: IAddForm;
-  public friends: IFriend[];
+  public stylists: IStylist[];
 	public user: any;
-
-	private friendService: FriendService;
+	private stylistService: StylistService;
 	private pouchdbService: PouchDBService;
   pouchdb: any;
   members$: any;
@@ -62,20 +58,18 @@ export class ShopComponent implements AfterViewInit {
       public dataApiService: DataApiService,
       public _butler: Butler,
       public router:Router,
-      friendService: FriendService,
+      stylistService: StylistService,
       pouchdbService: PouchDBService
     ) { 
-      this.friendService = friendService;
+      this.stylistService = stylistService;
       this.pouchdbService = pouchdbService;
-  
       this.addForm = {
         name: ""
       };
-      this.friends = [];
+      this.stylists = [];
       this.user = null;
       //this.pouchdb = new PouchDB("pouchform");
-  this.categories=CATEGORIES
-
+      this.categories=CATEGORIES
     }
 
   openModalTicket(i:any,member:any){
@@ -90,66 +84,35 @@ export class ShopComponent implements AfterViewInit {
     this._butler.limit=9;
   }
 
-// inijio
-
-// I delete the given friend from the list.
-public deleteFriend( friend: IFriend ) : void {
-
-  this.friendService
-    .deleteFriend( friend.id )
+public deleteStylist( stylist: IStylist ) : void {
+  this.stylistService
+    .deleteStylist( stylist.id )
     .then(
       () : void => {
-
-        this.loadFriends();
-
+        this.loadStylists();
       },
       ( error: Error ) : void => {
-
         console.log( "Error:", error );
-
       }
     )
   ;
-
 }
-
-
-// I login the user with the given identifier. 
 public login( userIdentifier: string ) : void {
-
-  // Now that a new user is logging in, we want to teardown any existing PouchDB
-  // database and reconfigure a new PouchDB database for the given user. This way,
-  // each user gets their own database in our database-per-user model.
-  // --
-  // CAUTION: For simplicity, this is in the app-component; but, it should probably 
-  // be encapsulated in some sort of "session" service.
   this.pouchdbService.configureForUser( userIdentifier );
   this.user = userIdentifier;
-
-  // Once the new database is configured (synchronously), load the user's friends.
-  this.loadFriends();
+  this.loadStylists();
 
 }
 
 
-// I log the current user out.
 public logout() : void {
-
-  // When logging the user out, we want to teardown the currently configured 
-  // PouchDB database. This way, we can ensure that rogue asynchronous actions
-  // aren't going to accidentally try to interact with the database.
-  // --
-  // CAUTION: For simplicity, this is in the app-component; but, it should probably 
-  // be encapsulated in some sort of "session" service.
   this.pouchdbService.teardown();
   this.user = null;
-
-  this.friends = [];
+  this.stylists = [];
 
 }
 
 
-// I process the "add" form, creating a new friend with the given name.
 public processAddForm() : void {
   this.addForm.name='juan';
   console.log('agregando' +this.addForm.name);
@@ -159,55 +122,33 @@ public processAddForm() : void {
 
   }
 
-  this.friendService
-    .addFriend( this.addForm.name )
+  this.stylistService
+    .addStylist( this.addForm.name )
     .then(
       ( id: string ) : void => {
-
-        console.log( "New friend added:", id );
-
-        this.loadFriends();
+        console.log( "New stylist added:", id );
+        this.loadStylists();
         this.addForm.name = "";
-
       },
       ( error: Error ) : void => {
-
         console.log( "Error:", error );
-
       }
     )
   ;
-
 }
 
-
-// ---
-// PRIVATE METHODS.
-// ---
-
-
-// I load the persisted friends collection into the list.
-private loadFriends() : void {
-
-  this.friendService
-    .getFriends()
+private loadStylists() : void {
+  this.stylistService
+    .getStylists()
     .then(
-      ( friends: IFriend[] ) : void => {
-
-        // NOTE: Since the persistence layer is not returning the data 
-        // in any particular order, we're going to explicitly sort the 
-        // collection by name.
-        this.friends = this.friendService.sortFriendsCollection( friends );
-
+      ( stylists: IStylist[] ) : void => {
+        this.stylists = this.stylistService.sortStylistsCollection( stylists );
       },
       ( error: Error ) : void => {
-
         console.log( "Error", error );
-
       }
     )
   ;
-
 }
 
 
@@ -226,10 +167,12 @@ private loadFriends() : void {
   }
 
   ngAfterViewInit(): void {
+    this.login('RyalPOS');
     this._butler.medio=true;
     this.categories$=this.dataApi.categories$;   
     this.cdRef.detectChanges();
-    this.loadFromRestUniversal();
+this.loadStylists();
+//    this.loadFromRestUniversal();
   }
 
   public loadFromRestUniversal(){

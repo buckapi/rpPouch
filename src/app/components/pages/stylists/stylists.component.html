@@ -1,62 +1,14 @@
-<!-- <div style="padding-top: 50%;">
-    <ul>
-        <li>
-            <a (click)="login( 'ben' )">Login as Ben</a>
-        </li>
-        <li>
-            <a (click)="login( 'kim' )">Login as Kim</a>
-        </li>
-    </ul>
-</div>
-<div >
-    <p>
-        <strong>Logged-in as {{ user }}</strong>.
-        <a (click)="logout()">Logout</a>.
-    </p>
-    <ul>
-        <li *ngFor="let stylist of stylists">
-            {{ stylist.name }} 
-            &mdash;
-            <a (click)="deleteStylist( stylist )">Delete</a>
-        </li>
-    </ul>
-    <div class="form">
-        <input 
-            type="text"
-            [value]="addForm.name"
-            (keydown.Enter)="processAddForm()" 
-        />
-        <button type="button" (click)="processAddForm()">Add stylist</button>
-    </div>
-</div>  -->
- <!-- ===================================
-              START THE HEADER
-            ==================================== -->
-            
-            <!-- ===================================
-              START THE SPACE STICKY
-            ==================================== -->
-            <div class="space-sticky"></div>
-            <!-- ===================================
-              START THE NFT SWIPER
-            ==================================== -->
-  
-            <!-- ===================================
-              START THE BEST SELLER
-            ==================================== -->
+<div class="space-sticky"></div>
             <section class="margin-t-20 unList-bestSeller">
                 <!-- un-title-default -->
                 <div class="un-title-default">
                     <div class="text">
                         <h2>Estilistas</h2>
                         <p>
-</p>
-                        Seleccione un estilista para ver el detalle o 
-
-<div class="color-text rounded-pill bg-snow btn-xs-size " >
-                                            <i class="ri-add-circle-fill text-primary" style="font-size: 1.3rem; margin-right: 10%; font-weight: initial;"> </i>
-                                            Ticket
-                                            </div>
+						</p>Seleccione un estilista para ver el detalle o 
+						<div class="color-text rounded-pill bg-snow btn-xs-size " >
+						    <i class="ri-add-circle-fill text-primary" style="font-size: 1.3rem; margin-right: 10%; font-weight: initial;"> </i> Ticket
+						</div>
                          registre un nuevo ticket de servicio
                     </div>
                     <div class="un-block-right">
@@ -72,11 +24,11 @@
                 <div class="discover-nft-random margin-t-20" [hidden]="!_butler.grid">
                     <div class="content-NFTs-body">
                         
-                        <a  class="item-sm-card-NFTs "  *ngFor="let stylist of stylists"  style="cursor: pointer;" >
+                        <a  class="item-sm-card-NFTs "  *ngFor="let stylist of stylists "  style="cursor: pointer;" >
                             <div class="cover-image">
                                 <picture  (click)="setPreview(stylist)">
                                     <source srcset="{{stylist.images[0]}}" type="image/webp">
-                                   <img class="big-image" src="{{stylist.images[0]}}" alt="">
+                                    <img class="big-image" src="{{stylist.images[0]}}" alt="">
                                 </picture>
                                 <div class="content-text">
                                     <div class="btn-like-click" style="background:none;" >
@@ -91,10 +43,10 @@
                                 </div>
                                 <div class="user-text">
                                     <div class="user-avatar">
-                                        <picture>
+                                     <!--    <picture>
                                             <source srcset="{{stylist.images[0]}}" type="image/webp">
                                             <img class="sm-user" src="{{stylist.images[0]}}" alt="">
-                                        </picture>
+                                        </picture> -->
                                         <span>{{stylist.categoria}}</span>
                                     </div>
                                     <div class="number-eth">
@@ -113,7 +65,7 @@
 
                 <div class="content-list-sellers"[hidden]="!_butler.list">
                     <ul class="nav flex-column">
-                        <li class="nav-item" *ngFor="let stylist of stylists" >
+                        <li class="nav-item" *ngFor="let stylist of stylists " >
                             <div class="nav-link item-user-seller">
                                 <a class="item-user-img"  (click)="setPreview(stylist)"  style="cursor: pointer;" >
                                     <picture>

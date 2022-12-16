@@ -36,6 +36,7 @@ const routes: Routes = [
 { path: 'settings', loadChildren: () => import('./components/pages/settings/settings.module').then(m => m.SettingsModule) },
 { path: 'tickets', loadChildren: () => import('./components/pages/tickets/tickets.module').then(m => m.TicketsModule) },
 { path: 'ticketsuccess', loadChildren: () => import('./components/pages/ticketsuccess/ticketsuccess.module').then(m => m.TicketsuccessModule) },
+{ path: 'stylists', loadChildren: () => import('./components/pages/stylists/stylists.module').then(m => m.StylistsModule) },
  { path:'**',pathMatch:'full',redirectTo:'home'}
 ];
 
