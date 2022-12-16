@@ -143,6 +143,7 @@ private loadStylists() : void {
     .then(
       ( stylists: IStylist[] ) : void => {
         this.stylists = this.stylistService.sortStylistsCollection( stylists );
+        this._butler.stylists= this.stylists ;
       },
       ( error: Error ) : void => {
         console.log( "Error", error );

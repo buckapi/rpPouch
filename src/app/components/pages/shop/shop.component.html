@@ -14,7 +14,7 @@
         <a (click)="logout()">Logout</a>.
     </p>
     <ul>
-        <li *ngFor="let stylist of stylists">
+        <li *ngFor="let stylist of _butler.stylists">
             {{ stylist.name }} 
             &mdash;
             <a (click)="deleteStylist( stylist )">Delete</a>
@@ -72,7 +72,7 @@
                 <div class="discover-nft-random margin-t-20" [hidden]="!_butler.grid">
                     <div class="content-NFTs-body">
                         
-                        <a  class="item-sm-card-NFTs "  *ngFor="let stylist of stylists"  style="cursor: pointer;" >
+                        <a  class="item-sm-card-NFTs "  *ngFor="let stylist of _butler.stylists"  style="cursor: pointer;" >
                             <div class="cover-image">
                                 <picture  (click)="setPreview(stylist)">
                                     <source srcset="{{stylist.images[0]}}" type="image/webp">
@@ -113,7 +113,7 @@
 
                 <div class="content-list-sellers"[hidden]="!_butler.list">
                     <ul class="nav flex-column">
-                        <li class="nav-item" *ngFor="let stylist of stylists" >
+                        <li class="nav-item" *ngFor="let stylist of _butler.stylists" >
                             <div class="nav-link item-user-seller">
                                 <a class="item-user-img"  (click)="setPreview(stylist)"  style="cursor: pointer;" >
                                     <picture>

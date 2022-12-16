@@ -10,16 +10,30 @@ import { ScriptStore } from '@app/services/script.store';
 import {CATEGORIES} from '@app/services/categories.service';
 import { SwiperOptions } from 'swiper';
 import { DealInterface } from '@app/interfaces/deal';
+
+import { ServiceService } from "@app/services/service.service";
+import { IService } from "@app/services/service.service";
+import { PouchDBService } from "@app/services/pouchdb.service";
+
     import { ChangeDetectorRef } from '@angular/core';
     import { CapitalizeFirstPipe } from '@pipes/capitalizefirst.pipe';
     //import * as $ from 'jquery';
    declare var $: any;
+   interface IAddForm {
+  name: string;
+}
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css']
 })
 export class ServicesComponent implements AfterViewInit {
+ public addForm: IAddForm;
+  public services: IService[];
+  public user: any;
+  private serviceService: ServiceService;
+  private pouchdbService: PouchDBService;
+  pouchdb: any;
  services$: any;
   constructor(    private cdRef:ChangeDetectorRef,
       public script:ScriptService,
@@ -27,10 +41,18 @@ export class ServicesComponent implements AfterViewInit {
       public dataApi: DataService,
       public dataApiService: DataApiService,
       public _butler: Butler,
-      public router:Router
+      public router:Router,
+          serviceService: ServiceService,
+      pouchdbService: PouchDBService
     ) { 
   // this.categories=CATEGORIES
-
+      this.serviceService = serviceService;
+      this.pouchdbService = pouchdbService;
+      this.services = [];
+            this.addForm = {
+        name: ""
+      };
+           this.user = null;
     }
     public delete(service:any){
       this._butler.serviceToDelete=service;
@@ -50,8 +72,31 @@ export class ServicesComponent implements AfterViewInit {
     }
   });
 }
-  ngAfterViewInit(): void {
+public login( userIdentifier: string ) : void {
+  this.pouchdbService.configureForUser( userIdentifier );
+  this.user = userIdentifier;
+  this.loadServices();
 
+}
+private loadServices() : void {
+  this.serviceService
+    .getServices()
+    .then(
+      ( services: IService[] ) : void => {
+        this.services = this.serviceService.sortServicesCollection( services );
+        this._butler.services= this.services ;
+      },
+      ( error: Error ) : void => {
+        console.log( "Error", error );
+      }
+    )
+  ;
+}
+
+
+  ngAfterViewInit(): void {
+     this.login('RyalPOS');
+    this.loadServices();
     this.loadFromRestUniversal();
 
   }

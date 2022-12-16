@@ -21,9 +21,11 @@ import { DataApiService } from '@app/services/data-api.service';
 import * as $ from 'jquery';
 import { ChangeDetectorRef } from '@angular/core';
 import { StylistService } from "@services/stylist.service";
+import { ServiceService } from "@services/service.service";
 //import { FriendService } from "@services/friend.service";
 import { PouchDBService } from "@services/pouchdb.service";
 import { IStylist } from "@app/services/stylist.service";
+import { IService } from "@app/services/service.service";
 interface IAddForm {
   name: string;
 }
@@ -33,25 +35,28 @@ interface IAddForm {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
-   public addForm: IAddForm;
+  public addForm: IAddForm;
   public stylists: IStylist[];
-  public user: any;
+  public services: IService[];
 
+  public user: any;
   private stylistService: StylistService;
+  private serviceService: ServiceService;
+
   private pouchdbService: PouchDBService;
-   pouchdb: any;
+  pouchdb: any;
   ticket:any={
     npedido:''
   }
-   methods:any=[
+  methods:any=[
     {name:"Efectivo"},
     {name:"Tarjeta"},
     {name:"Transferencia"}
   ];
- deviceInfo:any=null
-branchsSelected:any=false;
+  deviceInfo:any=null
+  branchsSelected:any=false;
   @ViewChild('uploader', { static: true }) uploader: FilePickerComponent;
-branchs$:any;
+  branchs$:any;
     members$: any;
     cards$: any;
   public adapter = new DemoFilePickerAdapter(this.http,this._butler);
@@ -264,15 +269,26 @@ branchs$:any;
     private elementRef: ElementRef,
     private deviceService: DeviceDetectorService,
        stylistService: StylistService,
+       serviceService: ServiceService,
       pouchdbService: PouchDBService
   ){
      this.stylistService = stylistService;
-      this.pouchdbService = pouchdbService;
+     this.serviceService = serviceService;
+
+      
+      this.stylists = [];
+      this.services = [];
   
+      this.pouchdbService = pouchdbService;
+      
+
+
       this.addForm = {
         name: ""
       };
-      this.stylists = [];
+      
+
+
       this.user = null;
     document.getElementById('modal1');
      this.script.load(     
@@ -298,6 +314,21 @@ branchs$:any;
     .then(
       ( stylists: IStylist[] ) : void => {
         this.stylists = this.stylistService.sortStylistsCollection( stylists );
+        this._butler.stylists=this.stylists;
+      },
+      ( error: Error ) : void => {
+        console.log( "Error", error );
+      }
+    )
+  ;
+}  
+private loadServices() : void {
+  this.serviceService
+    .getServices()
+    .then(
+      ( services: IService[] ) : void => {
+        this.services = this.serviceService.sortServicesCollection( services );
+        this._butler.services=this.services;
       },
       ( error: Error ) : void => {
         console.log( "Error", error );
@@ -339,12 +370,33 @@ branchs$:any;
     }
     this.itemService=this.service.value;name;
     this.itemService.status="active";
-    this.dataApiService.saveService(this.itemService)
-    .subscribe((res:any) => {
-    this.toastSvc.success("servicio agregado con exito!" );
-    this.router.navigate(['/sumary']);
-    });    
-  }
+
+
+
+    // this.dataApiService.saveService(this.itemService)
+    // .subscribe((res:any) => {
+    // this.toastSvc.success("servicio agregado con exito!" );
+    // this.router.navigate(['/sumary']);
+    // });    
+
+
+ this.serviceService
+    .addService( this.itemService )
+    .then(
+      ( id: string ) : void => {
+       // console.log( "New service added:", id );
+        this.loadServices();
+        this._butler.services=this.services;
+       // this.addForm.name = "";
+
+       this.toastSvc.success("Servicio agregado con exito!" );
+      // this.router.navigate(['/sumary']);
+      },
+      ( error: Error ) : void => {
+        console.log( "Error:", error );
+      }
+    )
+  ;  }
   public deleteSpecialty(){
     this.specialtyToDelete=this._butler.specialtyToDelete;;
     this.specialtyToDelete.status="deleted";
@@ -354,15 +406,34 @@ branchs$:any;
              tix => this.router.navigate(['/sumary'])
         );
   }
-  public deleteService(){
-    this.serviceToDelete=this._butler.serviceToDelete;;
+  // public deleteService(){
+  //   this.serviceToDelete=this._butler.serviceToDelete;;
+  //   this.serviceToDelete.status="deleted";
+  //   this.toastSvc.info("Servicio borrado con exito!" );
+  //   this.dataApiService.deleteService( this.serviceToDelete.id)
+  //         .subscribe(
+  //            tix => this.router.navigate(['/sumary'])
+  //       );
+  // }
+
+public deleteService(  ) : void {
+      this.serviceToDelete=this._butler.serviceToDelete;;
     this.serviceToDelete.status="deleted";
-    this.toastSvc.info("Servicio borrado con exito!" );
-    this.dataApiService.deleteService( this.serviceToDelete.id)
-          .subscribe(
-             tix => this.router.navigate(['/sumary'])
-        );
-  }
+  this.serviceService
+    .deleteService( this.serviceToDelete.id )
+    .then(
+      () : void => {
+        this.loadServices();
+      },
+      ( error: Error ) : void => {
+        console.log( "Error:", error );
+      }
+    )
+  ;
+}
+
+
+
   public deleteStylist(){
     this.stylistToDelete=this._butler.stylistToDelete;;
     this.stylistToDelete.status="deleted";
@@ -388,16 +459,19 @@ branchs$:any;
    //     this.router.navigate(['/sumary']);
    //   });    
 
+
+
  this.stylistService
     .addStylist( this.itemStylisty )
     .then(
       ( id: string ) : void => {
        // console.log( "New stylist added:", id );
-        //this.loadStylists();
+        this.loadStylists();
+        this._butler.stylists=this.stylists;
        // this.addForm.name = "";
 
        this.toastSvc.success("Estilista agregado con exito!" );
-       this.router.navigate(['/sumary']);
+      // this.router.navigate(['/sumary']);
       },
       ( error: Error ) : void => {
         console.log( "Error:", error );

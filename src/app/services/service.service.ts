@@ -13,6 +13,8 @@ import { PouchDBService } from "@services/pouchdb.service";
 export interface IService {
 	id: string;
 	name: string;
+	basePrice: string;
+
 }
 
 interface IPouchDBGetServiceResult extends IPouchDBGetResult {
@@ -45,14 +47,15 @@ export class ServiceService {
 
 
 	// I add a new service with the given name. Returns a promise of the generated id.
-	public addService( name: string ) : Promise<string> {
-		console.log('print name:'+name);
+	public addService( name: any ) : Promise<string> {
+		console.log('print name:'+name.name);
 		// NOTE: All services are given the key-prefix of "service:". This way, when we go
 		// to query for services, we can limit the scope to keys with in this key-space.
 		var promise = this.getDB()
 			.put({
 				_id: ( "service:" + ( new Date() ).getTime() ),
-				name: name
+				name: name.name,
+				basePrice: name.basePrice,
 			})
 			.then(
 				( result: IPouchDBPutResult ) : string => {
@@ -134,7 +137,9 @@ export class ServiceService {
 
 							return({
 								id: row.doc._id,
-								name: row.doc.name
+								name: row.doc.name,
+								basePrice: row.doc.basePrice,
+
 							});
 
 						}
@@ -157,7 +162,7 @@ export class ServiceService {
 		services.sort(
 			function( a: IService, b: IService ) : number {
 
-				if ( a.name.toLowerCase() < b.name.toLowerCase() ) {
+				if (a.name !==undefined  && b.name !==undefined && a.name.toLowerCase() < b.name.toLowerCase() ) {
 
 					return( -1 );
 

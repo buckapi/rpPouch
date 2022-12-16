@@ -8,21 +8,14 @@
                         <h2>Servicios</h2>
                         <p>A continuacion un listado de servicios con su respectivo precio de referencia</p>
                     </div>
-                    <div class="un-block-right">
-                        <a class="icon-back" aria-label="iconBtn" [hidden]="!_butler.list || _butler.deviceType!='Escritorio'"  >
-                            <i class="ri-layout-grid-fill" style="font-size:1rem;" ></i>
-                        </a>
-                        <a class="icon-back" aria-label="iconBtn" [hidden]="!_butler.grid" >
-                            <i class="ri-list-check"  style="font-size:1rem;"></i>
-                        </a>
-                    </div>
+                   
                 </div>
 
 
 
                 <div class="content-list-sellers">
                     <ul class="nav flex-column">
-                        <li class="nav-item" *ngFor="let service of services$ | async"  [hidden]="service.status!='active'">
+                        <li class="nav-item" *ngFor="let service of _butler.services" >
                             <div class="nav-link item-user-seller">
                                 <a class="item-user-img"  >
                             
