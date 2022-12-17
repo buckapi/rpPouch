@@ -112,7 +112,7 @@
                                                     Seleccione...  
                                                     </span>
                                                 </option>
-                                                <option   *ngFor="let branch of _butler.branchs;let i = index"value="{{branch.name}}" [hidden]="branch.status!='active'">{{branch.name}}  </option>
+                                                <option   *ngFor="let specialty of _butler.specialtys;let i = index"value="{{specialty.name}}" [hidden]="specialty.entity!='specialty'">{{specialty.name}}  </option>
                                             </select>
                                         </div>
                                         <p></p>

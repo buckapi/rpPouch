@@ -13,6 +13,14 @@ import { DealInterface } from '@app/interfaces/deal';
     import { ChangeDetectorRef } from '@angular/core';
     import { CapitalizeFirstPipe } from '@pipes/capitalizefirst.pipe';
     //import * as $ from 'jquery';
+
+
+import { SpecialtyService } from "@app/services/specialty.service";
+import { ISpecialty } from "@app/services/specialty.service";
+import { PouchDBService } from "@app/services/pouchdb.service";
+   interface IAddForm {
+  name: string;
+}
    declare var $: any;
 @Component({
   selector: 'app-specialties$',
@@ -21,18 +29,38 @@ import { DealInterface } from '@app/interfaces/deal';
 })
 export class SpecialtiesComponent implements AfterViewInit {
    specialties$: any;
+     public user: any;
+      public addForm: IAddForm;
+  public specialtys: ISpecialty[];
+  private specialtyService: any;
+  private pouchdbService: any;
   constructor(    private cdRef:ChangeDetectorRef,
       public script:ScriptService,
       private apollo: Apollo,
     public dataApi: DataService,
     public dataApiService: DataApiService,
       public _butler: Butler,
-      public router:Router
+      public router:Router,
+          specialtyService: SpecialtyService,
+      pouchdbService: PouchDBService
     ) { 
   // this.categories=CATEGORIES
+  // this.categories=CATEGORIES
+      this.specialtyService = specialtyService;
+      this.pouchdbService = pouchdbService;
+      this.specialtys = [];
+            this.addForm = {
+        name: ""
+      };
+           this.user = null;
 
     }
+public login( userIdentifier: string ) : void {
+  this.pouchdbService.configureForUser( userIdentifier );
+  this.user = userIdentifier;
+  this.loadSpecialtys();
 
+}
     public delete(specialty:any){
       this._butler.specialtyToDelete=specialty;
         this._butler.modalOption=5;
@@ -51,9 +79,25 @@ export class SpecialtiesComponent implements AfterViewInit {
     }
   });
 }
-  ngAfterViewInit(): void {
 
-    this.loadFromRestUniversal();
+private loadSpecialtys() : void {
+  this.specialtyService
+    .getSpecialtys()
+    .then(
+      ( specialtys: ISpecialty[] ) : void => {
+        this.specialtys = this.specialtyService.sortSpecialtysCollection( specialtys );
+        this._butler.specialtys= this.specialtys ;
+      },
+      ( error: Error ) : void => {
+        console.log( "Error", error );
+      }
+    )
+  ;
+}
+  ngAfterViewInit(): void {
+      this.login('RyalPOS');
+  this.loadSpecialtys();
+//    this.loadFromRestUniversal();
 
   }
 

@@ -97,7 +97,7 @@ private loadServices() : void {
   ngAfterViewInit(): void {
      this.login('RyalPOS');
     this.loadServices();
-    this.loadFromRestUniversal();
+//    this.loadFromRestUniversal();
 
   }
 

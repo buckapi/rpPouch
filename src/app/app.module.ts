@@ -26,6 +26,7 @@ import { FilePickerModule } from  'ngx-awesome-uploader';
 import { ClockModule } from './components/pages/home/clock/clock.module';
 //import { ClockComponent } from './components/pages/home/clock/clock.component';
 import { FormsModule, ReactiveFormsModule  } from "@angular/forms";
+import { SpecialtyService } from "@services/specialty.service";
 import { StylistService } from "@services/stylist.service";
 import { ServiceService } from "@services/service.service";
 import { FriendService } from "@services/friend.service";
@@ -67,6 +68,7 @@ import { PouchDBService } from "@services/pouchdb.service";
 
   providers: [
     Butler,
+    SpecialtyService,
     StylistService,
     ServiceService,
     FriendService,

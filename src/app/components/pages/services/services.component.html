@@ -15,7 +15,7 @@
 
                 <div class="content-list-sellers">
                     <ul class="nav flex-column">
-                        <li class="nav-item" *ngFor="let service of _butler.services" >
+                        <li class="nav-item" *ngFor="let service of _butler.services"  [hidden]="service.entity!='service'">
                             <div class="nav-link item-user-seller">
                                 <a class="item-user-img"  >
                             

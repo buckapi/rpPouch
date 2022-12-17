@@ -14,6 +14,7 @@ export interface IService {
 	id: string;
 	name: string;
 	basePrice: string;
+	entity: string;
 
 }
 
@@ -56,6 +57,7 @@ export class ServiceService {
 				_id: ( "service:" + ( new Date() ).getTime() ),
 				name: name.name,
 				basePrice: name.basePrice,
+				entity: ("service"),
 			})
 			.then(
 				( result: IPouchDBPutResult ) : string => {
@@ -139,6 +141,7 @@ export class ServiceService {
 								id: row.doc._id,
 								name: row.doc.name,
 								basePrice: row.doc.basePrice,
+									entity: row.doc.entity,
 
 							});
 

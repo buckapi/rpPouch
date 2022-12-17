@@ -22,8 +22,10 @@ import * as $ from 'jquery';
 import { ChangeDetectorRef } from '@angular/core';
 import { StylistService } from "@services/stylist.service";
 import { ServiceService } from "@services/service.service";
+import { SpecialtyService } from "@services/specialty.service";
 //import { FriendService } from "@services/friend.service";
 import { PouchDBService } from "@services/pouchdb.service";
+import { ISpecialty } from "@app/services/specialty.service";
 import { IStylist } from "@app/services/stylist.service";
 import { IService } from "@app/services/service.service";
 interface IAddForm {
@@ -38,10 +40,12 @@ export class AppComponent implements AfterViewInit {
   public addForm: IAddForm;
   public stylists: IStylist[];
   public services: IService[];
+  public specialtys: ISpecialty[];
 
   public user: any;
   private stylistService: StylistService;
   private serviceService: ServiceService;
+  private specialtyService: SpecialtyService;
 
   private pouchdbService: PouchDBService;
   pouchdb: any;
@@ -269,15 +273,18 @@ export class AppComponent implements AfterViewInit {
     private elementRef: ElementRef,
     private deviceService: DeviceDetectorService,
        stylistService: StylistService,
+       specialtyService: SpecialtyService,
        serviceService: ServiceService,
       pouchdbService: PouchDBService
   ){
      this.stylistService = stylistService;
      this.serviceService = serviceService;
+     this.specialtyService = specialtyService;
 
       
       this.stylists = [];
       this.services = [];
+      this.specialtys = [];
   
       this.pouchdbService = pouchdbService;
       
@@ -309,12 +316,13 @@ export class AppComponent implements AfterViewInit {
   public delete(service:any){
   }
   private loadStylists() : void {
+     
   this.stylistService
     .getStylists()
     .then(
       ( stylists: IStylist[] ) : void => {
-        this.stylists = this.stylistService.sortStylistsCollection( stylists );
-        this._butler.stylists=this.stylists;
+        this._butler.stylists= this.stylistService.sortStylistsCollection( stylists );
+      
       },
       ( error: Error ) : void => {
         console.log( "Error", error );
@@ -329,6 +337,20 @@ private loadServices() : void {
       ( services: IService[] ) : void => {
         this.services = this.serviceService.sortServicesCollection( services );
         this._butler.services=this.services;
+      },
+      ( error: Error ) : void => {
+        console.log( "Error", error );
+      }
+    )
+  ;
+}
+private loadSpecialtys() : void {
+  this.specialtyService
+    .getSpecialtys()
+    .then(
+      ( specialtys: ISpecialty[] ) : void => {
+        this.specialtys = this.specialtyService.sortSpecialtysCollection( specialtys );
+        this._butler.specialtys=this.specialtys;
       },
       ( error: Error ) : void => {
         console.log( "Error", error );
@@ -386,7 +408,7 @@ private loadServices() : void {
       ( id: string ) : void => {
        // console.log( "New service added:", id );
         this.loadServices();
-        this._butler.services=this.services;
+//        this._butler.services=this.services;
        // this.addForm.name = "";
 
        this.toastSvc.success("Servicio agregado con exito!" );
@@ -401,10 +423,20 @@ private loadServices() : void {
     this.specialtyToDelete=this._butler.specialtyToDelete;;
     this.specialtyToDelete.status="deleted";
     this.toastSvc.info("Especialidad borrada con exito!" );
-    this.dataApiService.deleteSpecialty( this.specialtyToDelete.id)
-          .subscribe(
-             tix => this.router.navigate(['/sumary'])
-        );
+    this.specialtyService
+    .deleteSpecialty( this.specialtyToDelete.id )
+    .then(
+      () : void => {
+        this.loadSpecialtys();
+      },
+      ( error: Error ) : void => {
+        console.log( "Error:", error );
+      }
+    )
+    // this.dataApiService.deleteSpecialty( this.specialtyToDelete.id)
+    //       .subscribe(
+    //          tix => this.router.navigate(['/sumary'])
+    //     );
   }
   // public deleteService(){
   //   this.serviceToDelete=this._butler.serviceToDelete;;
@@ -466,11 +498,10 @@ public deleteService(  ) : void {
     .then(
       ( id: string ) : void => {
        // console.log( "New stylist added:", id );
-        this.loadStylists();
-        this._butler.stylists=this.stylists;
        // this.addForm.name = "";
-
        this.toastSvc.success("Estilista agregado con exito!" );
+        this.login('RyalPOS');
+   
       // this.router.navigate(['/sumary']);
       },
       ( error: Error ) : void => {
@@ -478,7 +509,9 @@ public deleteService(  ) : void {
       }
     )
   ;
+        this._butler.stylists=this.stylists;
 
+        this.loadStylists();
 
 }
 
@@ -510,15 +543,15 @@ public deleteService(  ) : void {
 
   public onUploadSuccess(e: FilePreviewModel): void {
     console.log(e);
-      this.images=this._butler.file;
+    this.images=this._butler.file;
     console.log(this.myFiles);
   }
 
-public  setOption(){
+  public  setOption(){
     this.product.categoria=this._butler.userActive.categories[this.category];
     this.showB=true;
   }
-public  setCategory(){
+  public  setCategory(){
     this.product.categoria=this._butler.userActive.categories[this.category];
     this.showB=true;
   }
@@ -529,20 +562,50 @@ public  setCategory(){
     this.myFiles.push(file);
   }
 
+
   public sendSpecialty(){
-    this.submittedSpecialty=true;
+  this.submittedSpecialty=true;
     if(this.specialty.invalid){
       return
     }
-    this.itemSpecialty=this.specialty.value;name;
+  this.itemSpecialty=this.specialty.value;name;
+  this.itemSpecialty.status="active";
 
-     this.itemSpecialty.status="active";
-       this.dataApiService.saveSpecialty(this.itemSpecialty)
-   .subscribe((res:any) => {
-       this.toastSvc.success("Especialidad guardada con exito!" );
-       this.router.navigate(['/sumary']);
-     });    
+ this.specialtyService
+    .addSpecialty( this.itemSpecialty )
+    .then(
+      ( id: string ) : void => {
+       // console.log( "New stylist added:", id );
+        this.loadSpecialtys();
+//        this._butler.specialtys=this.specialtys;
+       // this.addForm.name = "";
+
+       this.toastSvc.success("Especialidad agregada con exito!" );
+      // this.router.navigate(['/sumary']);
+      },
+      ( error: Error ) : void => {
+        console.log( "Error:", error );
+      }
+    )
+  ;
+
+
+
+
+
+   //     this.dataApiService.saveSpecialty(this.itemSpecialty)
+   // .subscribe((res:any) => {
+   //     this.toastSvc.success("Especialidad guardada con exito!" );
+   //     this.router.navigate(['/sumary']);
+   //   });    
 }
+
+
+
+
+
+
+
 public calculate(){
    this.loadMembers();
    this.loadCards();
@@ -638,6 +701,7 @@ public loadBranchs(){
         // ammount: [0, Validators.required]
       }
     );
+    this.loadSpecialtys();
 this.calculate() 
     this.epicFunction();
     this.cdRef.detectChanges();

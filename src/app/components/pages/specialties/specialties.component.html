@@ -35,7 +35,7 @@
 
                 <div class="content-list-sellers">
                     <ul class="nav flex-column">
-                        <li class="nav-item" *ngFor="let specialty of specialties$ | async" [hidden]="specialty.status!='active'">
+                        <li class="nav-item" *ngFor="let specialty of _butler.specialtys" [hidden]="specialty.entity!='specialty'">
                             <div class="nav-link item-user-seller">
                                 <a class="item-user-img"  >
                                     <div class="txt-user">
