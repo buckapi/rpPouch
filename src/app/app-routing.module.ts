@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@guards/auth.guard';
 
 const routes: Routes = [
-{ path:'', redirectTo: '/login', pathMatch:'full'},
+{ path:'', redirectTo: '/sumary', pathMatch:'full'},
 { path: 'home', loadChildren: () => import('./components/pages/home/home.module').then(m => m.HomeModule),canActivate: [AuthGuard]},
 { path: 'login', loadChildren: () => import('./components/pages/login/login.module').then(m => m.LoginModule) },
 { path: 'notifications', loadChildren: () => import('./components/pages/notifications/notifications.module').then(m => m.NotificationsModule) },
@@ -30,7 +30,7 @@ const routes: Routes = [
 { path: 'terms', loadChildren: () => import('./components/pages/terms/terms.module').then(m => m.TermsModule) },
 { path: 'shops', loadChildren: () => import('./components/pages/shops/shops.module').then(m => m.ShopsModule) },
 { path: 'member', loadChildren: () => import('./components/pages/member/member.module').then(m => m.MemberModule) },
-{ path: 'sumary', loadChildren: () => import('./components/pages/sumary/sumary.module').then(m => m.SumaryModule),canActivate: [AuthGuard] },
+{ path: 'sumary', loadChildren: () => import('./components/pages/sumary/sumary.module').then(m => m.SumaryModule) },
 { path: 'specialties', loadChildren: () => import('./components/pages/specialties/specialties.module').then(m => m.SpecialtiesModule) },
 { path: 'services', loadChildren: () => import('./components/pages/services/services.module').then(m => m.ServicesModule) },
 { path: 'settings', loadChildren: () => import('./components/pages/settings/settings.module').then(m => m.SettingsModule) },

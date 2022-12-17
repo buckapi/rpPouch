@@ -392,33 +392,30 @@ private loadSpecialtys() : void {
     }
     this.itemService=this.service.value;name;
     this.itemService.status="active";
-
-
-
     // this.dataApiService.saveService(this.itemService)
     // .subscribe((res:any) => {
     // this.toastSvc.success("servicio agregado con exito!" );
     // this.router.navigate(['/sumary']);
     // });    
+    this.serviceService
+      .addService( this.itemService )
+      .then(
+        ( id: string ) : void => {
+          console.log( "New service added:", id );
+          this.loadServices();
+    //        this._butler.services=this.services;
+         // this.addForm.name = "";
 
-
- this.serviceService
-    .addService( this.itemService )
-    .then(
-      ( id: string ) : void => {
-       // console.log( "New service added:", id );
-        this.loadServices();
-//        this._butler.services=this.services;
-       // this.addForm.name = "";
-
-       this.toastSvc.success("Servicio agregado con exito!" );
-      // this.router.navigate(['/sumary']);
-      },
-      ( error: Error ) : void => {
-        console.log( "Error:", error );
-      }
-    )
-  ;  }
+         this.toastSvc.success("Servicio agregado con exito!" );
+        // this.router.navigate(['/sumary']);
+        },
+        ( error: Error ) : void => {
+          console.log( "Error:", error );
+        }
+      )
+    ;  
+  }
+  
   public deleteSpecialty(){
     this.specialtyToDelete=this._butler.specialtyToDelete;;
     this.specialtyToDelete.status="deleted";
@@ -450,7 +447,6 @@ private loadSpecialtys() : void {
 
 public deleteService(  ) : void {
       this.serviceToDelete=this._butler.serviceToDelete;;
-    this.serviceToDelete.status="deleted";
   this.serviceService
     .deleteService( this.serviceToDelete.id )
     .then(
@@ -657,7 +653,7 @@ public addService(i:any){
     }
   this.onAdd=true;
   this.addTicketFlag=true;
-  this._butler.serviceToAdd=this._butler.cards[i];
+  this._butler.serviceToAdd=this._butler.services[i];
 }
 public setEqual(){
   this.pay=this.total;
@@ -702,6 +698,8 @@ public loadBranchs(){
       }
     );
     this.loadSpecialtys();
+
+        this.loadServices();
 this.calculate() 
     this.epicFunction();
     this.cdRef.detectChanges();

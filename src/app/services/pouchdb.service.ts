@@ -23,8 +23,8 @@ export class PouchDBService {
 		if ( ! this.db ) {
 			return;
 		}
-		this.db.close();
-		this.db = null;
+		//this.db.close();
+		//this.db = null;
 	}
 
 	private getDatabaseName( userIdentifier: string ) : string {

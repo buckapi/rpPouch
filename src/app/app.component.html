@@ -490,7 +490,7 @@
                                             Seleccione...  
                                             </span>
                                         </option>
-                                        <option   *ngFor="let card of _butler.cards;let i = index"value="{{i}}" [hidden]="card.status!='active'">{{card.name}}  </option>
+                                        <option   *ngFor="let service of _butler.services;let i = index"value="{{i}}" [hidden]="service.entity!='service'">{{service.name}}  </option>
                                     </select>
                                     </div>
                                     <div [hidden]="!onAdd">
