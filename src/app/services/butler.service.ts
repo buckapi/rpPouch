@@ -8,6 +8,7 @@ export class Butler {
     stylists:any[]=[];
     services:any[]=[];
     specialtys:any[]=[];
+    tickets:any[]=[];
     branchs:any[]=[];
     ticket:any={
         npedido:''

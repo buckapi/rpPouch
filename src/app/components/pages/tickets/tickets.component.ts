@@ -12,6 +12,9 @@ import { SwiperOptions } from 'swiper';
 import { DealInterface } from '@app/interfaces/deal';
 import { ChangeDetectorRef } from '@angular/core';
 import { CapitalizeFirstPipe } from '@pipes/capitalizefirst.pipe';
+import { TicketService } from "@services/ticket.service";
+import { ITicket } from "@app/services/ticket.service";
+import { PouchDBService } from "@app/services/pouchdb.service";
    declare var $: any;
 
 @Component({
@@ -20,6 +23,11 @@ import { CapitalizeFirstPipe } from '@pipes/capitalizefirst.pipe';
   styleUrls: ['./tickets.component.css']
 })
 export class TicketsComponent implements AfterViewInit {
+    public tickets: ITicket[];
+  private ticketService: TicketService;
+    public user: any
+
+  private pouchdbService: PouchDBService;
   tickets$: any;
   ticket:any={
     npedido: ''
@@ -30,16 +38,44 @@ export class TicketsComponent implements AfterViewInit {
       public dataApi: DataService,
       public dataApiService: DataApiService,
       public _butler: Butler,
-      public router:Router) { }
+      public router:Router,
+         ticketService: TicketService,
+      pouchdbService: PouchDBService
+      ) {
+ this.user = null;
+   this.ticketService = ticketService;
+ this.tickets = [];
+this.pouchdbService = pouchdbService;
+       }
       public loadFromRestUniversal(){
       this.tickets$=this.dataApiService.getAllRppoders();
+  }
+   public login( userIdentifier: string ) : void {
+    this.pouchdbService.configureForUser( userIdentifier );
+    this.user = userIdentifier;this.loadTickets();
   }
   openModalTicket(i:any,ticket:any){
     this._butler.modalOption=i;
     this._butler.ticket=ticket;
   }
+  private loadTickets() : void {
+  this.ticketService
+    .getTickets()
+    .then(
+      ( tickets: ITicket[] ) : void => {
+        this.tickets = this.ticketService.sortTicketsCollection( tickets );
+        this._butler.tickets=this.tickets;
+      },
+      ( error: Error ) : void => {
+        console.log( "Error", error );
+      }
+    )
+  ;
+}
   ngAfterViewInit(): void {
-        this.loadFromRestUniversal();
+       this.login('RyalPOS');
+    this.loadTickets();
+//        this.loadFromRestUniversal();
   }
 
 }

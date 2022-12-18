@@ -21,11 +21,13 @@ import { DataApiService } from '@app/services/data-api.service';
 import * as $ from 'jquery';
 import { ChangeDetectorRef } from '@angular/core';
 import { StylistService } from "@services/stylist.service";
+import { TicketService } from "@services/ticket.service";
 import { ServiceService } from "@services/service.service";
 import { SpecialtyService } from "@services/specialty.service";
 //import { FriendService } from "@services/friend.service";
 import { PouchDBService } from "@services/pouchdb.service";
 import { ISpecialty } from "@app/services/specialty.service";
+import { ITicket } from "@app/services/ticket.service";
 import { IStylist } from "@app/services/stylist.service";
 import { IService } from "@app/services/service.service";
 interface IAddForm {
@@ -41,11 +43,13 @@ export class AppComponent implements AfterViewInit {
   public stylists: IStylist[];
   public services: IService[];
   public specialtys: ISpecialty[];
+  public tickets: ITicket[];
 
   public user: any;
   private stylistService: StylistService;
   private serviceService: ServiceService;
   private specialtyService: SpecialtyService;
+  private ticketService: TicketService;
 
   private pouchdbService: PouchDBService;
   pouchdb: any;
@@ -147,20 +151,53 @@ export class AppComponent implements AfterViewInit {
         this.order.cambio=this.pay-this.total;
         this.order.ticketServices=this.ticketServices;
              this._butler.ticket=this.order;
-        this.dataApiService.saveOrder(this.order)
-        .subscribe((res:any) => {
-          this.toastSvc.success("Ticket agregado con exito!" );
-           this.step=1;
-           this.ticketServices=[];
-           this.ammount=0;
-           this.total=0;
-           this.pay=0;
-           this.customer="-";
-             this.methodSelected=false;
-             this.onAdd=false;
-             this.empty=true;
-          this.router.navigate(['/ticketsuccess']);
-        });  
+
+
+
+        this.ticketService
+          .addTicket( this.order )
+          .then(
+            ( id: string ) : void => {
+              console.log( "New order added:", id );
+              this.loadTickets();
+              //        this._butler.services=this.services;
+              // this.addForm.name = "";
+              this.toastSvc.success("Ticket procesado con exito!" );
+              this.step=1;
+              this.ticketServices=[];
+              this.ammount=0;
+              this.total=0;
+              this.pay=0;
+              this.customer="-";
+              this.methodSelected=false;
+              this.onAdd=false;
+              this.empty=true;
+              this.router.navigate(['/ticketsuccess']);
+              // this.router.navigate(['/sumary']);
+            },
+            ( error: Error ) : void => {
+              console.log( "Error:", error );
+            }
+          )
+        ; 
+
+        // this.dataApiService.saveOrder(this.order)
+        // .subscribe((res:any) => {
+        //   this.toastSvc.success("Ticket agregado con exito!" );
+        //    this.step=1;
+        //    this.ticketServices=[];
+        //    this.ammount=0;
+        //    this.total=0;
+        //    this.pay=0;
+        //    this.customer="-";
+        //      this.methodSelected=false;
+        //      this.onAdd=false;
+        //      this.empty=true;
+        //   this.router.navigate(['/ticketsuccess']);
+        // });  
+
+
+
       }
       this.step=step;
     }
@@ -275,16 +312,19 @@ export class AppComponent implements AfterViewInit {
        stylistService: StylistService,
        specialtyService: SpecialtyService,
        serviceService: ServiceService,
+       ticketService: TicketService,
       pouchdbService: PouchDBService
   ){
      this.stylistService = stylistService;
      this.serviceService = serviceService;
      this.specialtyService = specialtyService;
+     this.ticketService = ticketService;
 
       
       this.stylists = [];
       this.services = [];
       this.specialtys = [];
+      this.tickets = [];
   
       this.pouchdbService = pouchdbService;
       
@@ -358,6 +398,20 @@ private loadSpecialtys() : void {
     )
   ;
 }
+private loadTickets() : void {
+  this.ticketService
+    .getTickets()
+    .then(
+      ( tickets: ITicket[] ) : void => {
+        this.tickets = this.ticketService.sortTicketsCollection( tickets );
+        this._butler.tickets=this.tickets;
+      },
+      ( error: Error ) : void => {
+        console.log( "Error", error );
+      }
+    )
+  ;
+}
 
   public setBranch(name:any){
     console.log('dato: '+name);
@@ -415,7 +469,7 @@ private loadSpecialtys() : void {
       )
     ;  
   }
-  
+
   public deleteSpecialty(){
     this.specialtyToDelete=this._butler.specialtyToDelete;;
     this.specialtyToDelete.status="deleted";

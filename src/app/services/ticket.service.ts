@@ -7,34 +7,43 @@ import { IPouchDBAllDocsResult } from "@interfaces/pouchdb.interfaces";
 import { IPouchDBGetResult } from "@interfaces/pouchdb.interfaces";
 import { IPouchDBPutResult } from "@interfaces/pouchdb.interfaces";
 import { IPouchDBRemoveResult } from "@interfaces/pouchdb.interfaces";
-import { PouchDBTicket } from "@Tickets/pouchdb.Ticket";
+import { PouchDBService } from "@services/pouchdb.service";
 
 
 export interface ITicket {
 	id: string;
-	name: string;
+	method: string;
+	stylist: string;
+	status: string;
+	statusClose: string;
+	customer: string;
+	total: number;
+	cobro: number;
+	cambio: number;
+	npedido: number;
+	ticketServices: [string];
 }
 
 interface IPouchDBGetTicketResult extends IPouchDBGetResult {
-	name: string;
+	stylist: string;
 }
 
 
 @Injectable()
-export class TicketTicket {
+export class TicketService {
 
-	private pouchdbTicket: PouchDBTicket;
+	private pouchdbService: PouchDBService;
 
 
 	// I initialize the ticket Ticket.
-	constructor( pouchdbTicket: PouchDBTicket ) {
+	constructor( pouchdbService: PouchDBService ) {
 
 		// Rather than constructing a PouchDB instance directly, we're going to use the
-		// PouchDBTicket to provide a database instance on the fly. This way, the 
+		// pouchdbService to provide a database instance on the fly. This way, the 
 		// configuration for the PouchDB instance can be changed at any point during the
 		// application life-cycle. Each database interaction starts with a call to 
 		// this.getDB() to access the "current" database rather than a cached one.
-		this.pouchdbTicket = pouchdbTicket;
+		this.pouchdbService = pouchdbService;
 
 	}
 
@@ -45,14 +54,23 @@ export class TicketTicket {
 
 
 	// I add a new ticket with the given name. Returns a promise of the generated id.
-	public addTicket( name: string ) : Promise<string> {
-		console.log('print name:'+name);
+	public addTicket( ticket: any ) : Promise<string> {
+		console.log('print ticket:'+ticket.stylist);
 		// NOTE: All tickets are given the key-prefix of "ticket:". This way, when we go
 		// to query for tickets, we can limit the scope to keys with in this key-space.
 		var promise = this.getDB()
 			.put({
 				_id: ( "ticket:" + ( new Date() ).getTime() ),
-				name: name
+				stylist: ticket.stylist,
+				method: ticket.method,
+				status: ticket.status,
+				statusClose: ticket.statusClose,
+				customer: ticket.customer,
+				total: ticket.total,
+				cobro: ticket.cobro,
+				cambio: ticket.cambio,
+				npedido: ticket.npedido,
+				ticketServices: ticket.ticketServices
 			})
 			.then(
 				( result: IPouchDBPutResult ) : string => {
@@ -134,7 +152,17 @@ export class TicketTicket {
 
 							return({
 								id: row.doc._id,
-								name: row.doc.name
+								stylist: row.doc.stylist,
+								method: row.doc.method,
+								status: row.doc.status,
+								statusClose: row.doc.statusClose,
+								customer: row.doc.customer,
+								total: row.doc.total,
+								cobro: row.doc.cobro,
+								cambio: row.doc.cambio,
+								npedido: row.doc.npedido,
+								ticketServices: row.doc.ticketServices
+
 							});
 
 						}
@@ -157,7 +185,7 @@ export class TicketTicket {
 		tickets.sort(
 			function( a: ITicket, b: ITicket ) : number {
 
-				if ( a.name.toLowerCase() < b.name.toLowerCase() ) {
+				if ( a.stylist.toLowerCase() < b.stylist.toLowerCase() ) {
 
 					return( -1 );
 
@@ -198,11 +226,11 @@ export class TicketTicket {
 	// I return the currently-configured PouchDB instance.
 	private getDB() : any {
 
-		return( this.pouchdbTicket.getDB() );
+		return( this.pouchdbService.getDB() );
 
 	}
 		// I update the ticket with the given id, storing the given name. Returns a promise.
-	public updateTicket( id: string, name: string ) : Promise<void> {
+	public updateTicket( id: string, stylist: string ) : Promise<void> {
 
 		this.testId( id );
 
@@ -211,14 +239,14 @@ export class TicketTicket {
 		// However, since the calling context does not have the "_rev", we'll fetch the
 		// document first, then update it in place, and put the resultant document back
 		// into PouchDB (which will create a new revision).
-		var promise = this.pouchdbTicket.getDB()
+		var promise = this.pouchdbService.getDB()
 			.get( id )
 			.then(
 				( doc: IPouchDBGetTicketResult ) : Promise<IPouchDBPutResult> => {
 
-					doc.name = name;
+					doc.stylist = stylist;
 
-					return( this.pouchdbTicket.getDB() .put( doc ) );
+					return( this.pouchdbService.getDB() .put( doc ) );
 
 				}
 			)
