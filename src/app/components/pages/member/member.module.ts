@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { MemberRoutingModule } from './member-routing.module';
 import { MemberComponent } from './member.component';
-import { TicketsComponent } from './tickets.component';
 import { TicketService } from "@services/ticket.service";
 
 import { PouchDBService } from "@services/pouchdb.service";

@@ -1,5 +1,5 @@
-             <div class="space-sticky"></div>
- <section class="un-creator-ptofile">
+            <div class="space-sticky"></div>
+            <section class="un-creator-ptofile">
                 <!-- head -->
                 <div class="head">
                     <div class="cover-image">
@@ -11,7 +11,7 @@
                     <div class="text-user-creator">
                         <div class="d-flex align-items-center">
                             <div class="user-img">
-                                <picture>
+                                <picture *ngIf="_butler.preview.name !=undefined">
                                     <source srcset="{{_butler.preview.images[0]}}" type="image/webp">
                                     <img src="{{_butler.preview.images[0]}}" alt="creator image">
                                 </picture>
@@ -29,60 +29,13 @@
                         </button>
                     </div>
                 </div>
-                <!-- body -->
                 <div class="body">
                     <div class="item-followers">
-                        <!-- <div class="users-text">
-                            <p>Followed by 2,5K</p>
-                            <div class="img-user">
-                                <picture>
-                                    <source srcset="assets/assetsryal/images/avatar/18.webp" type="image/webp">
-                                    <img src="assets/assetsryal/images/avatar/18.jpg" alt="image">
-                                </picture>
-                                <picture>
-                                    <source srcset="assets/assetsryal/images/avatar/1.webp" type="image/webp">
-                                    <img src="assets/assetsryal/images/avatar/1.jpg" alt="user">
-                                </picture>
-                                <picture>
-                                    <source srcset="assets/assetsryal/images/avatar/12.webp" type="image/webp">
-                                    <img src="assets/assetsryal/images/avatar/12.png" alt="image">
-                                </picture>
-                                <picture>
-                                    <source srcset="assets/assetsryal/images/avatar/13.webp" type="image/webp">
-                                    <img src="assets/assetsryal/images/avatar/13.jpg" alt="image">
-                                </picture>
-                                <picture>
-                                    <source srcset="assets/assetsryal/images/avatar/4.webp" type="image/webp">
-                                    <img src="assets/assetsryal/images/avatar/4.jpg" alt="image">
-                                </picture>
-                                <picture>
-                                    <source srcset="assets/assetsryal/images/avatar/14.webp" type="image/webp">
-                                    <img src="assets/assetsryal/images/avatar/14.jpg" alt="image">
-                                </picture>
-
-                                <a href="page-followers.html" class="link">+1K</a>
-                            </div>
-                        </div> -->
                         <a 
                             class="btn btn-md-size text-white btn-edit-profile rounded-pill">
                             {{_butler.preview.categoria}}
                         </a>
                     </div>
-                   <!--  <div class="statistics">
-                        <div class="text-grid">
-                            <h4>5 </h4>
-                            <p>Hoy</p>
-                        </div>
-                        <div class="text-grid">
-                            <h4>23</h4>
-                            <p>Semana</p>
-                        </div>
-                        <div class="text-grid">
-                            <h4>54</h4>
-                            <p>Mes</p>
-                        </div>
-
-                    </div> -->
                     <div class="description">
                         <p>
                             Tickets  
@@ -90,30 +43,31 @@
                         </p>
                     </div>
                 </div>
-                <div class="tab-creatore-profile">
-                    <ul class="nav nav-pills nav-pilled-tab w-100" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="pills-Items-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-Items" type="button" role="tab" aria-controls="pills-Items"
-                                aria-selected="true">Servicios prestados</button>
-                        </li>
-                        <!-- <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-Selling-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-Selling" type="button" role="tab" aria-controls="pills-Selling"
-                                aria-selected="false">Selling</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-Created-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-Created" type="button" role="tab" aria-controls="pills-Created"
-                                aria-selected="false">Created</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-Liked-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-Liked" type="button" role="tab" aria-controls="pills-Liked"
-                                aria-selected="false">Liked</button>
-                        </li> -->
+             </section>
+                
+            
+            <section class="margin-t-20 unList-bestSeller">
+                <div class="content-list-sellers">
+                    <ul class="nav flex-column">
+                        <li class="nav-item" *ngFor="let ticket of tickets" [hidden]="ticket.statusClose!='pending' || ticket.stylist!=_butler.preview.name" >
+                            <div class="nav-link item-user-seller">
+                                <a class="item-user-img"  style="cursor: pointer;" >
+                                    <div class="txt-user">
+                                        <h5 > {{ticket.createdAt | date:'dd/MM/yyyy'}} <span style="color:red;"> #</span> <span style="color:red;">{{ticket.npedido}}     </span></h5>
+                                        <p>Estilista. {{ticket.stylist}} </p>
+                                        <p>Cte. {{ticket.customer}} </p>
+                                    </div>
+                                </a>
+                                <div class="other-option"  style="margin-right:2%; cursor: pointer;">
+                                    <div class="color-text rounded-pill bg-snow btn-xs-size " 
+                                        data-bs-toggle="modal" data-bs-target="#mdllTicket" (click)="openModalTicket(7,ticket)">
+                                        <i class="ri-eye-line text-primary" style="font-size: 1.3rem; margin-right: 10%; font-weight: initial;"> 
+                                        </i>
+                                     {{ticket.total |  number :'1.0'}} 
+                                    </div>
+                                </div>
+                            </div>
+                        </li>                       
                     </ul>
-
-
-                </div>
+                </div>     
             </section>

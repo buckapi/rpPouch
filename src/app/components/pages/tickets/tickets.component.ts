@@ -74,7 +74,7 @@ this.pouchdbService = pouchdbService;
 }
   ngAfterViewInit(): void {
        this.login('RyalPOS');
-    this.loadTickets();
+      this.loadTickets();
 //        this.loadFromRestUniversal();
   }
 
