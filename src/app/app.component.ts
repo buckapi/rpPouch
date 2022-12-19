@@ -140,28 +140,24 @@ export class AppComponent implements AfterViewInit {
   }
     public    next(step:any){
       if(step==3){
-        this.order.total=this.total;
-        this.order.method=this.methodSelectedField;
-        this.order.customer=this.customer;
-        this.order.stylist=this._butler.stylistName;
-        this.order.npedido=this.aleatorio(10000,99999);
-        this.order.status="activated";
-        this.order.statusClose="pending";
-        this.order.cobro=this.pay;
-        this.order.cambio=this.pay-this.total;
-        this.order.ticketServices=this.ticketServices;
-             this._butler.ticket=this.order;
-
-
-
-        this.ticketService
+       this.order.total=this.total;
+       this.order.method=this.methodSelectedField;
+       this.order.customer=this.customer;
+       this.order.stylist=this._butler.stylistName;
+       this.order.npedido=this.aleatorio(10000,99999);
+       this.order.status="activated";
+       this.order.statusClose="pending";
+       this.order.cobro=this.pay;
+       this.order.cambio=this.pay-this.total;
+       this.order.ticketServices=this.ticketServices;
+       this._butler.ticket=this.order;
+       this.order.createdAt =new Date();
+       this.ticketService
           .addTicket( this.order )
           .then(
             ( id: string ) : void => {
               console.log( "New order added:", id );
               this.loadTickets();
-              //        this._butler.services=this.services;
-              // this.addForm.name = "";
               this.toastSvc.success("Ticket procesado con exito!" );
               this.step=1;
               this.ticketServices=[];
@@ -173,31 +169,11 @@ export class AppComponent implements AfterViewInit {
               this.onAdd=false;
               this.empty=true;
               this.router.navigate(['/ticketsuccess']);
-              // this.router.navigate(['/sumary']);
             },
             ( error: Error ) : void => {
               console.log( "Error:", error );
             }
-          )
-        ; 
-
-        // this.dataApiService.saveOrder(this.order)
-        // .subscribe((res:any) => {
-        //   this.toastSvc.success("Ticket agregado con exito!" );
-        //    this.step=1;
-        //    this.ticketServices=[];
-        //    this.ammount=0;
-        //    this.total=0;
-        //    this.pay=0;
-        //    this.customer="-";
-        //      this.methodSelected=false;
-        //      this.onAdd=false;
-        //      this.empty=true;
-        //   this.router.navigate(['/ticketsuccess']);
-        // });  
-
-
-
+          ); 
       }
       this.step=step;
     }
@@ -216,7 +192,6 @@ export class AppComponent implements AfterViewInit {
     get r(): { [key: string]: AbstractControl } {
       return this.addServiceForm.controls;
     }
-
      paymmentForm: FormGroup = new FormGroup({
       // pay: new FormControl('')
     });
@@ -240,6 +215,7 @@ export class AppComponent implements AfterViewInit {
   name: new FormControl(''),
   price: new FormControl(''),
   });
+
   i=1;
   two=false;
   one=true;
@@ -533,6 +509,7 @@ public deleteService(  ) : void {
     this.itemStylisty=this.stylist.value;name;
     this.itemStylisty.images=this.images;
     this.itemStylisty.status="active";
+    this.itemStylisty.entity="stylist";
     this.itemStylisty.categoria=this.branchSelected;
    //     this.dataApiService.saveStylist(this.itemStylisty)
    // .subscribe((res:any) => {

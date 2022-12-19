@@ -14,6 +14,7 @@ export interface IStylist {
 	id: string;
 	name: string;
 	categoria: string;
+	entity: string;
 	images:  [string];
 
 }
@@ -59,6 +60,7 @@ export class StylistService {
 				images: name.images,
 				categoria: name.categoria,
 				status: name.status,
+				entity: name.entity,
 			})
 			.then(
 				( result: IPouchDBPutResult ) : string => {
@@ -142,7 +144,8 @@ export class StylistService {
 								id: row.doc._id,
 								name: row.doc.name,
 								images:row.doc.images,
-								categoria:row.doc.categoria
+								categoria:row.doc.categoria,
+								entity:row.doc.entity
 							});
 
 						}
@@ -165,7 +168,7 @@ export class StylistService {
 		stylists.sort(
 			function( a: IStylist, b: IStylist ) : number {
 
-				if ( a.name.toLowerCase() < b.name.toLowerCase() ) {
+				if (a.name !==undefined  && b.name !==undefined && a.name.toLowerCase() < b.name.toLowerCase() ) {
 
 					return( -1 );
 

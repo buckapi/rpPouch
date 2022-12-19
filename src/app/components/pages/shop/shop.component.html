@@ -73,7 +73,7 @@
                     <div class="content-NFTs-body">
                         
                         <a  class="item-sm-card-NFTs "  *ngFor="let stylist of _butler.stylists"  style="cursor: pointer;" >
-                            <div class="cover-image">
+                            <div class="cover-image" *ngIf="stylist.name!==undefined">
                                 <picture  (click)="setPreview(stylist)">
                                     <source srcset="{{stylist.images[0]}}" type="image/webp">
                                    <img class="big-image" src="{{stylist.images[0]}}" alt="">
@@ -113,14 +113,14 @@
 
                 <div class="content-list-sellers"[hidden]="!_butler.list">
                     <ul class="nav flex-column">
-                        <li class="nav-item" *ngFor="let stylist of _butler.stylists" >
+                        <li class="nav-item" *ngFor="let stylist of _butler.stylists" [hidden]="stylist.entity!=='stylist'">
                             <div class="nav-link item-user-seller">
                                 <a class="item-user-img"  (click)="setPreview(stylist)"  style="cursor: pointer;" >
-                                    <picture>
+                                    <picture *ngIf="stylist.name!=undefined"> 
                                         <source srcset="assets/assetsryal/images/avatar/22.webp" type="{{stylist.images[0]}}">
                                         <img class="avt-img" src="{{stylist.images[0]}}" alt="">
                                     </picture>
-                                    <div class="txt-user">
+                                    <div class="txt-user" >
                                         <h5> <span>{{stylist.categoria}} </span></h5>
                                         <p>{{stylist.name}} <i class="ri-checkbox-circle-fill"></i> </p>
                                     </div>

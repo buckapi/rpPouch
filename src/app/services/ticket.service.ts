@@ -21,6 +21,8 @@ export interface ITicket {
 	cobro: number;
 	cambio: number;
 	npedido: number;
+	createdAt: string;
+	entity: string;
 	ticketServices: [string];
 }
 
@@ -70,6 +72,8 @@ export class TicketService {
 				cobro: ticket.cobro,
 				cambio: ticket.cambio,
 				npedido: ticket.npedido,
+				createdAt: ticket.createdAt,
+				entity: ticket.entity,
 				ticketServices: ticket.ticketServices
 			})
 			.then(
@@ -161,6 +165,8 @@ export class TicketService {
 								cobro: row.doc.cobro,
 								cambio: row.doc.cambio,
 								npedido: row.doc.npedido,
+								createdAt: row.doc.createdAt,
+								entity: row.doc.entity,
 								ticketServices: row.doc.ticketServices
 
 							});
