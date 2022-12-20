@@ -498,7 +498,7 @@
                                         <option   *ngFor="let service of _butler.services;let i = index"value="{{i}}" [hidden]="service.entity!='service'">{{service.name}}  </option>
                                     </select>
                                     </div>
-                                    <div [hidden]="!onAdd">
+                                    <div>
                                         
                                     {{this._butler.serviceToAdd.name}} Precio sugerido: 
             <span (click)="setPriceS()" style="cursor:pointer;color: blue;">

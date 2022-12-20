@@ -174,6 +174,7 @@ export class AppComponent implements AfterViewInit {
               console.log( "Error:", error );
             }
           ); 
+          this.step=1;
       }
       this.step=step;
     }
@@ -435,7 +436,7 @@ private loadTickets() : void {
           this.loadServices();
     //        this._butler.services=this.services;
          // this.addForm.name = "";
-
+         
          this.toastSvc.success("Servicio agregado con exito!" );
         // this.router.navigate(['/sumary']);
         },

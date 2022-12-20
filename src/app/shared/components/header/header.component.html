@@ -1,19 +1,24 @@
-     <header class="default heade-sticky" [hidden]=" router.url.includes('/member') || router.url.includes('/login') || router.url.includes('/ticketsuccess') ">
-        <a [routerLink]="['/sumary']">
+     <header class="default heade-sticky" [hidden]=" router.url.includes('/member') || router.url.includes('/login') || router.url.includes('/ticketsuccess') || router.url.includes('/specialties')|| router.url.includes('/services') ">
+        <a [routerLink]="['/sumary']" [hidden]=" router.url.includes('/sumary')">
             <div class="un-item-logo">
                 <img class="logo-img light-mode" src="assets/assetsryal/images/logo_07.png" alt="">
                 <img class="logo-img dark-mode" src="assets/assetsryal/images/logo_07b.png" alt="">
             </div>
         </a>
+        <a [routerLink]="['/sumary']" >
+            <div class="un-item-logo">
+              
+            </div>
+        </a>
         <div class="un-block-right">
-         <div class="un-user-profile">
+   <!--       <div class="un-user-profile">
                 <a href="page-my-profile.html" aria-label="profile">
                     <picture>
                         <source srcset="assets/assetsryal/images/avatar/11.webp" type="image/webp">
                         <img class="img-avatar" src="assets/assetsryal/images/avatar/11.jpg" alt="">
                     </picture>
                 </a>
-            </div>
+            </div> -->
             <div class="menu-sidebar">
                 <button type="button" name="sidebarMenu" aria-label="sidebarMenu" class="btn"
                     data-bs-toggle="modal" data-bs-target="#mdllSidebar-connected">
@@ -35,6 +40,45 @@
                 <i class="ri-arrow-drop-left-line"></i>
             </a>
             <span class="color-text size-14 weight-500">{{_butler.preview.name}}</span>
+        </div>
+
+    </header>
+      <header class="default heade-sticky" [hidden]=" !router.url.includes('/member') ">
+        <div class="un-title-page go-back">
+            <a [routerLink]="['/estilistas']" class="icon">
+                <i class="ri-arrow-drop-left-line"></i>
+            </a>
+            <span class="color-text size-14 weight-500">{{_butler.preview.name}}</span>
+        </div>
+
+    </header>   
+     <header class="default heade-sticky" [hidden]=" !router.url.includes('/specialties') ">
+        <div class="un-title-page go-back">
+            <a [routerLink]="['/settings']" class="icon">
+                <i class="ri-arrow-drop-left-line"></i>
+            </a>
+
+            <span class="color-text size-14 weight-500">  volver a ajustes</span>
+        </div>
+
+    </header> 
+    <header class="default heade-sticky" [hidden]=" !router.url.includes('/services') ">
+        <div class="un-title-page go-back">
+            <a [routerLink]="['/settings']" class="icon">
+                <i class="ri-arrow-drop-left-line"></i>
+            </a>
+
+            <span class="color-text size-14 weight-500">  volver a ajustes</span>
+        </div>
+
+    </header>
+    <header class="default heade-sticky" [hidden]=" !router.url.includes('/cierre') ">
+        <div class="un-title-page go-back">
+            <a [routerLink]="['/sumary']" class="icon">
+                <i class="ri-arrow-drop-left-line"></i>
+            </a>
+
+            <span class="color-text size-14 weight-500">  volver </span>
         </div>
 
     </header>

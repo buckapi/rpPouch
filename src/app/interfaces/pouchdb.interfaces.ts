@@ -10,11 +10,13 @@ export interface IPouchDBAllDocsResult {
 }
 
 export interface IPouchDBGetResult {
+	statusClose: string;
 	_id: string;
 	_rev: string;
 }
 
 export interface IPouchDBPutResult {
+	statusClose: string;
 	ok: boolean;
 	id: string;
 	rev: string;

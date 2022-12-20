@@ -27,69 +27,102 @@ export class CierreComponent implements AfterViewInit {
  public tickets: ITicket[];
   private ticketService: TicketService; 
   public closes: IClose[];
+  public closesP: IClose[];
   private closeService: CloseService;
   public user: any
-    acumulado:number=0;
-
+  acumulado:number=0;
   private pouchdbService: PouchDBService;
   tickets$: any;
   ticket:any={
     npedido: ''
   }
   constructor(
-     private cdRef:ChangeDetectorRef,
+      private cdRef:ChangeDetectorRef,
       public script:ScriptService,
       private apollo: Apollo,
       public dataApi: DataService,
       public dataApiService: DataApiService,
       public _butler: Butler,
       public router:Router,
-         ticketService: TicketService,
-         closeService: CloseService,
-        pouchdbService: PouchDBService) {
-        this.user = null;
-        this.ticketService = ticketService;
-        this.closeService = closeService;
-        this.tickets = [];
-        this.closes = [];
-        this.pouchdbService = pouchdbService;
-       }
-          public login( userIdentifier: string ) : void {
-    this.pouchdbService.configureForUser( userIdentifier );
-    this.user = userIdentifier;this.loadTickets();
-  }
- private loadTickets() : void {
-  this.ticketService
-    .getTickets()
-    .then(
-      ( tickets: ITicket[] ) : void => {
-        this.tickets = this.ticketService.sortTicketsCollection( tickets );
-        let ticketsSize=this.tickets.length;
-        this._butler.tickets= [];
-        this.acumulado=0;
-        for (let i=0; i<ticketsSize;i++){
-          if(this.tickets[i].statusClose=='pending'){
-            this._butler.tickets.push(this.tickets[i]);
-            this.acumulado=this.acumulado+this.tickets[i].total;
+      ticketService: TicketService,
+      closeService: CloseService,
+      pouchdbService: PouchDBService
+      ) {
+      this.user = null;
+      this.ticketService = ticketService;
+      this.closeService = closeService;
+      this.tickets = [];
+      this.closes = [];
+      this.pouchdbService = pouchdbService;
+      }
+    public login( userIdentifier: string ) : void {
+      this.pouchdbService.configureForUser( userIdentifier );
+      this.user = userIdentifier;this.loadTickets();
+    }
+    private loadTickets() : void {
+    this.ticketService
+      .getTickets()
+      .then(
+        ( tickets: ITicket[] ) : void => {
+          this.tickets = this.ticketService.sortTicketsCollection( tickets );
+          let ticketsSize=this.tickets.length;
+          this._butler.tickets= [];
+          this.acumulado=0;
+          for (let i=0; i<ticketsSize;i++){
+            if(this.tickets[i].statusClose=='pending'){
+              this._butler.tickets.push(this.tickets[i]);
+              this.acumulado=this.acumulado+this.tickets[i].total;
+            }
           }
+         
+        },
+        ( error: Error ) : void => {
+          console.log( "Error", error );
         }
-       
+      );
+  }
+  public update(ticket:any){
+    ticket.statusClose='closed';
+    ticket._id=ticket.id;
+  let jsonTicketID = JSON.stringify(ticket.id);
+  console.log("jsoon"+jsonTicketID);
+  
+  // setTimeout(function(){
+  //     this.ticketService.deleteTicket(ticket.id);
+   
+  // }, 1000);
+
+    setTimeout(() => {
+        this.ticketService.deleteTicket(ticket._id);
+        // Call the setDelay function again with the remaining times
+    }, 2000);
+
+  this.ticketService
+    .addTicket(ticket)
+    .then( 
+      (): void =>  {
+      //console.log("item id: "+item.id+" status: "+item.statusClose);
       },
       ( error: Error ) : void => {
         console.log( "Error", error );
       }
-    )
-  ;
-}
-public  procesar(){
-  let ticketsSize = this._butler.tickets.length;
-  for (let i =0;i<ticketsSize;i++){
-    
-  }
-}
-  ngAfterViewInit(): void {
-    this.login('RyalPOS');
-      this.loadTickets();
+    ) ;
   }
 
+  public  procesar(){
+    let ticketsSize = this._butler.tickets.length;
+    this.ticket = this._butler.tickets.forEach( x =>{
+       console.log("procesando ..."+JSON.stringify(x));
+      x.statusClose='closed';
+      let item:any = x;
+      item._id=item.id;
+      this.update(this.ticket);
+    });
+    this.loadTickets();
+  }
+
+  ngAfterViewInit(): void {
+    this.login('RyalPOS');
+    this.loadTickets();
+  }
 }

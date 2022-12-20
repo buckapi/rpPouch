@@ -27,7 +27,7 @@ export interface ITicket {
 }
 
 interface IPouchDBGetTicketResult extends IPouchDBGetResult {
-	stylist: string;
+	ticket: any;
 }
 
 
@@ -187,11 +187,10 @@ export class TicketService {
 
 	// I sort the given collection of tickets (in place) based on the name property.
 	public sortTicketsCollection( tickets: ITicket[] ) : ITicket[] {
-
 		tickets.sort(
 			function( a: ITicket, b: ITicket ) : number {
 
-				if ( a.stylist.toLowerCase() < b.stylist.toLowerCase() ) {
+				if (a.stylist !==undefined  && b.stylist !==undefined && a.stylist.toLowerCase() < b.stylist.toLowerCase() ) {
 
 					return( -1 );
 
@@ -236,8 +235,8 @@ export class TicketService {
 
 	}
 		// I update the ticket with the given id, storing the given name. Returns a promise.
-	public updateTicket( id: string, stylist: string ) : Promise<void> {
-
+	public updateTicket( id: string, ticket: any ) : Promise<void> {
+		 console.log("item id: "+id+" status: "+ticket.statusClose);
 		this.testId( id );
 
 		// When we update an existing document in PouchDB, we have to provide the "_rev"
@@ -250,7 +249,7 @@ export class TicketService {
 			.then(
 				( doc: IPouchDBGetTicketResult ) : Promise<IPouchDBPutResult> => {
 
-					doc.stylist = stylist;
+					doc.statusClose = "closed";
 
 					return( this.pouchdbService.getDB() .put( doc ) );
 
