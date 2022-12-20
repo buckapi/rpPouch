@@ -1,0 +1,33 @@
+<div class="space-sticky"></div>
+    <section class="margin-t-20 unList-bestSeller">
+        <div class="un-title-default">
+			<div class="text">
+            <h2>Balance del dia: {{acumulado |  number :'1.0'}} Pesos</h2>
+            <p></p>
+            </div>      
+        </div>
+        <div class="content-list-sellers">
+            <ul class="nav flex-column">
+                <li class="nav-item" *ngFor="let ticket of _butler.tickets" >
+                    <div class="nav-link item-user-seller">
+                        <a class="item-user-img"  style="cursor: pointer;" >
+            
+                            <div class="txt-user">
+                                <h5 > {{ticket.createdAt | date:'dd/MM/yyyy'}} <span style="color:red;"> #</span> <span style="color:red;">{{ticket.npedido}}     </span></h5>
+                                <p>Estilista. {{ticket.stylist}} </p>
+                                <p>Cte. {{ticket.customer}} </p>
+                            </div>
+                        </a>
+                        <div class="other-option"  style="margin-right:2%; cursor: pointer;">
+                            <div class="color-text rounded-pill bg-snow btn-xs-size " 
+data-bs-toggle="modal" data-bs-target="#mdllTicket" 
+                            >
+								<i class="ri-eye-line text-primary" style="font-size: 1.3rem; margin-right: 10%; font-weight: initial;"> </i>
+                             {{ticket.total |  number :'1.0'}} </div>
+                        </div>
+                    </div>
+                </li>
+               
+            </ul>
+        </div>
+    </section>

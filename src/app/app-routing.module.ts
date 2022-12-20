@@ -37,6 +37,8 @@ const routes: Routes = [
 { path: 'tickets', loadChildren: () => import('./components/pages/tickets/tickets.module').then(m => m.TicketsModule) },
 { path: 'ticketsuccess', loadChildren: () => import('./components/pages/ticketsuccess/ticketsuccess.module').then(m => m.TicketsuccessModule) },
 { path: 'stylists', loadChildren: () => import('./components/pages/stylists/stylists.module').then(m => m.StylistsModule) },
+{ path: 'cierre', loadChildren: () => import('./components/pages/cierre/cierre.module').then(m => m.CierreModule) },
+{ path: 'closelist', loadChildren: () => import('./components/pages/closelist/closelist.module').then(m => m.CloselistModule) },
  { path:'**',pathMatch:'full',redirectTo:'home'}
 ];
 
