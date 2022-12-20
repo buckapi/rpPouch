@@ -375,12 +375,17 @@
                                         <i class="ri-eye-fill"></i>
                                     </a>
                                 </div>
-                                <p class="no-balance">$ {{_butler.acumulado}} </p>
+                                <p class="no-balance">$ {{_butler.acumulado |  number :'1.0'}} </p>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-sm-size bg-white text-dark rounded-pill"
+                        <!-- <button type="button" class="btn btn-sm-size bg-white text-dark rounded-pill"
                             data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#mdllUploadItem">
-                            Cerrar
+                            Cierres
+                        </button> -->
+                        <button type="button" class="btn btn-sm-size bg-white text-dark rounded-pill"
+                            data-bs-toggle="modal" 
+                            data-bs-dismiss="modal">
+                            Cierres
                         </button>
                     </div>
 
