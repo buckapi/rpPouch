@@ -84,7 +84,7 @@ export class CierreComponent implements AfterViewInit {
 public  procesar(){
   let ticketsSize = this._butler.tickets.length;
   for (let i =0;i<ticketsSize;i++){
-
+    
   }
 }
   ngAfterViewInit(): void {

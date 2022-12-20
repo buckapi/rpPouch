@@ -17,6 +17,7 @@ export class Butler {
     init:number=1;
     end:number=12;
     numProd:number=0;
+    acumulado:number=0;
     subTotalGral:number=0;
     cardsSize:number=0;
     results:number=0;

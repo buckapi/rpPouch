@@ -60,6 +60,7 @@ export class SumaryComponent implements AfterViewInit {
       for (let i=0;i<ticketsSize;i++){
         if(this.tickets[i].statusClose=='pending' ){
           this.acumulado=this.acumulado+this.tickets[i].total;
+          this._butler.acumulado=this.acumulado;
         }
       }
       console.log("size: "+ticketsSize+" acumulado: "+this.acumulado); 
