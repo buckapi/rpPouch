@@ -29,7 +29,7 @@ export class TicketsuccessComponent implements AfterViewInit {
       public dataApiService: DataApiService,
       public _butler: Butler,
       public router:Router) {
-  this._butler.info=INFOS[0];
+  this._butler.info=INFOS[1];
        }
 
   ngAfterViewInit(): void {
