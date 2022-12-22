@@ -61,6 +61,10 @@ this.pouchdbService = pouchdbService;
     )
   ;
 }
+  openModal(i:any,close:any){
+    this._butler.modalOption=i;
+    this._butler.cierre=close;
+  }
   public login( userIdentifier: string ) : void {
     this.pouchdbService.configureForUser( userIdentifier );
     this.user = userIdentifier;this.loadCloses();

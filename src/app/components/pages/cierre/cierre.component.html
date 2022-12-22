@@ -3,7 +3,6 @@
         <div class="un-title-default">
 			<div class="text">
             <h2>Balance del dia: {{acumulado |  number :'1.0'}} Pesos   </h2>
-            <h2>Monto de cierre: {{acumulado |  number :'1.0'}} Pesos   </h2>
             <h2>
                  <button (click)="procesar()" type="submit"  class="btn btn-sm-arrow bg-primary" style="color:white; cursor:pointer;">Procesar cierre
                     <div class="ico">
@@ -30,14 +29,14 @@
                                 <p>Cte. {{ticket.customer}}<span> Total:   {{ticket.total |  number :'1.0'}}</span> </p>
                             </div>
                         </a>
-                         <div class="other-option">
+                     <!--     <div class="other-option">
                             <button type="button" class="btn btn-box-check" (click)=update(ticket)>
                                 <input type="checkbox">
                                 <div class="icon-box">
                                     <i class="ri-add-fill"></i>
                                 </div>
                             </button>
-                        </div>
+                        </div> -->
 
                         <!-- <div class="other-option"  style="margin-right:2%; cursor: pointer;">
                             <div class="color-text rounded-pill bg-snow btn-xs-size " 

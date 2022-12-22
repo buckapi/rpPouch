@@ -23,6 +23,7 @@ export class Butler {
     cardsSize:number=0;
     results:number=0;
     preview:any={};
+    cierre:any={};
     bramch:any={};
     specialtyToDelete:any={};
     serviceToAdd:any={};
