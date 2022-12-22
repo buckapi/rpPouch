@@ -32,6 +32,9 @@ export class CierreComponent implements AfterViewInit {
   private closeService: CloseService;
   public user: any
   acumulado:number=0;
+  totalE:number=0;
+  totalT:number=0;
+  totalTr:number=0;
   private pouchdbService: PouchDBService;
   tickets$: any;
   close:any={};
@@ -158,33 +161,46 @@ public proccess (){
   public  procesar(){
     this.close.date=new Date();
     this.close.total=this.acumulado;
+
+
+
+
+
     this.close.entity='close';
     this.close.items =this._butler.tickets;    
-        this.closeService
+        
+       
+    let ticketsSize = this._butler.tickets.length;
+
+    this.ticket = this._butler.tickets.forEach( x =>{
+      if (x.method=='Efectivo'){this.totalE=this.totalE+x.total};
+      if (x.method=='Tarjeta'){this.totalT=this.totalT+x.total};
+      if (x.method=='Transferencia'){this.totalTr=this.totalTr+x.total};
+       //console.log("procesando ..."+JSON.stringify(x.id));
+      
+      x.statusClose='closed';
+      let item:any = x;
+      item._id=item.id;
+
+      setTimeout(() => {
+         this.ticketService.deleteTicket(x.id);
+      }, 2000);
+     
+    });
+    this.close.totalE=this.totalE;
+    this.close.totalT=this.totalT;
+    this.close.totalTr=this.totalTr;
+    this.closeService
           .addClose( this.close )
           .then(
             ( id: string ) : void => {
-              console.log( "Cierre procesado:", id );       
+              //console.log( "Cierre procesado:", id );       
               this.router.navigate(['/closelist']);
             },
             ( error: Error ) : void => {
               console.log( "Error:", error );
             }
           ); 
-       
-    let ticketsSize = this._butler.tickets.length;
-
-    this.ticket = this._butler.tickets.forEach( x =>{
-       console.log("procesando ..."+JSON.stringify(x.id));
-      x.statusClose='closed';
-      let item:any = x;
-      item._id=item.id;
-
-         setTimeout(() => {
-       this.ticketService.deleteTicket(x.id);
-    }, 2000);
-     
-    });
     this.loadTickets();
   }
 

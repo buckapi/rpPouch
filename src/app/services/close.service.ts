@@ -10,6 +10,9 @@ export interface IClose {
 	id: string;
 	method: string;
 	stylist: string;
+	totalE: number;
+	totalT: number;
+	totalTr: number;
 	date: string;
 	status: string;
 	statusClose: string;
@@ -50,6 +53,9 @@ export class CloseService {
 				cobro: close.cobro,
 				cambio: close.cambio,
 				npedido: close.npedido,
+				totalE: close.totalE,
+				totalT: close.totalT,
+				totalTr: close.totalTr,
 				createdAt: close.createdAt,
 				entity: close.entity,
 				items: close.items
@@ -103,6 +109,9 @@ export class CloseService {
 								customer: row.doc.customer,
 								total: row.doc.total,
 								cobro: row.doc.cobro,
+								totalE: row.doc.totalE,
+								totalT: row.doc.totalT,
+								totalTr: row.doc.totalTr,
 								cambio: row.doc.cambio,
 								npedido: row.doc.npedido,
 								createdAt: row.doc.createdAt,

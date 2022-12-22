@@ -210,67 +210,7 @@
                             </div>
                         </div>
                     </form>
-                   
-                        <div class="content-upload-item text-center" [hidden]="_butler.modalOption!=9">
-                            <div class="">
-                                <div class="row"> 
-                                    <div class="col-md-12">               
-                                        <p>
-                                            Balance del dia : 
-                                            <strong>
-                                                
-                                            {{_butler.cierre.total  |  number :'1.0'}}  Pesos
-                                            </strong>
-                                            
-                                        </p>
-                                     
-                                      
-                                           <div class="accordion  --active" id="accordionExample">
-                            <div class="accordion-item" *ngFor="let ticket of _butler.cierre.items;let i = index">
-                                <h2 class="accordion-header" id="headingFour">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseFour" aria-expanded="true"
-                                        aria-controls="collapseFour">
-                                      <code># {{ticket.npedido}}  </code> 
-                                      <span style="padding-left:4%; padding-right: 3%;"> {{ticket.stylist}} </span>   
-                                      <span style="padding-left:4%; padding-right: 3%;">Metodo: {{ticket.method}} </span>   
-                                      <strong> {{ticket.total  |  number :'1.0' }}  </strong> 
-                                    </button>
-                                </h2>
-                                <div id="collapseFour" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                     <!--    <strong>No.</strong> Our item is an <code>HTML, CSS3, and JS Site</code>
-                                        {{ticket.stylist}} -->
-                                           <ul class="nav flex-column" style="align-items: baseline;">
-                                                <li class="nav-item"  *ngFor="let service of ticket.ticketServices;let i = index">
-                                                    <a class="nav-link effect-click" href="javascript: void(0)">
-                                                        <div class="item-content-link">
-                                                            <div class="icon color-text w-auto">
-                                                                <!-- <i class="ri-exchange-box-line"></i> -->
-                                                            </div>
-                                                            <h3 class="link-title" style="font-size: 1rem; color: initial;">{{service.name}} - {{service.ammount  |  number :'1.0'}} pesos</h3>
-                                                        </div>
-                                                       <!--  <div class="other-cc">
-                                                            <span class="badge-text"></span>
-                                                            <div class="icon-arrow">
-                                                                <i class="ri-arrow-drop-right-line"></i>
-                                                            </div>
-                                                        </div> -->
-                                                    </a>
-                                                </li>
-                                              
-                                            </ul>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
+              
                                <div class="content-upload-item text-center" [hidden]="_butler.modalOption!=5">
                             <div class="grid_buttonUpload">
                                 <div class="row"> 
@@ -542,7 +482,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="grid_buttonUpload" [hidden]="step!=1">
+                    <div class="grid_buttonUpload" [hidden]="step!=1 || _butler.modalOption==9">
                         <div class="row">     
                            
                             <div class="col-md-6"  [hidden]="!adding">
@@ -620,7 +560,7 @@
                             </div>
                         </div>                  
                     </div>
-                    <div class="grid_buttonUpload" [hidden]="step!=2" style="padding-left: 25%;padding-right: 25%;">
+                    <div class="grid_buttonUpload" [hidden]="step!=2 || _butler.modalOption==9" style="padding-left: 25%;padding-right: 25%;">
                         <div class="row">     
                            
                             <div class="col-md-12"  [hidden]="!adding">
@@ -671,7 +611,89 @@
 
 
 
-                 
+                  <div class=""[hidden]="_butler.modalOption!=9">
+                                <div class="row"> 
+                                    <div class="col-md-12">               
+                                       
+                                      <p>
+                                            Tooal efectivo : 
+                                            <strong>
+                                                
+                                            {{_butler.cierre.totalE  |  number :'1.0'}}  Pesos
+                                            </strong>
+                                            
+                                        </p>
+                                        <p>
+                                            Total tarjeta : 
+                                            <strong>
+                                                
+                                            {{_butler.cierre.totalT  |  number :'1.0'}}  Pesos
+                                            </strong>
+                                            
+                                        </p>
+                                        <p>
+                                            Tooal transferencia : 
+                                            <strong>
+                                                
+                                            {{_butler.cierre.totalTr  |  number :'1.0'}}  Pesos
+                                            </strong>
+                                            
+                                        </p>
+                                         <p>
+                                            Balance del dia : 
+                                            <strong style="color:blue;"> 
+                                                
+                                            {{_butler.cierre.total  |  number :'1.0'}}  Pesos
+                                            </strong>
+                                            
+                                        </p>
+                                     
+                                      
+                                           <div class="accordion  --active" id="accordionExample">
+                            <div class="accordion-item" *ngFor="let ticket of _butler.cierre.items;let i = index">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFour" aria-expanded="true"
+                                        aria-controls="collapseFour">
+                                      <code># {{ticket.npedido}}  </code> 
+                                      <span style="padding-left:4%; padding-right: 3%;"> {{ticket.stylist}} </span>   
+                                      <span style="padding-left:4%; padding-right: 3%;">Metodo: {{ticket.method}} </span>   
+                                      <strong> {{ticket.total  |  number :'1.0' }}  </strong> 
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                     <!--    <strong>No.</strong> Our item is an <code>HTML, CSS3, and JS Site</code>
+                                        {{ticket.stylist}} -->
+                                           <ul class="nav flex-column" style="align-items: baseline;">
+                                                <li class="nav-item"  *ngFor="let service of ticket.ticketServices;let i = index">
+                                                    <a class="nav-link effect-click" href="javascript: void(0)">
+                                                        <div class="item-content-link">
+                                                            <div class="icon color-text w-auto">
+                                                                <!-- <i class="ri-exchange-box-line"></i> -->
+                                                            </div>
+                                                            <h3 class="link-title" style="font-size: 1rem; color: initial;">{{service.name}} - {{service.ammount  |  number :'1.0'}} pesos</h3>
+                                                        </div>
+                                                       <!--  <div class="other-cc">
+                                                            <span class="badge-text"></span>
+                                                            <div class="icon-arrow">
+                                                                <i class="ri-arrow-drop-right-line"></i>
+                                                            </div>
+                                                        </div> -->
+                                                    </a>
+                                                </li>
+                                              
+                                            </ul>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
 
 
 
