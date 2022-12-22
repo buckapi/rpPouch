@@ -53,6 +53,7 @@ export class AppComponent implements AfterViewInit {
 
   private pouchdbService: PouchDBService;
   pouchdb: any;
+  optS: any;
   ticket:any={
     npedido:''
   }
@@ -671,6 +672,7 @@ public addServ(){
     this.ammount=0;
     this.ammount=0;
     this.onAdd=false;
+    this.cardsSelected=false;
     this.empty=false;
     this.sendTicketFlag=true;
     this.ticketListSize=this.ticketListSize+1;

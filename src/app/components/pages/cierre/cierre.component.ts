@@ -210,6 +210,9 @@ public proccess (){
             }
           ); 
     this.loadTickets();
+    this.totalE=0;
+    this.totalT=0;
+    this.totalTr=0;
   }
 
   ngAfterViewInit(): void {

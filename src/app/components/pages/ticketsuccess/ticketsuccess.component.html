@@ -4,117 +4,39 @@
 <section class="un-my-account">
 
     <div class="body">
+
         <div class="img-coin-eth">
             <picture>
                 <source srcset="assets/assetsryal/images/other/eth.webp" type="image/webp">
                 <img src="assets/assetsryal/images/other/eth.png" alt="">
             </picture>
         </div>
-        <div class="my-balance-text" style="text-align: initial;" id="print-section">
-           <div class="row">     
-	    	<div class="col-md-12" [hidden]="_butler.deviceType!='Escritorio'" style="padding-left:30%;padding-right:30%;">
-	        
-	        <h5 >  NIT:   
+        <div id="print-section">
+        	<h5 style="text-align: center;">  NIT:   
 	     <span style="font-weight: 100;">
 	         
 	         {{_butler.info.nit}} 
+	     </span> </h5>  
+	      <h5 style="text-align: center;">     
+	     <span style="font-weight: 100;">
+	         
+	         {{_butler.info.nombre}} 
+	     </span> </h5>  
+	     <h5 style="text-align: center;">     
+	     <span style="font-weight: 100;">
+	         
+	         {{_butler.info.direccion}} 
 	     </span> </h5>   
-	      <h5 >  Fecha:   
-	     <span style="font-weight: 100;">
-	         
-	         {{_butler.ticket.createdAt | date:'dd/MM/yyyy'}} 
-	     </span> </h5>
-	      <h5 >  Estilista:   
-	     <span style="font-weight: 100;">
-	         
-	         {{_butler.ticket.stylist}} 
-	     </span>
-	        </h5>
-	       
-	        <h5 > Cliente: 
-	     <span style="font-weight: 100;">
-	     {{_butler.ticket.customer}} 
-	     </span>
-	         
-	        </h5>
-	        <!-- <p [hidden]="empty">Total: {{total}}</p> -->
-	        <h5>
-	            
-	        Detalle:
-	        </h5>
-	         <div class="content-list-sellers">
-	            <ul class="nav flex-column">
-
-	                <li class="nav-item" *ngFor="let service of _butler.ticket.ticketServices, let i = index "  style="height:3rem;">
-	                    <div class="nav-link item-user-seller">
-	                        <a class="item-user-img"  style="  text-decoration: none !important;">
-	                            <div class="text-dark">
-	                                <h5> 
-	                                    (1)
-	                                    {{service.name}}
-	                                    <span class="color-text rounded-pill bg-snow btn-xs-size " >
-	                               
-	                             {{service.ammount | number :'1.0'}}</span>
-	                                </h5>
-	                                <p >
-	                             </p>
-	                            </div>
-
-	                        </a>
-	               
-	                    </div>
-	                </li>
-	            </ul>
-	        </div>
-
-	        <p></p>
-	        <p></p>
-	        <p></p>
-	        <div style="justify-content: end; display: flex;">
-	            <div style="width:30%;">
-	                <h5>
-	                    
-	            Total: 
-	                </h5>
-	        </div>
-	            <div style="width:20%; text-align: end;"> 
-	                <span style="font-weight: 100;">
-	             {{_butler.ticket.total | number :'1.0'}}
-	                </span>
-	            </div>
-	        </div>
-	         <div  style="justify-content: end; display: flex;">
-	         <div style="width:30%;">
-	                <h5>
-
-	                Cobro:
-	                </h5>
-	        </div>
-	        <div style="width:20%;text-align: end;"> 
-	            <span style="font-weight: 100;">
-	         {{_butler.ticket.cobro | number :'1.0'}}
-	            </span>
-	        </div>
-	        </div>
-	         <div  style="justify-content: end; display: flex;" >
-	         <div style="width:30%;">
-	                <h5>
-
-	                Cambio:
-	                </h5>
-	        </div>
-	        <div style="width:20%;text-align: end;"> 
-	            <span style="font-weight: 100;">
-	         {{_butler.ticket.cambio | number :'1.0'}}
-	            </span>
-	        </div>
-	        </div>
-	    
-
-		    </div>  
-		    <div class="col-md-12" [hidden]="_butler.deviceType=='Escritorio'" >
-		        
-		        <h5 >  Estilista:   
+	        <div class="my-balance-text" style="text-align: initial;" >
+	           <div class="row">     
+		    	<div class="col-md-12" [hidden]="_butler.deviceType!='Escritorio'" style="padding-left:30%; padding-right:30%;">
+		       
+		      <h5 >  Fecha:   
+		     <span style="font-weight: 100;">
+		         
+		         {{_butler.ticket.createdAt | date:'dd/MM/yyyy'}} 
+		     </span> </h5>
+		      <h5 >  Estilista:   
 		     <span style="font-weight: 100;">
 		         
 		         {{_butler.ticket.stylist}} 
@@ -201,9 +123,114 @@
 		        </div>
 		    
 
-		    </div>
-			</div>  
+			    </div>  
+			    <div class="col-md-12" [hidden]="_butler.deviceType=='Escritorio'" >
+			        
+			        <h5 >  Estilista:   
+			     <span style="font-weight: 100;">
+			         
+			         {{_butler.ticket.stylist}} 
+			     </span>
+			        </h5>
+			       
+			        <h5 > Cliente: 
+			     <span style="font-weight: 100;">
+			     {{_butler.ticket.customer}} 
+			     </span>
+			         
+			        </h5>
+			        <!-- <p [hidden]="empty">Total: {{total}}</p> -->
+			        <h5>
+			            
+			        Detalle:
+			        </h5>
+			         <div class="content-list-sellers">
+			            <ul class="nav flex-column">
+
+			                <li class="nav-item" *ngFor="let service of _butler.ticket.ticketServices, let i = index "  style="height:3rem;">
+			                    <div class="nav-link item-user-seller">
+			                        <a class="item-user-img"  style="  text-decoration: none !important;">
+			                            <div class="text-dark">
+			                                <h5> 
+			                                    (1)
+			                                    {{service.name}}
+			                                    <span class="color-text rounded-pill bg-snow btn-xs-size " >
+			                               
+			                             {{service.ammount | number :'1.0'}}</span>
+			                                </h5>
+			                                <p >
+			                             </p>
+			                            </div>
+
+			                        </a>
+			               
+			                    </div>
+			                </li>
+			            </ul>
+			        </div>
+
+			        <p></p>
+			        <p></p>
+			        <p></p>
+			        <div style="justify-content: end; display: flex;">
+			            <div style="width:30%;">
+			                <h5>
+			                    
+			            Total: 
+			                </h5>
+			        </div>
+			            <div style="width:20%; text-align: end;"> 
+			                <span style="font-weight: 100;">
+			             {{_butler.ticket.total | number :'1.0'}}
+			                </span>
+			            </div>
+			        </div>
+			         <div  style="justify-content: end; display: flex;">
+			         <div style="width:30%;">
+			                <h5>
+
+			                Cobro:
+			                </h5>
+			        </div>
+			        <div style="width:20%;text-align: end;"> 
+			            <span style="font-weight: 100;">
+			         {{_butler.ticket.cobro | number :'1.0'}}
+			            </span>
+			        </div>
+			        </div>
+			         <div  style="justify-content: end; display: flex;" >
+			         <div style="width:30%;">
+			                <h5>
+
+			                Cambio:
+			                </h5>
+			        </div>
+			        <div style="width:20%;text-align: end;"> 
+			            <span style="font-weight: 100;">
+			         {{_butler.ticket.cambio | number :'1.0'}}
+			            </span>
+			        </div>
+			        </div>
+			    
+
+			    </div>
+				</div>  
+	        </div>
+	        <h5 style="text-align: center;padding-top: 3%;">  Telf:   
+	     <span style="font-weight: 100;">
+	         
+	         {{_butler.info.telefono}} 
+
+	     </span> </h5>  
+	     <h5 style="text-align: center; ">  Gracias por preferirnos   
+	     <p style="font-weight: 100;">
+	         
+	        Vuelva pronto!
+	     </p> </h5>  
         </div>
+
+	        
+     
         <div class="un-bottom-navigation ">
         	
           <button 
