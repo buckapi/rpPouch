@@ -14,7 +14,12 @@
            <div class="row">     
 	    	<div class="col-md-12" [hidden]="_butler.deviceType!='Escritorio'" style="padding-left:30%;padding-right:30%;">
 	        
-	        <h5 >  Fecha:   
+	        <h5 >  NIT:   
+	     <span style="font-weight: 100;">
+	         
+	         {{_butler.info.nit}} 
+	     </span> </h5>   
+	      <h5 >  Fecha:   
 	     <span style="font-weight: 100;">
 	         
 	         {{_butler.ticket.createdAt | date:'dd/MM/yyyy'}} 

@@ -8,6 +8,7 @@ import gql from "graphql-tag";
 import { ScriptService } from '@app/services/script.service';
 import { ScriptStore } from '@app/services/script.store';
 import {CATEGORIES} from '@app/services/categories.service';
+import {INFOS} from '@app/services/info.service'
 import { SwiperOptions } from 'swiper';
 import { DealInterface } from '@app/interfaces/deal';
 import { ChangeDetectorRef } from '@angular/core';
@@ -19,6 +20,7 @@ import { CapitalizeFirstPipe } from '@pipes/capitalizefirst.pipe';
   styleUrls: ['./ticketsuccess.component.css']
 })
 export class TicketsuccessComponent implements AfterViewInit {
+  public info:any=[];
 
   constructor(private cdRef:ChangeDetectorRef,
       public script:ScriptService,
@@ -26,7 +28,9 @@ export class TicketsuccessComponent implements AfterViewInit {
       public dataApi: DataService,
       public dataApiService: DataApiService,
       public _butler: Butler,
-      public router:Router) { }
+      public router:Router) {
+  this._butler.info=INFOS[1];
+       }
 
   ngAfterViewInit(): void {
   }

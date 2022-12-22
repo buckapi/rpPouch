@@ -25,6 +25,7 @@ export class Butler {
     preview:any={};
     cierre:any={};
     bramch:any={};
+    info:any={};
     specialtyToDelete:any={};
     serviceToAdd:any={};
     serviceToDelete:any={};
