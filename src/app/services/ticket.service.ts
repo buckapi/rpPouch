@@ -132,6 +132,79 @@ export class TicketService {
 	}
 
 
+
+	public enlote() : Promise<ITicket[]> {
+var db = this.getDB();
+		var promise = this.getDB()
+			.allDocs({
+				include_docs: true,
+
+				// In PouchDB, all keys are stored in a single collection. So, in order 
+				// to return just the subset of "tickets" keys, we're going to query for
+				// all documents that have a "ticket:" key prefix. This is known as 
+				// "creative keying" in the CouchDB world.
+				startkey: "ticket:",
+				endKey: "ticket:\uffff"
+			})
+			.then(
+				( result: IPouchDBAllDocsResult ) : ITicket[] => {
+
+					// Convert the raw data storage into something more natural for the
+					// calling context to consume.
+					var tickets = result.rows.map(
+						( row: any ) : ITicket => {
+
+							return({
+								id: row.doc._id,
+								stylist: row.doc.stylist,
+								method: row.doc.method,
+								status: row.doc.status,
+								statusClose: 'closed',
+								customer: row.doc.customer,
+								total: row.doc.total,
+								cobro: row.doc.cobro,
+								cambio: row.doc.cambio,
+								npedido: row.doc.npedido,
+								createdAt: row.doc.createdAt,
+								entity: row.doc.entity,
+								ticketServices: row.doc.ticketServices
+
+							});
+
+						}
+					);
+					return( tickets );
+
+				}
+			)
+
+					.then(
+						function( tickets:any ) {
+var primaryDocs = null;
+							// Pass the source docs through the operator.
+							var docsToUpdate = tickets.rows.map(
+								function iterator( row:any, index:any, rows :any) {
+								row.doc.statusClose='closed';
+								//	return( operator( row.doc, index, rows ) || row.doc );
+
+								}
+							);
+
+							// Keep track of the primary documents so that we can match
+							// results to document IDs using the index order.
+							primaryDocs = docsToUpdate;
+
+							return( db.bulkDocs( docsToUpdate ) );
+
+						}
+					)
+		
+		;
+
+		return( promise );
+
+	}
+
 	// I get the collection of tickets (in no particular sort order). Returns a promise.
 	public getTickets() : Promise<ITicket[]> {
 
@@ -233,6 +306,19 @@ export class TicketService {
 
 		return( this.pouchdbService.getDB() );
 
+	}
+	public lote(tickets:any){
+		var promise =  this.getDB()
+			.bulkDocs(tickets)
+			.then(
+				( result: IPouchDBPutResult ) : void => {
+
+					// Here, I'm just stripping out the result so that the PouchDB 
+					// response isn't returned to the calling context.
+					return;
+
+				}
+			)
 	}
 		// I update the ticket with the given id, storing the given name. Returns a promise.
 	public updateTicket( id: string, ticket: any ) : Promise<void> {

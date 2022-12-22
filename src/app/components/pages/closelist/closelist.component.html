@@ -1,1 +1,32 @@
-<p>closelist works!</p>
+<div class="space-sticky"></div>
+    <section class="margin-t-20 unList-bestSeller">
+        <div class="un-title-default">
+			<div class="text">
+            <h2>Cierres</h2>
+            <p></p>
+            </div>      
+        </div>
+        <div class="content-list-sellers">
+            <ul class="nav flex-column">
+                <li class="nav-item" *ngFor="let close of _butler.closes" [hidden]="close.entity!='close'">
+                    <div class="nav-link item-user-seller">
+                        <a class="item-user-img"  style="cursor: pointer;" >
+            
+                            <div class="txt-user">
+                                <h5 > {{close.date | date:'dd/MM/yyyy'}} <span style="color:red;"> #</span> <span style="color:red;">    </span></h5>
+                              
+                            </div>
+                        </a>
+                        <div class="other-option"  style="margin-right:2%; cursor: pointer;">
+                            <div class="color-text rounded-pill bg-snow btn-xs-size " 
+
+                            >
+								<i class="ri-eye-line text-primary" style="font-size: 1.3rem; margin-right: 10%; font-weight: initial;"> </i>
+                             {{close.total |  number :'1.0'}} </div>
+                        </div>
+                    </div>
+                </li>
+               
+            </ul>
+        </div>
+    </section>

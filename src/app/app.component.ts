@@ -166,6 +166,7 @@ export class AppComponent implements AfterViewInit {
               this.pay=0;
               this.customer="-";
               this.methodSelected=false;
+              this.sendTicketFlag=true;
               this.onAdd=false;
               this.empty=true;
               this.router.navigate(['/ticketsuccess']);

@@ -10,6 +10,7 @@ export interface IClose {
 	id: string;
 	method: string;
 	stylist: string;
+	date: string;
 	status: string;
 	statusClose: string;
 	customer: string;
@@ -19,7 +20,7 @@ export interface IClose {
 	npedido: number;
 	createdAt: string;
 	entity: string;
-	closeServices: [string];
+	items: [string];
 }
 
 interface IPouchDBGetCloseResult extends IPouchDBGetResult {
@@ -35,11 +36,12 @@ export class CloseService {
 	}
 
 	public addClose( close: any ) : Promise<string> {
-		console.log('print close:'+close.stylist);
+		console.log('print close:'+close.date);
 		var promise = this.getDB()
 			.put({
 				_id: ( "close:" + ( new Date() ).getTime() ),
 				stylist: close.stylist,
+				date: close.date,
 				method: close.method,
 				status: close.status,
 				statusClose: close.statusClose,
@@ -50,7 +52,7 @@ export class CloseService {
 				npedido: close.npedido,
 				createdAt: close.createdAt,
 				entity: close.entity,
-				closeServices: close.closeServices
+				items: close.items
 			})
 			.then(
 				( result: IPouchDBPutResult ) : string => {
@@ -93,6 +95,7 @@ export class CloseService {
 						( row: any ) : IClose => {
 							return({
 								id: row.doc._id,
+								date: row.doc.date,
 								stylist: row.doc.stylist,
 								method: row.doc.method,
 								status: row.doc.status,
@@ -104,7 +107,7 @@ export class CloseService {
 								npedido: row.doc.npedido,
 								createdAt: row.doc.createdAt,
 								entity: row.doc.entity,
-								closeServices: row.doc.closeServices
+								items: row.doc.items
 							});
 						}
 					);
@@ -118,7 +121,7 @@ export class CloseService {
 	public sortClosesCollection( closes: IClose[] ) : IClose[] {
 		closes.sort(
 			function( a: IClose, b: IClose ) : number {
-				if ( a.stylist.toLowerCase() < b.stylist.toLowerCase() ) {
+				if (a.date !==undefined  && b.date !==undefined &&  a.date.toLowerCase() < b.date.toLowerCase() ) {
 					return( -1 );
 				} else {
 					return( 1 );
