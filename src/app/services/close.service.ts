@@ -13,6 +13,7 @@ export interface IClose {
 	totalE: number;
 	totalT: number;
 	totalTr: number;
+	totalesXe:  [string];
 	date: string;
 	status: string;
 	statusClose: string;
@@ -56,6 +57,7 @@ export class CloseService {
 				totalE: close.totalE,
 				totalT: close.totalT,
 				totalTr: close.totalTr,
+				totalesXe: close.totalesXe,
 				createdAt: close.createdAt,
 				entity: close.entity,
 				items: close.items
@@ -112,6 +114,7 @@ export class CloseService {
 								totalE: row.doc.totalE,
 								totalT: row.doc.totalT,
 								totalTr: row.doc.totalTr,
+								totalesXe: row.doc.totalesXe,
 								cambio: row.doc.cambio,
 								npedido: row.doc.npedido,
 								createdAt: row.doc.createdAt,

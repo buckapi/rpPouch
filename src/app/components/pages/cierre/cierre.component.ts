@@ -37,6 +37,7 @@ export class CierreComponent implements AfterViewInit {
   totalTr:number=0;
   private pouchdbService: PouchDBService;
   tickets$: any;
+  totalesXe: any=[];
   close:any={};
   ticket:any={
     npedido: ''
@@ -159,29 +160,35 @@ public proccess (){
 }
 
   public  procesar(){
+    this.totalesXe=[];
     this.close.date=new Date();
     this.close.total=this.acumulado;
-
-
-
-
-
     this.close.entity='close';
     this.close.items =this._butler.tickets;    
-        
-       
     let ticketsSize = this._butler.tickets.length;
+    let sizeStylists=this._butler.stylists.length;
+    console.log("size"+sizeStylists);
+     for (let i=0; i<sizeStylists;i++){
+      this.totalesXe.push(this._butler.stylists[i]);
+      this.totalesXe[i].acumulado=0;
+        for  (let j=0; j<ticketsSize;j++){
+          if (this._butler.tickets[j].stylist===this._butler.stylists[i].name){
+            console.log("entramos");
+            this.totalesXe[i].acumulado=this.totalesXe[i].acumulado+this._butler.tickets[j].total;
+          }
+
+        }
+
+     }
 
     this.ticket = this._butler.tickets.forEach( x =>{
+
       if (x.method=='Efectivo'){this.totalE=this.totalE+x.total};
       if (x.method=='Tarjeta'){this.totalT=this.totalT+x.total};
       if (x.method=='Transferencia'){this.totalTr=this.totalTr+x.total};
-       //console.log("procesando ..."+JSON.stringify(x.id));
-      
       x.statusClose='closed';
       let item:any = x;
       item._id=item.id;
-
       setTimeout(() => {
          this.ticketService.deleteTicket(x.id);
       }, 2000);
@@ -190,6 +197,7 @@ public proccess (){
     this.close.totalE=this.totalE;
     this.close.totalT=this.totalT;
     this.close.totalTr=this.totalTr;
+    this.close.totalesXe= this.totalesXe;
     this.closeService
           .addClose( this.close )
           .then(

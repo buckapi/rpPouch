@@ -41,12 +41,11 @@ export class CloselistComponent implements AfterViewInit {
          closeService: CloseService,
       pouchdbService: PouchDBService
     ) { 
-
- this.user = null;
-   this.closeService = closeService;
- this.closes = [];
-this.pouchdbService = pouchdbService;
-  }
+        this.user = null;
+        this.closeService = closeService;
+        this.closes = [];
+        this.pouchdbService = pouchdbService;
+      }
   private loadCloses() : void {
   this.closeService
     .getClose()

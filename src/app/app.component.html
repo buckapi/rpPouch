@@ -475,7 +475,7 @@
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="title-modal">+ ticket {{_butler.stylistName}}</h1>
+                    <h1 class="title-modal" [hidden]="_butler.modalOption==9">+ ticket {{_butler.stylistName}}</h1>
                     <button type="button" class="btn btn-clear" (click)="back(1)"[hidden]="step==1">Atras</button>
                     <button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
                         <i class="ri-close-fill"></i>
@@ -613,8 +613,7 @@
 
                   <div class=""[hidden]="_butler.modalOption!=9">
                                 <div class="row"> 
-                                    <div class="col-md-12">               
-                                       
+                                     <div class="col-md-6"> 
                                       <p>
                                             Tooal efectivo : 
                                             <strong>
@@ -640,14 +639,48 @@
                                             
                                         </p>
                                          <p>
-                                            Balance del dia : 
                                             <strong style="color:blue;"> 
+                                            Balance del dia : 
                                                 
                                             {{_butler.cierre.total  |  number :'1.0'}}  Pesos
                                             </strong>
                                             
                                         </p>
                                      
+                            </div>
+
+  <div class="col-md-6"> 
+                                 <strong style="color:blue;"> 
+                                Ttoales por Estilista
+                                 </strong>
+                                       <ul class="nav flex-column" style="align-items: baseline;">
+                                        <li class=""  *ngFor="let total of _butler.cierre.totalesXe;let i = index" [hidden]="total.acumulado==0">
+                                            <a class="nav-link effect-click" >
+                                                <div class="item-content-link">
+                                                    <div class="icon color-text w-auto">
+                                                        <!-- <i class="ri-exchange-box-line"></i> -->
+                                                    </div>
+                                                    <h3 class="" style="font-size: 1rem; color: initial;">{{total.name}} 
+                                                    <strong style="color:blue;"> 
+                                                
+                                            {{total.acumulado  |  number :'1.0'}}  
+                                            </strong>pesos</h3>
+                                                </div>
+                                               <!--  <div class="other-cc">
+                                                    <span class="badge-text"></span>
+                                                    <div class="icon-arrow">
+                                                        <i class="ri-arrow-drop-right-line"></i>
+                                                    </div>
+                                                </div> -->
+                                            </a>
+                                        </li>
+                                      
+                                    </ul>
+                            </div>
+
+                                    <div class="col-md-12">               
+                                      
+                          
                                       
                                            <div class="accordion  --active" id="accordionExample">
                             <div class="accordion-item" *ngFor="let ticket of _butler.cierre.items;let i = index">
@@ -657,7 +690,7 @@
                                         aria-controls="collapseFour">
                                       <code># {{ticket.npedido}}  </code> 
                                       <span style="padding-left:4%; padding-right: 3%;"> {{ticket.stylist}} </span>   
-                                      <span style="padding-left:4%; padding-right: 3%;">Metodo: {{ticket.method}} </span>   
+                                      <span style="padding-left:4%; padding-right: 3%;"> {{ticket.method}} </span>   
                                       <strong> {{ticket.total  |  number :'1.0' }}  </strong> 
                                     </button>
                                 </h2>

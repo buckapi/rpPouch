@@ -7,11 +7,14 @@ import { CloseService } from "@services/close.service";
 
 import { PouchDBService } from "@services/pouchdb.service";
 import { TicketService } from "@services/ticket.service";
+
+import { StylistService } from "@services/stylist.service";
 @NgModule({
   declarations: [
     CierreComponent
   ],
  providers:[
+    StylistService,
    TicketService,
     CloseService,
     PouchDBService
